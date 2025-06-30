@@ -1,0 +1,8 @@
+#include "utils.h"
+
+char	*ft_substr(char *cmd, int i, int j)
+{
+	char	*res;
+	
+	res = malloc(j - i + 1);
+}

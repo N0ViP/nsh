@@ -1,29 +1,34 @@
 #include "nsh.h"
 
-bool	
+
 
 t_tokens	*tokenize(char *cmd)
 {
 	t_tokens	*tokens;
-	
-	char		**args;
+	t_tokens	*node;
+	char		*token;
 	int			i;
+	int			j;
 
 	i = 0;
-	args = ft_split(cmd);
-	free(cmd);
-	if (!args)
-		exit(1);
-	while (args[i])
+	j = 0;
+	while (cmd[i])
 	{
-		if (!add_node_back(&tokens, args))
+		j = 0;
+		while (ft_isspace(cmd[i]))
 		{
-			i = 0;
-			while (args[i])
-				free(args[i++]);
-			exit (1);
+			i++;
 		}
-		i++;
+		while (cmd[i + j] && !ft_isspace(cmd[i + j]))
+		{
+			j++;
+		}
+		if (j != 0)
+		{
+			token = ft_substr(cmd, i, i + j);
+			node = new_node(token);
+			add_node_back(&tokens, node);
+		}
 	}
 	return (tokens);
 }
@@ -36,7 +41,7 @@ int	main(int ac, char *av[], char *ev[])
 	while (true)
 	{
 		cmd = readline("\e[32mnsh$\e[0m");
-		if (cmd)
+		if (cmd && *cmd)
 			add_history(cmd);
 		tokens = tokenize(cmd);
 	}

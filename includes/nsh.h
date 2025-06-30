@@ -10,6 +10,6 @@
 
 typedef struct s_tokens
 {
-	char			*ptr;
+	char			*token;
 	struct s_tokens	*next;
 } t_tokens;
