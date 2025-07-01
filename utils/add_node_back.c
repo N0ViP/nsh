@@ -1,15 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   add_node_back.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/01 08:38:00 by yjaafar           #+#    #+#             */
+/*   Updated: 2025/07/01 08:38:02 by yjaafar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "utils.h"
 
 void	add_node_back(t_tokens **list, t_tokens *node)
 {
-	static t_tokens	*ptr;
-
 	if (!*list)
 	{
 		*list = node;
-		ptr = node;
+		(*list)->tail = node;
 		return ;
 	}
-	ptr->next = node;
-	ptr = ptr->next;
+	(*list)->tail->next = node;
+	(*list)->tail = node;
 }

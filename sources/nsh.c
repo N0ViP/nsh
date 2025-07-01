@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   nsh.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/01 08:37:28 by yjaafar           #+#    #+#             */
+/*   Updated: 2025/07/01 08:37:37 by yjaafar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "nsh.h"
 
 int	get_len_of_word(char *cmd, int i)
@@ -26,7 +38,7 @@ int	get_len_of_word(char *cmd, int i)
 	return (j);
 }
 
-void	creat_token(t_tokens **tokens ,char *cmd, int i, int j)
+void	creat_token(t_tokens **tokens, char *cmd, int i, int j)
 {
 	t_tokens	*node;
 	char		*word;
@@ -42,7 +54,6 @@ void	creat_token(t_tokens **tokens ,char *cmd, int i, int j)
 	}
 	add_node_back(tokens, node);
 }
-
 
 t_tokens	*tokenize(char *cmd)
 {
@@ -61,13 +72,13 @@ t_tokens	*tokenize(char *cmd)
 			free(cmd);
 			free_tokens(tokens);
 			write(2, "unclosed quotes\n", 16);
-			return (1);
+			return (NULL);
 		}
 		if (j != 0)
 		{
-			creat_token(tokens, cmd, i, j);
+			creat_token(&tokens, cmd, i, j);
+			i += j;
 		}
-		i += j;
 	}
 	return (tokens);
 }

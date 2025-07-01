@@ -1,24 +1,33 @@
-#include <stdio.h>
-#include <errno.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <signal.h>
-#include <limits.h>
-#include <stdbool.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   nsh.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/01 08:40:39 by yjaafar           #+#    #+#             */
+/*   Updated: 2025/07/01 08:40:41 by yjaafar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#ifndef NSH_H
+# define NSH_H
+
+# include <stdio.h>
+# include <errno.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <signal.h>
+# include <limits.h>
+# include <stdbool.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 typedef struct s_tokens
 {
 	char			*word;
 	struct s_tokens	*next;
-} t_tokens;
+	struct s_tokens	*tail;
+}	t_tokens;
 
-
-void		free_tokens(t_tokens *tokens);
-t_tokens	*creat_token_node(char *token);
-char		*ft_substr(char *cmd, int i, int j);
-void		add_node_back(t_tokens **list, t_tokens *node);
-
-bool	ft_isspace(int c);
+#endif
