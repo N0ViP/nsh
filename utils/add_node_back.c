@@ -12,7 +12,7 @@
 
 #include "utils.h"
 
-void	add_node_back(t_tokens **list, t_tokens *node)
+void	add_node_back(t_list **list, t_list *node)
 {
 	if (!*list)
 	{

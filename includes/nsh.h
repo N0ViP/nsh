@@ -23,11 +23,11 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-typedef struct s_tokens
+typedef struct s_list
 {
-	char			*word;
-	struct s_tokens	*next;
-	struct s_tokens	*tail;
-}	t_tokens;
+	void			*content;
+	struct s_list	*next;
+	struct s_list	*tail;
+}	t_list;
 
 #endif

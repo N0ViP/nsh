@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_tokens.c                                      :+:      :+:    :+:   */
+/*   creat_token_node.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/01 08:38:43 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/07/01 08:38:44 by yjaafar          ###   ########.fr       */
+/*   Created: 2025/07/01 08:38:17 by yjaafar           #+#    #+#             */
+/*   Updated: 2025/07/01 08:38:19 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-void	free_tokens(t_tokens *tokens)
+t_list	*creat_node(void *content)
 {
-	t_tokens	*ptr;
+	t_list	*node;
 
-	while (tokens)
+	node = malloc(sizeof(t_list));
+	if (!node)
 	{
-		ptr = tokens;
-		tokens = tokens->next;
-		free(ptr->word);
-		free(ptr);
+		return (NULL);
 	}
+	node->content = token;
+	node->next = NULL;
+	return (node);
 }
