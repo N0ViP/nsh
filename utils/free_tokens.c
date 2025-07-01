@@ -8,7 +8,7 @@ void	free_tokens(t_tokens *tokens)
 	{
 		ptr = tokens;
 		tokens = tokens->next;
-		free(ptr->token);
+		free(ptr->word);
 		free(ptr);
 	}
 }

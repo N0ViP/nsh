@@ -9,7 +9,7 @@ t_tokens	*creat_token_node(char *token)
 	{
 		return (NULL);
 	}
-	node->token = token;
+	node->word = token;
 	node->next = NULL;
 	return (node);
 }

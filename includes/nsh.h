@@ -11,6 +11,14 @@
 
 typedef struct s_tokens
 {
-	char			*token;
+	char			*word;
 	struct s_tokens	*next;
 } t_tokens;
+
+
+void		free_tokens(t_tokens *tokens);
+t_tokens	*creat_token_node(char *token);
+char		*ft_substr(char *cmd, int i, int j);
+void		add_node_back(t_tokens **list, t_tokens *node);
+
+bool	ft_isspace(int c);
