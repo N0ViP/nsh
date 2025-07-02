@@ -12,7 +12,7 @@ OBJS	=	$(SOURCE:.c=.o)
 all: $(NAME)
 
 %.o:%.c	$(INCLUDE)
-	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCLUDE) $(LIB)
+	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCLUDE)
 
 $(NAME): $(OBJS)
 	$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(LIB)
