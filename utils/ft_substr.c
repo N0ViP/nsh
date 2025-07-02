@@ -12,7 +12,7 @@
 
 #include "utils.h"
 
-char	*ft_substr(char *cmd, int i, int j)
+char	*ft_substr(char *str, int i, int j)
 {
 	char	*res;
 	int		k;
@@ -25,7 +25,7 @@ char	*ft_substr(char *cmd, int i, int j)
 	}
 	while (i < j)
 	{
-		res[k] = cmd[i];
+		res[k] = str[i];
 		k++;
 		i++;
 	}

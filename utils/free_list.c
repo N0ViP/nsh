@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_tokens.c                                      :+:      :+:    :+:   */
+/*   free_list.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,15 +12,17 @@
 
 #include "utils.h"
 
-void	free_list(t_list *tokens, void (*free_content)())
+void	free_list(t_list_info **list_info, void (*free_content)())
 {
-	t_list	*ptr;
+	t_list	*node;
 
-	while (tokens)
+	while ((*list_info)->list)
 	{
-		ptr = tokens;
-		tokens = tokens->next;
-		free_content(ptr);
-		free(ptr);
+		node = (*list_info)->list;
+		(*list_info)->list = (*list_info)->list->next;
+		free_content(node);
+		free(node);
 	}
+	free(*list_info);
+	*list_info = NULL;
 }

@@ -13,7 +13,7 @@
 #ifndef STDFCTS_H
 # define STDFCTS_H
 
-# include "nsh.h"
+# include <stdbool.h>
 
 bool	ft_isspace(int c);
 

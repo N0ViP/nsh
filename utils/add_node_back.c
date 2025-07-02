@@ -12,14 +12,14 @@
 
 #include "utils.h"
 
-void	add_node_back(t_list **list, t_list *node)
+void	add_node_back(t_list_info *list_info, t_list *node)
 {
-	if (!*list)
+	if (!list_info->tail)
 	{
-		*list = node;
-		(*list)->tail = node;
+		list_info->list = node;
+		list_info->tail = node;
 		return ;
 	}
-	(*list)->tail->next = node;
-	(*list)->tail = node;
+	list_info->tail->next = node;
+	list_info->tail = node;
 }

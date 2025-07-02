@@ -6,18 +6,16 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 08:37:28 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/07/01 08:37:37 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/07/02 03:40:04 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nsh.h"
 
-
-
 int	main(int ac, char *av[], char *ev[])
 {
 	char		*cmd;
-	t_tokens	*tokens;
+	t_list_info	*tokens;
 
 	while (true)
 	{
@@ -25,10 +23,10 @@ int	main(int ac, char *av[], char *ev[])
 		if (cmd && *cmd)
 			add_history(cmd);
 		tokens = tokenize(cmd);
-		while (tokens)
+		while (tokens && tokens->list)
 		{
-			printf("%s\n", tokens->word);
-			tokens = tokens->next;
+			printf("%s\n", (char *)(tokens->list->content));
+			tokens->list = tokens->list->next;
 		}
 	}
 }

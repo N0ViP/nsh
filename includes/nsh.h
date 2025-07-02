@@ -13,12 +13,9 @@
 #ifndef NSH_H
 # define NSH_H
 
+# include "tokenization.h"
+
 # include <stdio.h>
-# include <errno.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <signal.h>
-# include <limits.h>
 # include <stdbool.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -27,7 +24,13 @@ typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
-	struct s_list	*tail;
 }	t_list;
+
+typedef struct s_list_info
+{
+	t_list		*list;
+	t_list		*tail;
+	int			size;
+}	t_list_info;
 
 #endif
