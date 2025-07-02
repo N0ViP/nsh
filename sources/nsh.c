@@ -12,7 +12,7 @@
 
 #include "nsh.h"
 
-int	main(int ac, char *av[], char *ev[])
+int	main()
 {
 	char		*cmd;
 	t_list_info	*tokens;
