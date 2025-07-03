@@ -33,4 +33,22 @@ typedef struct s_list_info
 	int			size;
 }	t_list_info;
 
+typedef struct s_token
+{
+	char			*value;
+	enum operator	type;
+}	t_token;
+
+enum operator
+{
+	WORD,
+	APPEND_REDIRECTION,
+	HEREDOC,
+	OR,
+	AND,
+	PIPE,
+	REDIRECTION,
+	INPUT_REDIRECTION,
+};
+
 #endif

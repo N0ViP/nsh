@@ -12,23 +12,23 @@
 
 #include "tokenization.h"
 
-static int	get_len_of_word(char *cmd, int i)
+int	get_word_len(char *str)
 {
 	int		j;
 	char	quote;
 
 	j = 0;
-	while (cmd[i + j] && !ft_isspace(cmd[i + j]))
+	while (str[j] && !ft_isspace(str[j]))
 	{
-		if (cmd[i + j] == '\"' || cmd[i + j] == '\'')
+		if (str[j] == '\"' || str[j] == '\'')
 		{
-			quote = cmd[i + j];
+			quote = str[j];
 			j++;
-			while (cmd[i + j] && cmd[i + j] != quote)
+			while (str[j] && str[j] != quote)
 			{
 				j++;
 			}
-			if (cmd[i + j] != quote)
+			if (str[j] != quote)
 			{
 				return (-1);
 			}
@@ -38,16 +38,25 @@ static int	get_len_of_word(char *cmd, int i)
 	return (j);
 }
 
-static void	creat_token(t_list_info *token_info, char *cmd, int i, int j)
+static void	creat_token(t_list_info *token_info, char *cmd,
+						enum operator operator, int j)
 {
 	t_list	*node;
-	char	*word;
+	t_token	*token;
 
-	word = ft_substr(cmd, i, i + j);
-	node = creat_node(word);
-	if (!word || !node)
+	token = malloc(sizeof(t_token));
+	if (!token)
 	{
-		free(word);
+		free(cmd);
+		free_list(&token_info, free_token);
+		exit (1);
+	}
+	token->value = ft_substr(cmd, 0, j);
+	token->type = check_token(token->value);
+	node = creat_node(token);
+	if (!token->value || !node)
+	{
+		free(token->value);
 		free(node);
 		free(cmd);
 		free_list(&token_info, free_token);
@@ -55,6 +64,34 @@ static void	creat_token(t_list_info *token_info, char *cmd, int i, int j)
 	}
 	token_info->size++;
 	add_node_back(token_info, node);
+}
+
+static int	extract_value_and_type(t_list_info *token_info, char *cmd)
+{
+	int				j;
+	char			quote;
+	enum operator	operator;
+
+	j = 0;
+	operator = check_token(cmd);
+	if (operator == 0)
+	{
+		j = get_word_len(cmd);
+		if (j == -1)
+		{
+			return (-1);
+		}
+	}
+	if (operator >= 1 && operator <= 4)
+	{
+		j = 2;
+	}
+	else
+	{
+		j = 1;
+	}
+	creat_token(token_info, cmd, operator, j);
+	return (j);
 }
 
 static t_list_info	*init_tokens_struct(char *cmd)
@@ -84,7 +121,11 @@ t_list_info	*tokenize(char *cmd)
 	while (cmd[i])
 	{
 		i += skip_spaces(cmd, i);
-		j = get_len_of_word(cmd, i);
+		if (!cmd[i])
+		{
+			break ;
+		}
+		j = get_value_and_type(token_info, cmd + i);
 		if (j == -1)
 		{
 			free(cmd);
@@ -92,11 +133,7 @@ t_list_info	*tokenize(char *cmd)
 			write(2, "unclosed quotes\n", 16);
 			return (NULL);
 		}
-		if (j != 0)
-		{
-			creat_token(token_info, cmd, i, j);
-			i += j;
-		}
+		i += j;
 	}
 	return (token_info);
 }

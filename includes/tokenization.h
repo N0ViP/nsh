@@ -20,8 +20,11 @@
 
 typedef struct s_list		t_list;
 typedef struct s_list_info	t_list_info;
+typedef struct s_token		t_token;
+extern enum 				operator;
 
-t_list_info	*tokenize(char *cmd);
-void		free_token(t_list *tokens);
+t_list_info		*tokenize(char *cmd);
+void			free_token(t_list *tokens);
+enum operator	check_token(char *token);
 
 #endif

@@ -16,6 +16,7 @@ int	main(void)
 {
 	char		*cmd;
 	t_list_info	*tokens;
+	t_list *list;
 
 	while (true)
 	{
@@ -23,10 +24,13 @@ int	main(void)
 		if (cmd && *cmd)
 			add_history(cmd);
 		tokens = tokenize(cmd);
-		while (tokens && tokens->list)
+		if (!tokens)
+			return (1);
+		list = tokens->list;
+		while (list)
 		{
-			printf("%s\n", (char *)(tokens->list->content));
-			tokens->list = tokens->list->next;
+			printf("%s\n", (t_token *)(list->content)->value);
+			list = list->next;
 		}
 	}
 }

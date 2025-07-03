@@ -14,6 +14,9 @@
 
 void	free_token(t_list *node)
 {
-	free(node->content);
+	t_token	*token;
+
+	token = node->content;
 	node->content = NULL;
+	free(token->value);
 }
