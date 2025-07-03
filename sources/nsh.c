@@ -25,14 +25,15 @@ int	main(void)
 		if (cmd && *cmd)
 			add_history(cmd);
 		tokens = tokenize(cmd);
-		if (!tokens)
-			return (1);
-		list = tokens->list;
-		while (list)
+		if (tokens)
 		{
-			token = (t_token *) list->content;
-			printf("%s\n", token->value);
-			list = list->next;
+			list = tokens->list;
+			while (list)
+			{
+				token = (t_token *) list->content;
+				printf("value = %s\ntype = %d\n", token->value, token->type);
+				list = list->next;
+			}
 		}
 	}
 }

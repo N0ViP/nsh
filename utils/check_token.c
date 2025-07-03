@@ -30,6 +30,10 @@ enum e_operator	check_token(char *token)
 		type = OP_REDIR_OUT;
 	else if (token[0] == '<')
 		type = OP_REDIR_IN;
+	else if (token[0] == '(')
+		type = OP_OPEN_PARENTHESE;
+	else if (token[0] == ')')
+		type = OP_CLOSED_PARENTHESE;
 	else
 		type = WORD;
 	return (type);

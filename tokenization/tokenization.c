@@ -12,15 +12,15 @@
 
 #include "tokenization.h"
 
-int	get_word_len(char *str)
+static int	get_word_len(char *str)
 {
 	int		j;
 	char	quote;
 
 	j = 0;
-	while (str[j] && !ft_isspace(str[j]))
+	while (str[j] && !ft_isspace(str[j]) && !ft_strchr("&|><()", str[j]))
 	{
-		if (str[j] == '\"' || str[j] == '\'')
+		if (str[j] == '"' || str[j] == '\'')
 		{
 			quote = str[j];
 			j++;
@@ -64,7 +64,7 @@ static void	creat_token(t_list_info *token_info, char *cmd,
 	}
 	node->content = token;
 	token_info->size++;
-	add_node_back(token_info, node);
+	list_add_back(token_info, node);
 }
 
 static int	extract_token_and_type(t_list_info *token_info, char *cmd)
@@ -74,7 +74,7 @@ static int	extract_token_and_type(t_list_info *token_info, char *cmd)
 
 	j = 0;
 	operator = check_token(cmd);
-	if (operator == 0)
+	if (operator == WORD)
 	{
 		j = get_word_len(cmd);
 		if (j == -1)
@@ -82,7 +82,8 @@ static int	extract_token_and_type(t_list_info *token_info, char *cmd)
 			return (-1);
 		}
 	}
-	else if (operator >= 1 && operator <= 4)
+	else if (operator == OP_OR || operator == OP_AND
+			|| operator == OP_APPEND || operator == OP_HEREDOC)
 	{
 		j = 2;
 	}
@@ -117,14 +118,14 @@ t_list_info	*tokenize(char *cmd)
 	int			j;
 
 	i = 0;
+	i += skip_spaces(cmd, i);
+	if (!cmd[i])
+	{
+		return (NULL);
+	}
 	token_info = init_tokens_struct(cmd);
 	while (cmd[i])
 	{
-		i += skip_spaces(cmd, i);
-		if (!cmd[i])
-		{
-			break ;
-		}
 		j = extract_token_and_type(token_info, cmd + i);
 		if (j == -1)
 		{
@@ -134,6 +135,7 @@ t_list_info	*tokenize(char *cmd)
 			return (NULL);
 		}
 		i += j;
+		i += skip_spaces(cmd, i);
 	}
 	return (token_info);
 }

@@ -12,7 +12,7 @@
 
 #include "utils.h"
 
-void	add_node_back(t_list_info *list_info, t_list *node)
+void	list_add_back(t_list_info *list_info, t_list *node)
 {
 	if (!list_info->tail)
 	{
