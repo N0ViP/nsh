@@ -83,7 +83,7 @@ static int	extract_token_and_type(t_list_info *token_info, char *cmd)
 		}
 	}
 	else if (operator == OP_OR || operator == OP_AND
-			|| operator == OP_APPEND || operator == OP_HEREDOC)
+		|| operator == OP_APPEND || operator == OP_HEREDOC)
 	{
 		j = 2;
 	}
