@@ -1,40 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_token.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/03 06:38:22 by yjaafar           #+#    #+#             */
+/*   Updated: 2025/07/03 06:38:39 by yjaafar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "utils.h"
 
-enum operator	check_token(char *token)
+enum e_operator	check_token(char *token)
 {
-	enum operator	type;
+	enum e_operator	type;
 
 	if (token[0] == '|' && token[1] == '|')
-	{
-		type = OR;
-	}
+		type = OP_OR;
 	else if (token[0] == '&' && token[1] == '&')
-	{
-		type = AND;
-	}
+		type = OP_AND;
 	else if (token[0] == '<' && token[1] == '<')
-	{
-		type = HEREDOC;
-	}
+		type = OP_HEREDOC;
 	else if (token[0] == '>' && token[1] == '>')
-	{
-		type = APPEND_REDIRECTION;
-	}
+		type = OP_APPEND;
 	else if (token[0] == '|')
-	{
-		type = PIPE;
-	}
+		type = OP_PIPE;
 	else if (token[0] == '>')
-	{
-		type = REDIRECTION;
-	}
+		type = OP_REDIR_OUT;
 	else if (token[0] == '<')
-	{
-		type = INPUT_REDIRECTION;
-	}
+		type = OP_REDIR_IN;
 	else
-	{
 		type = WORD;
-	}
 	return (type);
 }

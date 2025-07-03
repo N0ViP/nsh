@@ -16,7 +16,8 @@ int	main(void)
 {
 	char		*cmd;
 	t_list_info	*tokens;
-	t_list *list;
+	t_list		*list;
+	t_token		*token;
 
 	while (true)
 	{
@@ -29,7 +30,8 @@ int	main(void)
 		list = tokens->list;
 		while (list)
 		{
-			printf("%s\n", (t_token *)(list->content)->value);
+			token = (t_token *) list->content;
+			printf("%s\n", token->value);
 			list = list->next;
 		}
 	}

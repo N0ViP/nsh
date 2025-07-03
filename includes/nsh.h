@@ -33,22 +33,21 @@ typedef struct s_list_info
 	int			size;
 }	t_list_info;
 
+enum e_operator {
+	WORD,
+	OP_OR,
+	OP_AND,
+	OP_APPEND,
+	OP_HEREDOC,
+	OP_REDIR_OUT,
+	OP_REDIR_IN,
+	OP_PIPE	
+};
+
 typedef struct s_token
 {
 	char			*value;
-	enum operator	type;
+	enum e_operator	type;
 }	t_token;
-
-enum operator
-{
-	WORD,
-	APPEND_REDIRECTION,
-	HEREDOC,
-	OR,
-	AND,
-	PIPE,
-	REDIRECTION,
-	INPUT_REDIRECTION,
-};
 
 #endif

@@ -3,9 +3,10 @@ CFLAGS	=	-Wall -Wextra -Werror -g
 LIB		=	-lreadline
 INCLUDE	=	./includes
 SOURCE	=	sources/nsh.c	utils/add_node_back.c	utils/ft_substr.c		\
-			stdfcts/ft_isspace.c	utils/skip_spaces.c						\
+			stdfcts/ft_isspace.c	utils/check_token.c						\
 			tokenization/free_token.c	utils/creat_node.c					\
-			tokenization/tokenization.c  utils/free_list.c
+			tokenization/tokenization.c  utils/free_list.c					\
+			utils/skip_spaces.c
 NAME	=	nsh
 OBJS	=	$(SOURCE:.c=.o)
 
