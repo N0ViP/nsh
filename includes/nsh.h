@@ -14,6 +14,7 @@
 # define NSH_H
 
 # include "tokenization.h"
+# include "parse_tree.h"
 
 # include <stdio.h>
 # include <stdbool.h>

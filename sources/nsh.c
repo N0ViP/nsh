@@ -25,6 +25,8 @@ int	main(void)
 		if (cmd && *cmd)
 			add_history(cmd);
 		tokens = tokenize(cmd);
+
+		//-----------print tokenization----------//
 		if (tokens)
 		{
 			list = tokens->list;
@@ -35,6 +37,12 @@ int	main(void)
 				list = list->next;
 			}
 		}
+		//--------------------------------------//
+
+		printf("\n-------TREE-------\n\n");
+        TreeNode *root = parse_tokens(tokens);
+        print_tree(root, 0);
+
 		free(cmd);
 	}
 }
