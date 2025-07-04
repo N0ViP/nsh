@@ -38,7 +38,7 @@ static int	get_word_len(char *str)
 	return (j);
 }
 
-static void	creat_token(t_list_info *token_info, char *cmd,
+static bool	creat_token(t_list_info *token_info, char *cmd,
 						enum e_operator operator, int j)
 {
 	t_list	*node;
@@ -47,24 +47,25 @@ static void	creat_token(t_list_info *token_info, char *cmd,
 	token = malloc(sizeof(t_token));
 	if (!token)
 	{
-		free(cmd);
-		free_list(&token_info, free_token);
-		exit (1);
+		return (false);
 	}
-	token->value = ft_substr(cmd, 0, j);
 	token->type = operator;
+	token->value = NULL;
+	if (operator == WORD)
+	{
+		token->value = ft_substr(cmd, 0, j);
+	}
 	node = creat_node(token);
-	if (!token->value || !node)
+	if ((!token->value && operator == WORD) || !node)
 	{
 		free(token->value);
 		free(node);
-		free(cmd);
-		free_list(&token_info, free_token);
-		exit (1);
+		return (false);
 	}
 	node->content = token;
 	token_info->size++;
 	list_add_back(token_info, node);
+	return (true);
 }
 
 static int	extract_token_and_type(t_list_info *token_info, char *cmd)
@@ -72,7 +73,7 @@ static int	extract_token_and_type(t_list_info *token_info, char *cmd)
 	int				j;
 	enum e_operator	operator;
 
-	j = 0;
+	j = 1;
 	operator = check_token(cmd);
 	if (operator == WORD)
 	{
@@ -87,11 +88,12 @@ static int	extract_token_and_type(t_list_info *token_info, char *cmd)
 	{
 		j = 2;
 	}
-	else
+	if (!creat_token(token_info, cmd, operator, j))
 	{
-		j = 1;
+		free(cmd);
+		free_list(&token_info, free_token);
+		exit (1);
 	}
-	creat_token(token_info, cmd, operator, j);
 	return (j);
 }
 

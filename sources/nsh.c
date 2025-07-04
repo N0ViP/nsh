@@ -35,5 +35,6 @@ int	main(void)
 				list = list->next;
 			}
 		}
+		free(cmd);
 	}
 }
