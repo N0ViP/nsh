@@ -1,5 +1,5 @@
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror -g
+CFLAGS	=	#-Wall -Wextra -Werror -g
 LIB		=	-lreadline
 INCLUDE	=	./includes
 SOURCE	=	sources/nsh.c	utils/list_add_back.c	utils/ft_substr.c		\
