@@ -53,13 +53,21 @@ static bool	creat_token(t_list_info *token_info, char *cmd,
 		return (false);
 	}
 	token->type = operator;
-	token->value = NULL;
-	if (operator == WORD)
-	{
-		token->value = ft_substr(cmd, 0, j);
-	}
+	// token->value = NULL;
+	// if (operator == WORD)
+	// {
+	// 	token->value = ft_substr(cmd, 0, j);
+	// }
+	// node = creat_node(token);
+	// if ((!token->value && operator == WORD) || !node)
+	// {
+	// 	free(token->value);
+	// 	free(node);
+	// 	return (false);
+	// }
+	token->value = ft_substr(cmd, 0, j);
 	node = creat_node(token);
-	if ((!token->value && operator == WORD) || !node)
+	if (!token->value || !node)
 	{
 		free(token->value);
 		free(node);

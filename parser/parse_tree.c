@@ -136,9 +136,10 @@ static t_tree *new_operator_branch(t_list *tokens, t_list *split_point)
     return node;
 }
 
-bool paranthese_check(t_list *tokens)
+bool parse_check(t_list *tokens)
 {
     int depth = 0;
+    char *op_found = NULL;
     while (tokens)
     {
         t_token *tok = (t_token*)tokens->content;
@@ -154,6 +155,19 @@ bool paranthese_check(t_list *tokens)
                 return false;
             }
             depth--;
+        }
+        if (op_found && tok->type == WORD)
+        {
+            op_found = NULL;
+        }
+        else if (tok->type >= OP_OR && tok->type <= OP_PIPE)
+        {
+            if (op_found)
+            {
+                parse_error(op_found);
+                return false;
+            }
+            op_found = tok->value;
         }
         tokens = tokens->next;
     }
@@ -211,7 +225,7 @@ static t_tree *new_subshell_branch(t_list *subshell)
 
 t_tree *parse_tokens(t_list *tokens)
 {
-    if (!tokens || !paranthese_check(tokens))
+    if (!tokens || !parse_check(tokens))
 		return (NULL);
   
     t_list *cur = tokens, *prev = NULL;
