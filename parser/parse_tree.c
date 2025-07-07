@@ -1,6 +1,6 @@
 # include "nsh.h"
 # include <string.h>
-
+// () inside cmd echo "fallback" && ls | grep "a" ()
 void *smalloc(size_t n)
 {
     void *p = malloc(n);
@@ -140,35 +140,48 @@ bool parse_check(t_list *tokens)
 {
     int depth = 0;
     char *op_found = NULL;
+    t_token *prev = NULL;
     while (tokens)
     {
-        t_token *tok = (t_token*)tokens->content;
-        if (tok->type == OP_OPEN_PARENTHESE)
+        t_token *curr = (t_token*)tokens->content;
+        if (curr->type == OP_OPEN_PARENTHESE)
         {
             depth++;
+            if (!tokens->next)
+            {
+                parse_error("(");
+                return false;
+            }
+            if ((((t_token *)tokens->next->content)->type >= OP_OR && ((t_token *)tokens->next->content)->type >= OP_PIPE)
+                || ((t_token *)tokens->next->content)->type == OP_CLOSED_PARENTHESE
+                || prev->type == WORD)
+            {
+                parse_error(((t_token *)tokens->next->content)->value);
+                return false;
+            }
         }
-        else if (tok->type == OP_CLOSED_PARENTHESE)
+        // nsh$ ls | (grep) ("a" )
+
+        // zsh: segmentation fault  ./nsh
+        else if (curr->type == OP_CLOSED_PARENTHESE)
         {
             if (depth == 0)
             {
-                parse_error(")");
+                parse_error(curr->value);
                 return false;
             }
             depth--;
         }
-        if (op_found && tok->type == WORD)
+        else if (curr->type >= OP_OR && curr->type <= OP_PIPE)
         {
-            op_found = NULL;
-        }
-        else if (tok->type >= OP_OR && tok->type <= OP_PIPE)
-        {
-            if (op_found)
+            if (prev->type >= OP_OR && prev->type <= OP_PIPE
+                || !prev || !tokens->next)
             {
-                parse_error(op_found);
+                parse_error(prev->value);
                 return false;
             }
-            op_found = tok->value;
         }
+        prev = curr;
         tokens = tokens->next;
     }
     if (depth > 0)
@@ -178,6 +191,86 @@ bool parse_check(t_list *tokens)
     }
     return true;
 }
+
+// bool parse_check(t_list *tokens)
+// {
+//     int depth = 0;
+//     t_token *prev = NULL;
+
+//     while (tokens)
+//     {
+//         t_token *curr = (t_token *)tokens->content;
+
+//         // Handle parentheses nesting
+//         if (curr->type == OP_OPEN_PARENTHESE)
+//         {
+//             depth++;
+//             // if next token is OPERATOR or closed paren → invalid
+//             if (!tokens->next || ((t_token *)tokens->next->content)->type >= OP_OR)
+//             {
+//                 parse_error("(");
+//                 return false;
+//             }
+//         }
+//         else if (curr->type == OP_CLOSED_PARENTHESE)
+//         {
+//             if (depth == 0)
+//             {
+//                 parse_error(")");
+//                 return false;
+//             }
+//             // prev must not be an operator
+//             if (prev && prev->type >= OP_OR && prev->type <= OP_PIPE)
+//             {
+//                 parse_error(")");
+//                 return false;
+//             }
+//             depth--;
+//         }
+//         // Operator usage validation
+//         else if (curr->type >= OP_OR && curr->type <= OP_PIPE)
+//         {
+//             if (!prev || prev->type >= OP_OR) // nothing before or two ops
+//             {
+//                 parse_error(curr->value);
+//                 return false;
+//             }
+//             // also nothing valid after?
+//             if (!tokens->next || ((t_token *)tokens->next->content)->type >= OP_OR)
+//             {
+//                 parse_error(curr->value);
+//                 return false;
+//             }
+//         }
+//         // WORD in invalid place (e.g., after closed paren with no operator)
+//         else if (curr->type == WORD)
+//         {
+//             if (prev && prev->type == OP_CLOSED_PARENTHESE)
+//             {
+//                 parse_error(curr->value);
+//                 return false;
+//             }
+//         }
+
+//         prev = curr;
+//         tokens = tokens->next;
+//     }
+
+//     if (depth > 0)
+//     {
+//         parse_error("(");
+//         return false;
+//     }
+
+//     if (prev && prev->type >= OP_OR) // ends with operator
+//     {
+//         parse_error(prev->value);
+//         return false;
+//     }
+
+//     return true;
+// }
+
 
 static t_list *copy_token_segment(t_list *start, t_list *end)
 {
