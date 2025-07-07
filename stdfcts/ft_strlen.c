@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stdfcts.h                                          :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/01 08:40:51 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/07/07 23:57:02 by ahoummad         ###   ########.fr       */
+/*   Created: 2025/07/07 02:40:36 by ahoummad          #+#    #+#             */
+/*   Updated: 2025/07/07 23:50:09 by ahoummad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STDFCTS_H
-# define STDFCTS_H
+#include "stdfcts.h"
 
-# include <stdbool.h>
-# include <stddef.h>
-
-bool	ft_isspace(int c);
-size_t  ft_strlen(const char *s);
-
-#endif
+size_t ft_strlen(const char *s)
+{
+    const char *p = s;
+    while (*p) 
+        ++p;
+    return (p - s);
+}

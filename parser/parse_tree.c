@@ -1,6 +1,6 @@
 # include "nsh.h"
 # include <string.h>
-// () inside cmd echo "fallback" && ls | grep "a" ()
+// redirections parse errors
 void *smalloc(size_t n)
 {
     void *p = malloc(n);
@@ -9,7 +9,7 @@ void *smalloc(size_t n)
 }
 
 void parse_error(const char *token) {
-    const char *prefix = "parse error near `";
+    const char *prefix = "syntax error near unexpected token `";
     const char *suffix = "'\n";
 
     write(2, prefix, strlen(prefix));
@@ -54,8 +54,6 @@ Redir *extract_redirections(t_list **tokens, int n_redirs)
             redirs[r++].file = file_tok->value;
 
             t_list *next_next = file_node->next;
-
-            // free_two_nodes(cur);
 
             if (prev)
                 prev->next = next_next;
@@ -132,7 +130,11 @@ static t_tree *new_operator_branch(t_list *tokens, t_list *split_point)
     t_tree *node = smalloc(sizeof(t_tree));
     node->type = type;
     node->data.branch.left = parse_tokens(tokens);
+    if(!(node->data.branch.left))
+        return NULL;
     node->data.branch.right = parse_tokens(right_tokens);
+    if(!(node->data.branch.right))
+        return NULL;
     return node;
 }
 
@@ -152,17 +154,15 @@ bool parse_check(t_list *tokens)
                 parse_error("(");
                 return false;
             }
-            if ((((t_token *)tokens->next->content)->type >= OP_OR && ((t_token *)tokens->next->content)->type >= OP_PIPE)
-                || ((t_token *)tokens->next->content)->type == OP_CLOSED_PARENTHESE
-                || prev->type == WORD)
+            t_token *next = (t_token *)tokens->next->content;
+            if ((next->type >= OP_OR && next->type <= OP_PIPE)
+                || next->type == OP_CLOSED_PARENTHESE
+                || (prev && prev->type == WORD))
             {
                 parse_error(((t_token *)tokens->next->content)->value);
                 return false;
             }
         }
-        // nsh$ ls | (grep) ("a" )
-
-        // zsh: segmentation fault  ./nsh
         else if (curr->type == OP_CLOSED_PARENTHESE)
         {
             if (depth == 0)
@@ -174,8 +174,12 @@ bool parse_check(t_list *tokens)
         }
         else if (curr->type >= OP_OR && curr->type <= OP_PIPE)
         {
-            if (prev->type >= OP_OR && prev->type <= OP_PIPE
-                || !prev || !tokens->next)
+            if(!tokens->next || !prev)
+            {
+                parse_error(curr->value);
+                return false;
+            }
+            if (prev->type >= OP_OR && prev->type <= OP_PIPE)
             {
                 parse_error(prev->value);
                 return false;
@@ -191,86 +195,6 @@ bool parse_check(t_list *tokens)
     }
     return true;
 }
-
-// bool parse_check(t_list *tokens)
-// {
-//     int depth = 0;
-//     t_token *prev = NULL;
-
-//     while (tokens)
-//     {
-//         t_token *curr = (t_token *)tokens->content;
-
-//         // Handle parentheses nesting
-//         if (curr->type == OP_OPEN_PARENTHESE)
-//         {
-//             depth++;
-//             // if next token is OPERATOR or closed paren → invalid
-//             if (!tokens->next || ((t_token *)tokens->next->content)->type >= OP_OR)
-//             {
-//                 parse_error("(");
-//                 return false;
-//             }
-//         }
-//         else if (curr->type == OP_CLOSED_PARENTHESE)
-//         {
-//             if (depth == 0)
-//             {
-//                 parse_error(")");
-//                 return false;
-//             }
-//             // prev must not be an operator
-//             if (prev && prev->type >= OP_OR && prev->type <= OP_PIPE)
-//             {
-//                 parse_error(")");
-//                 return false;
-//             }
-//             depth--;
-//         }
-//         // Operator usage validation
-//         else if (curr->type >= OP_OR && curr->type <= OP_PIPE)
-//         {
-//             if (!prev || prev->type >= OP_OR) // nothing before or two ops
-//             {
-//                 parse_error(curr->value);
-//                 return false;
-//             }
-//             // also nothing valid after?
-//             if (!tokens->next || ((t_token *)tokens->next->content)->type >= OP_OR)
-//             {
-//                 parse_error(curr->value);
-//                 return false;
-//             }
-//         }
-//         // WORD in invalid place (e.g., after closed paren with no operator)
-//         else if (curr->type == WORD)
-//         {
-//             if (prev && prev->type == OP_CLOSED_PARENTHESE)
-//             {
-//                 parse_error(curr->value);
-//                 return false;
-//             }
-//         }
-
-//         prev = curr;
-//         tokens = tokens->next;
-//     }
-
-//     if (depth > 0)
-//     {
-//         parse_error("(");
-//         return false;
-//     }
-
-//     if (prev && prev->type >= OP_OR) // ends with operator
-//     {
-//         parse_error(prev->value);
-//         return false;
-//     }
-
-//     return true;
-// }
-
 
 static t_list *copy_token_segment(t_list *start, t_list *end)
 {
@@ -311,8 +235,11 @@ static t_tree *new_subshell_branch(t_list *subshell)
     t_list *inside = copy_token_segment(subshell->next, end);
     t_tree *node = smalloc(sizeof *node);
     node->type = SUBSHELL;
-    node->data.branch.left = parse_tokens(inside);
-    node->data.branch.right = NULL;
+    node->data.subshell = parse_tokens(inside);
+
+    if(!(node->data.subshell))
+        return NULL;
+
     return node;
 }
 

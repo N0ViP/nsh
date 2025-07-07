@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   nsh.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 08:37:28 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/07/02 03:40:04 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/07/08 00:08:44 by ahoummad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	main(void)
 
 		printf("\n-------TREE-------\n\n");
         t_tree *root = parse_tokens(tokens->list);
+        if (!root) continue;
         print_tree(root, 0);
 
 		free(cmd);
