@@ -29,10 +29,10 @@ typedef struct {
     char *file;
 } Redir;
 
-typedef struct {
-    const char  *string;
-    int         start, end;
-} t_slice;
+// typedef struct {
+//     const char  *string;
+//     int         start, end;
+// } t_slice;
 
 typedef struct {
     char    **args;
