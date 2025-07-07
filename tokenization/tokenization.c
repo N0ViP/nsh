@@ -18,7 +18,7 @@ static int	get_word_len(char *str)
 	char	quote;
 
 	j = 0;
-	while (str[j] && !ft_isspace(str[j]) && ft_strchr("|><()", str[j]))
+	while (str[j] && !ft_isspace(str[j]) && !ft_strchr("|><()", str[j]))
 	{
 		if (str[j] == '&' && str[j + 1] == '&')
 		{
