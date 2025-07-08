@@ -37,4 +37,6 @@
 
 5.  echo hi && (ls || (pwd && whoami))
 
-6.  echo 'hi' | echo "change this "$SHELL | grep f | wc -l > $USER | cat < input.txt >output.txt | ls >> file.log -a | echo "im in here =>$HOME" '$PATH'$USERP $? $9po
+6.  ((ls | cat)&& ls) //wtf ((ls | cat)<<d)
+
+7.  echo 'hi' | echo "change this "$SHELL | grep f | wc -l > $USER | cat < input.txt >output.txt | ls >> file.log -a | echo "im in here =>$HOME" '$PATH'$USERP $? $9po

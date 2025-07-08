@@ -1,6 +1,7 @@
 # include "nsh.h"
 # include <string.h>
 // redirections parse errors
+//wtf ((ls | cat)<<d)
 void *smalloc(size_t n)
 {
     void *p = malloc(n);
@@ -134,7 +135,7 @@ static t_tree *new_operator_branch(t_list *tokens, t_list *split_point)
         return NULL;
     node->data.branch.right = parse_tokens(right_tokens);
     if(!(node->data.branch.right))
-        return NULL;
+        return NULL;//free left
     return node;
 }
 
@@ -154,18 +155,41 @@ bool parse_check(t_list *tokens)
                 parse_error("(");
                 return false;
             }
+            if(prev)
+            {
+                if (!(prev->type >= OP_OR && prev->type <= OP_PIPE) && prev->type != OP_OPEN_PARENTHESE)
+                {
+                    parse_error("(");
+                    return false;
+                }
+            }
             t_token *next = (t_token *)tokens->next->content;
-            if ((next->type >= OP_OR && next->type <= OP_PIPE)
+            if ((next->type >= OP_OR && next->type <= OP_REDIR_IN)
                 || next->type == OP_CLOSED_PARENTHESE
                 || (prev && prev->type == WORD))
             {
-                parse_error(((t_token *)tokens->next->content)->value);
+                parse_error(next->value);
                 return false;
             }
         }
         else if (curr->type == OP_CLOSED_PARENTHESE)
         {
             if (depth == 0)
+            {
+                parse_error(curr->value);
+                return false;
+            }
+            if (tokens->next)
+            {
+                t_token *next = (t_token *)tokens->next->content;
+                if ((!(next->type >= OP_OR && next->type <= OP_REDIR_IN)
+                    && next->type != OP_CLOSED_PARENTHESE))
+                {
+                    parse_error(next->value);
+                    return false;
+                }
+            }
+            if (!prev || prev->type >= OP_OR && prev->type <= OP_REDIR_IN)
             {
                 parse_error(curr->value);
                 return false;
@@ -179,7 +203,7 @@ bool parse_check(t_list *tokens)
                 parse_error(curr->value);
                 return false;
             }
-            if (prev->type >= OP_OR && prev->type <= OP_PIPE)
+            if (prev->type >= OP_OR && prev->type <= OP_REDIR_IN)
             {
                 parse_error(prev->value);
                 return false;
@@ -229,8 +253,6 @@ static t_tree *new_subshell_branch(t_list *subshell)
         if (depth == 0) break;
         end = end->next;
     }
-    if (end->next)
-        return (parse_error("("), NULL);
 
     t_list *inside = copy_token_segment(subshell->next, end);
     t_tree *node = smalloc(sizeof *node);
@@ -245,7 +267,7 @@ static t_tree *new_subshell_branch(t_list *subshell)
 
 t_tree *parse_tokens(t_list *tokens)
 {
-    if (!tokens || !parse_check(tokens))
+    if (!tokens || !parse_check(tokens))//no need to be in recursion
 		return (NULL);
   
     t_list *cur = tokens, *prev = NULL;
@@ -308,25 +330,25 @@ void print_tree(t_tree *root, int indent)
 
         case OP_PIPE:
             printf("PIPE\n");
-            print_tree(root->data.branch.left, indent + 2);
-            print_tree(root->data.branch.right, indent + 2);
+            print_tree(root->data.branch.left, indent + 3);
+            print_tree(root->data.branch.right, indent + 3);
             break;
 
         case OP_OR:
             printf("OR (||)\n");
-            print_tree(root->data.branch.left, indent + 2);
-            print_tree(root->data.branch.right, indent + 2);
+            print_tree(root->data.branch.left, indent + 3);
+            print_tree(root->data.branch.right, indent + 3);
             break;
 
         case OP_AND:
             printf("AND (&&)\n");
-            print_tree(root->data.branch.left, indent + 2);
-            print_tree(root->data.branch.right, indent + 2);
+            print_tree(root->data.branch.left, indent + 3);
+            print_tree(root->data.branch.right, indent + 3);
             break;
 
         case SUBSHELL:
             printf("SUBSHELL (\n");
-            print_tree(root->data.subshell, indent + 2);
+            print_tree(root->data.subshell, indent + 3);
             for (int i = 0; i < indent; i++) putchar(' ');
             printf(")\n");
             break;
