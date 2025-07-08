@@ -59,7 +59,9 @@ typedef struct s_tree {
 
 
 
-t_tree    *parse_tokens(t_list *tokens);
-void        print_tree(t_tree *root, int indent);
+t_tree  *parse_tokens(t_list *tokens);
+void    print_tree(t_tree *root, int indent);
+bool    parse_check(t_list *tokens);
+void    parse_error(const char *token);
 
 #endif

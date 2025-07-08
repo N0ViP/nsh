@@ -8,7 +8,7 @@ SOURCE	=	sources/nsh.c	utils/list_add_back.c	utils/ft_substr.c		\
 			tokenization/free_token.c	utils/creat_node.c					\
 			tokenization/tokenization.c  utils/free_list.c					\
 			utils/skip_spaces.c												\
-			parser/parse_tree.c
+			parser/parse_tree.c		parser/error_check.c
 NAME	=	nsh
 OBJS	=	$(SOURCE:.c=.o)
 
