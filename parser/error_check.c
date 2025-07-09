@@ -6,6 +6,8 @@
 
 bool parse_check(t_list *tokens)
 {
+    if (!tokens)
+		return (false);
     int depth = 0;
     char *op_found = NULL;
     t_token *prev = NULL;
@@ -63,16 +65,18 @@ bool parse_check(t_list *tokens)
         }
         else if (curr->type >= OP_OR && curr->type <= OP_PIPE)
         {
-            if(!tokens->next || !prev)
+            if(!tokens->next || !prev 
+                || (prev->type >= OP_OR && prev->type <= OP_REDIR_IN)
+                || (prev->type >= OP_OR && prev->type <= OP_PIPE))
             {
                 parse_error(curr->value);
                 return false;
             }
-            if (prev->type >= OP_OR && prev->type <= OP_REDIR_IN)
-            {
-                parse_error(prev->value);
-                return false;
-            }
+        }
+        else if (curr->type >= OP_APPEND && curr->type <= OP_REDIR_IN)
+        {
+            if(!tokens->next)
+                return (parse_error("newline"), false);
         }
         prev = curr;
         tokens = tokens->next;

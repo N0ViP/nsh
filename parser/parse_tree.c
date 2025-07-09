@@ -2,16 +2,24 @@
 
 void *smalloc(size_t n)
 {
-    void *p = malloc(n);
-    if (!p) { perror("malloc"); exit(EXIT_FAILURE); }
-    return p;
+    void *pointer;
+
+    pointer = malloc(n);
+    if (!pointer)
+    {
+        perror("malloc");
+        exit(EXIT_FAILURE); 
+    }
+    return pointer;
 }
 
 void parse_error(const char *token)
 {
-    const char *prefix = "syntax error near unexpected token `";
-    const char *suffix = "'\n";
+    const char *prefix;
+    const char *suffix;
 
+    prefix = "syntax error near unexpected token `";
+    suffix = "'\n";
     write(2, prefix, ft_strlen(prefix));
     write(2, token, ft_strlen(token));
     write(2, suffix, ft_strlen(suffix));
@@ -19,11 +27,15 @@ void parse_error(const char *token)
 
 int count_redirs(t_list *tokens)
 {
-    int count = 0;
-    t_list *cur = tokens;
+    t_token *tok;
+    t_list *cur;
+    int count;
+
+    cur = tokens;
+    count = 0;
     while (cur)
     {
-        t_token *tok = (t_token *)cur->content;
+        tok = (t_token *)cur->content;
         if (tok->type >= OP_APPEND && tok->type <= OP_REDIR_IN)
             count++;
         cur = cur->next;
@@ -31,48 +43,46 @@ int count_redirs(t_list *tokens)
     return count;
 }
 
+static void extract_redirs(t_list **cur, Redir *redirs, int i)
+{
+    t_token *tok;
+    t_token *file_tok;
+    t_list  *file_node;
+
+    if (!*cur)
+        return;
+    tok = (t_token *)(*cur)->content;
+    if (tok->type >= OP_APPEND && tok->type <= OP_REDIR_IN)
+    {
+        file_node = (*cur)->next;
+        if (!file_node)
+            return ;
+        file_tok = (t_token *)file_node->content;
+        redirs[i].type = tok->type;
+        redirs[i++].file = file_tok->value;
+        *cur = file_node->next;
+    }
+    else
+        cur = &((*cur)->next);
+    return (extract_redirs(cur, redirs, i));
+}
+
 Redir *extract_redirections(t_list **tokens, int n_redirs)
 {
-    if(!n_redirs)
-        return NULL;
-    Redir *redirs = smalloc(n_redirs * sizeof(Redir));
-    t_list *cur = *tokens;
-    t_list *prev = NULL;
-    int r = 0;
-    while (cur)
-    {
-        t_token *tok = (t_token *)cur->content;
-        if (tok->type >= OP_APPEND && tok->type <= OP_REDIR_IN)
-        {
-            if (!cur->next)
-                return (parse_error("\\n"), NULL);
+    Redir *redirs;
 
-            t_list *file_node = cur->next;
-            t_token *file_tok = (t_token *)file_node->content;
-
-            redirs[r].type = tok->type;
-            redirs[r++].file = file_tok->value;
-
-            t_list *next_next = file_node->next;
-
-            if (prev)
-                prev->next = next_next;
-            else
-                *tokens = next_next;
-            cur = next_next;
-        }
-        else
-        {
-            prev = cur;
-            cur = cur->next;
-        }
-    }
-    return redirs;
+    if (!n_redirs)
+        return (NULL);
+    redirs = smalloc(sizeof(Redir) * n_redirs);
+    extract_redirs(tokens, redirs, 0);
+    return (redirs);
 }
 
 int count_args(t_list *tokens)
 {
-    int count = 0;
+    int count;
+
+    count = 0;
     while (tokens) 
     {
         count++;
@@ -83,14 +93,14 @@ int count_args(t_list *tokens)
 
 char **extract_args(t_list *tokens, int n_arg)
 {
-    char **args;
-    t_list *cur;
     t_token *tok;
+    t_list *cur;
+    char **args;
     int i;
 
-    args = smalloc((n_arg + 1) * sizeof(char *));
-    cur = tokens;
     i = 0;
+    cur = tokens;
+    args = smalloc((n_arg + 1) * sizeof(char *));
     while (cur)
     {
         tok = (t_token *)cur->content;
@@ -104,137 +114,200 @@ char **extract_args(t_list *tokens, int n_arg)
 
 t_tree *new_command_branch(t_list *tokens)
 {
-    t_tree *node = smalloc(sizeof(t_tree));
+    t_tree *node;
+    int n_redirs;
+    int n_arg;
+
+    node = smalloc(sizeof(t_tree));
     node->type = COMMAND;
-
-    int n_redirs = count_redirs(tokens);
-    node->data.cmd.redirs = extract_redirections(&tokens, n_redirs);
+    n_redirs = count_redirs(tokens);
     node->data.cmd.n_redirs = n_redirs;
-
-    int n_arg = count_args(tokens);
-    node->data.cmd.args = extract_args(tokens, n_arg);
+    node->data.cmd.redirs = extract_redirections(&tokens, n_redirs);
+    n_arg = count_args(tokens);
     node->data.cmd.n_arg = n_arg;
-
-    return node;
+    node->data.cmd.args = extract_args(tokens, n_arg);
+    return (node);
 }
-
-static t_tree *new_operator_branch(t_list *tokens, t_list *split_point)
+static t_tree	*new_operator_branch(t_list *tokens, t_list *split)
 {
-    t_list *op_node = split_point->next;
-    t_token *op_token = (t_token *)op_node->content;
-    enum e_operator type = op_token->type;
+	t_list			*op_node;
+	t_list			*right;
+	t_tree			*node;
 
-    t_list *right_tokens = op_node->next;
-    split_point->next = NULL;
-
-    t_tree *node = smalloc(sizeof(t_tree));
-    node->type = type;
-    node->data.branch.left = parse_tokens(tokens);
+	op_node = split->next;
+	right = op_node->next;
+	split->next = NULL;
+	node = smalloc(sizeof(t_tree));
+	node->type = ((t_token *)op_node->content)->type;
+	node->data.branch.left = parse_tokens(tokens);
     if(!(node->data.branch.left))
         return NULL;
-    node->data.branch.right = parse_tokens(right_tokens);
+	node->data.branch.right = parse_tokens(right);
     if(!(node->data.branch.right))
         return NULL;//free left
-    return node;
+	return (node);
 }
 
-static t_list *copy_token_segment(t_list *start, t_list *end)
+static t_list	*find_close(t_list *cur)
 {
-    t_list *head = NULL;
-    t_list *tail = NULL;
-    t_list *cur = start;
+	int		depth;
+    t_list	*prev;
+	t_token *token;
 
-    while (end && cur != end)
-    {
-        t_list *new_node = smalloc(sizeof(t_list));
-        new_node->content = cur->content;
-        new_node->next = NULL;
-        
-        if (!head) head = new_node;
-        else tail->next = new_node;
-        
-        tail = new_node;
-        cur = cur->next;
-    }    
-    while (!end && cur)
-    {
-        t_list *new_node = smalloc(sizeof(t_list));
-        new_node->content = cur->content;
-        new_node->next = NULL;
-        
-        if (!head) head = new_node;
-        else tail->next = new_node;
-        
-        tail = new_node;
-        cur = cur->next;
-    }
-    return head;
-}
-
-static t_tree *new_subshell_branch(t_list *subshell)
-{
-    int depth = 1;
-    t_list *end = subshell->next;
-    while (end && depth)
-    {
-        t_token *tk = end->content;
-        if (tk->type == OP_OPEN_PARENTHESE)   depth++;
-        else if (tk->type == OP_CLOSED_PARENTHESE) depth--;
-        if (depth == 0) break;
-        end = end->next;
-    }
-
-    t_list *inside = copy_token_segment(subshell->next, end);
-    end = copy_token_segment(end->next, NULL);
-    t_tree *node = smalloc(sizeof *node);
-    node->type = SUBSHELL;
-    node->data.subshell.child = parse_tokens(inside);
-
-    int n_redirs = count_redirs(end);
-    node->data.subshell.redirs = extract_redirections(&end, n_redirs);
-    node->data.subshell.n_redirs = n_redirs;
-    
-    if(!(node->data.subshell.child))
-        return NULL;
-
-    return node;
-}
-
-t_tree *parse_tokens(t_list *tokens)
-{
-    if (!tokens || !parse_check(tokens))//no need to be in recursion
-		return (NULL);
-  
-    t_list *cur = tokens, *prev = NULL;
-    t_list *last_or = NULL, *last_and = NULL, *last_pipe = NULL;
-    int depth = 0;
-
-    while (cur)
-    {
-        t_token *tk = cur->content;
-        if (tk->type == OP_OPEN_PARENTHESE)   depth++;
-        else if (tk->type == OP_CLOSED_PARENTHESE) depth--;
-        else if (depth == 0)
-        {
-            if (tk->type == OP_OR)   last_or  = prev;
-            if (tk->type == OP_AND)  last_and = prev;
-            if (tk->type == OP_PIPE) last_pipe= prev;
-        }
+	depth = 1;
+    prev = NULL;
+	while (cur && depth)
+	{
+		token = (t_token *)cur->content;
+		if (token->type == OP_OPEN_PARENTHESE)
+			depth++;
+		else if (token->type == OP_CLOSED_PARENTHESE)
+			depth--;
+		if (depth == 0)
+			return (prev);
         prev = cur;
-        cur  = cur->next;
-    }
-
-    if(last_or) 
-        return new_operator_branch(tokens, last_or);
-    else if(last_and) 
-        return new_operator_branch(tokens, last_and);
-    else if(last_pipe) 
-        return new_operator_branch(tokens, last_pipe);
-    else if (((t_token*)tokens->content)->type == OP_OPEN_PARENTHESE)
-        return new_subshell_branch(tokens);
-
-    return new_command_branch(tokens);
+		cur = cur->next;
+	}
+	return (NULL);
 }
+static t_tree	*new_subshell_branch(t_list *tokens)
+{
+	t_tree	*node;
+	t_list  *close;
+	t_list	*after;
+	t_list	*inside;
+	int		n_redirs;
+
+	node = smalloc(sizeof(t_tree));
+	inside = tokens->next;
+	close = find_close(inside);
+	after = close->next->next;
+	close->next = NULL;
+	node->type = SUBSHELL;
+	node->data.subshell.child = parse_tokens(inside);
+	n_redirs = count_redirs(after);
+	node->data.subshell.n_redirs = n_redirs;
+	node->data.subshell.redirs = extract_redirections(&after, n_redirs);
+	return (node);
+}
+
+
+// t_tree *parse_tokens(t_list *tokens)
+// { 
+//     t_list *cur = tokens, *prev = NULL;
+//     t_list *last_or = NULL, *last_and = NULL, *last_pipe = NULL;
+//     int depth = 0;
+
+//     while (cur)
+//     {
+//         t_token *tk = cur->content;
+//         if (tk->type == OP_OPEN_PARENTHESE)   depth++;
+//         else if (tk->type == OP_CLOSED_PARENTHESE) depth--;
+//         else if (depth == 0)
+//         {
+//             if (tk->type == OP_OR)   last_or  = prev;
+//             if (tk->type == OP_AND)  last_and = prev;
+//             if (tk->type == OP_PIPE) last_pipe= prev;
+//         }
+//         prev = cur;
+//         cur  = cur->next;
+//     }
+
+//     if(last_or) 
+//         return new_operator_branch(tokens, last_or);
+//     else if(last_and) 
+//         return new_operator_branch(tokens, last_and);
+//     else if(last_pipe) 
+//         return new_operator_branch(tokens, last_pipe);
+//     else if (((t_token*)tokens->content)->type == OP_OPEN_PARENTHESE)
+//         return new_subshell_branch(tokens);
+
+//     return new_command_branch(tokens);
+// }
+
+// static t_list	*find_last_split(t_list *tokens, int op_type)
+// {
+// 	t_list	*cur;
+// 	t_list	*prev;
+// 	t_list	*last;
+// 	t_token	*tk;
+// 	int		depth;
+
+// 	cur = tokens;
+// 	prev = NULL;
+// 	last = NULL;
+// 	depth = 0;
+// 	while (cur)
+// 	{
+// 		tk = cur->content;
+// 		if (tk->type == OP_OPEN_PARENTHESE)
+// 			depth++;
+// 		else if (tk->type == OP_CLOSED_PARENTHESE)
+// 			depth--;
+// 		else if (depth == 0 && tk->type == op_type)
+// 			last = prev;
+// 		prev = cur;
+// 		cur = cur->next;
+// 	}
+// 	return (last);
+// }
+
+// t_tree	*parse_tokens(t_list *tokens)
+// {
+// 	t_list	*split;
+
+// 	split = find_last_split(tokens, OP_OR);
+// 	if (split)
+// 		return (new_operator_branch(tokens, split));
+// 	split = find_last_split(tokens, OP_AND);
+// 	if (split)
+// 		return (new_operator_branch(tokens, split));
+// 	split = find_last_split(tokens, OP_PIPE);
+// 	if (split)
+// 		return (new_operator_branch(tokens, split));
+// 	if (((t_token *)tokens->content)->type == OP_OPEN_PARENTHESE)
+// 		return (new_subshell_branch(tokens));
+// 	return (new_command_branch(tokens));
+// }
+
+static t_list	*find_split_point(t_list *tokens)
+{
+	t_list	*cur = tokens;
+	t_list	*prev = NULL;
+	t_list	*split = NULL;
+	t_token	*token;
+	int		depth = 0;
+
+	while (cur)
+	{
+		token = (t_token *)cur->content;
+		if (token->type == OP_OPEN_PARENTHESE)
+			depth++;
+		else if (token->type == OP_CLOSED_PARENTHESE)
+			depth--;
+		else if (!depth && token->type >= OP_OR && token->type <= OP_PIPE)
+			if (!split 
+                || token->type <= ((t_token *)split->next->content)->type)
+				split = prev;
+		prev = cur;
+		cur = cur->next;
+	}
+	return (split);
+}
+
+t_tree	*parse_tokens(t_list *tokens)
+{
+	t_list	*split_point;
+
+	split_point = find_split_point(tokens);
+	if (split_point)
+		return (new_operator_branch(tokens, split_point));
+	if (((t_token *)tokens->content)->type == OP_OPEN_PARENTHESE)
+		return (new_subshell_branch(tokens));
+	return (new_command_branch(tokens));
+}
+
+
 
 void print_tree(t_tree *root, int indent)
 {

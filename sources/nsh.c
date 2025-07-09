@@ -59,6 +59,8 @@ int	main(void)
 		print_tokens(tokens->list);
 
 		printf("\n-------TREE-------\n\n");
+		if (!parse_check(tokens->list))
+			continue;
         t_tree *root = parse_tokens(tokens->list);
         if (!root) continue;
         print_tree(root, 0);

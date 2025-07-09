@@ -24,15 +24,15 @@ enum e_operator { //op??
     COMMAND
 };
 
-typedef struct {
-    enum e_operator type;
-    char *file;
-} Redir;
-
 // typedef struct {
 //     const char  *string;
 //     int         start, end;
 // } t_slice;
+
+typedef struct {
+    enum e_operator type;
+    char *file;
+} Redir;
 
 typedef struct {
     char    **args;
@@ -60,8 +60,6 @@ typedef struct s_tree {
         t_subshell subshell;
     } data;
 } t_tree;
-
-
 
 
 
