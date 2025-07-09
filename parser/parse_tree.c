@@ -144,7 +144,19 @@ static t_list *copy_token_segment(t_list *start, t_list *end)
     t_list *tail = NULL;
     t_list *cur = start;
 
-    while (cur != end)
+    while (end && cur != end)
+    {
+        t_list *new_node = smalloc(sizeof(t_list));
+        new_node->content = cur->content;
+        new_node->next = NULL;
+        
+        if (!head) head = new_node;
+        else tail->next = new_node;
+        
+        tail = new_node;
+        cur = cur->next;
+    }    
+    while (!end && cur)
     {
         t_list *new_node = smalloc(sizeof(t_list));
         new_node->content = cur->content;
@@ -173,11 +185,16 @@ static t_tree *new_subshell_branch(t_list *subshell)
     }
 
     t_list *inside = copy_token_segment(subshell->next, end);
+    end = copy_token_segment(end->next, NULL);
     t_tree *node = smalloc(sizeof *node);
     node->type = SUBSHELL;
-    node->data.subshell = parse_tokens(inside);
+    node->data.subshell.child = parse_tokens(inside);
 
-    if(!(node->data.subshell))
+    int n_redirs = count_redirs(end);
+    node->data.subshell.redirs = extract_redirections(&end, n_redirs);
+    node->data.subshell.n_redirs = n_redirs;
+    
+    if(!(node->data.subshell.child))
         return NULL;
 
     return node;
@@ -244,7 +261,6 @@ void print_tree(t_tree *root, int indent)
                 }
             }
             break;
-            break;
 
         case OP_PIPE:
             printf("PIPE\n");
@@ -265,10 +281,22 @@ void print_tree(t_tree *root, int indent)
             break;
 
         case SUBSHELL:
-            printf("SUBSHELL (\n");
-            print_tree(root->data.subshell, indent + 3);
+            printf("SUBSHELL\n");
+            print_tree(root->data.subshell.child, indent + 3);
             for (int i = 0; i < indent; i++) putchar(' ');
-            printf(")\n");
+            for (int i = 0; i < root->data.subshell.n_redirs; i++) {
+                Redir *r = &root->data.subshell.redirs[i];
+                if(!r)
+                    return;
+                for (int j = 0; j < indent + 3; j++) putchar(' ');
+                switch (r->type) {
+                    case OP_REDIR_IN:     printf("<  %s\n", r->file); break;
+                    case OP_REDIR_OUT:    printf(">  %s\n", r->file); break;
+                    case OP_APPEND: printf(">> %s\n", r->file); break;
+                    case OP_HEREDOC: printf(">> %s\n", r->file); break;
+                    default: break;
+                }
+            }
             break;
 
         default:

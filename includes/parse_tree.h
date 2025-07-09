@@ -46,12 +46,18 @@ typedef struct s_branch {
     struct s_tree *right;
 } t_branch;
 
+typedef struct {
+    struct s_tree *child;
+    Redir   *redirs;
+    int     n_redirs;
+} t_subshell;
+
 typedef struct s_tree {
     enum e_operator type;
     union {
         t_cmd  cmd;
         t_branch branch;
-        struct s_tree *subshell;
+        t_subshell subshell;
     } data;
 } t_tree;
 
