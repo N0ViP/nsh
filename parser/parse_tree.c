@@ -247,19 +247,26 @@ void print_tree(t_tree *root, int indent)
             for (int i = 0; i < root->data.cmd.n_arg; i++)
                 printf(" %s", root->data.cmd.args[i]);
             printf("\n");
-            for (int i = 0; i < root->data.cmd.n_redirs; i++) {
+            for (int i = 0; i < root->data.cmd.n_redirs; i++)
+            {
+                if(i == 0)
+                {
+                    for (int j = 0; j < indent; j++) putchar(' ');
+                    printf("REDIRS:");
+                }
                 Redir *r = &root->data.cmd.redirs[i];
                 if(!r)
                     return;
-                for (int j = 0; j < indent+3; j++) putchar(' ');
                 switch (r->type) {
-                    case OP_REDIR_IN:     printf("<  %s\n", r->file); break;
-                    case OP_REDIR_OUT:    printf(">  %s\n", r->file); break;
-                    case OP_APPEND: printf(">> %s\n", r->file); break;
-                    case OP_HEREDOC: printf(">> %s\n", r->file); break;
-                    default: break;
+                    case OP_REDIR_IN:     printf(" <%s", r->file); break;
+                    case OP_REDIR_OUT:    printf(" >%s", r->file); break;
+                    case OP_APPEND:       printf(" >>%s", r->file); break;
+                    case OP_HEREDOC:      printf(" >>%s", r->file); break;
+                    default: printf("Unknown redir type"); break;
                 }
             }
+            if(root->data.cmd.n_redirs)
+                printf("\n");
             break;
 
         case OP_PIPE:
@@ -283,20 +290,26 @@ void print_tree(t_tree *root, int indent)
         case SUBSHELL:
             printf("SUBSHELL\n");
             print_tree(root->data.subshell.child, indent + 3);
-            for (int i = 0; i < indent; i++) putchar(' ');
-            for (int i = 0; i < root->data.subshell.n_redirs; i++) {
+            for (int i = 0; i < root->data.subshell.n_redirs; i++)
+            {
+                if(i == 0)
+                {
+                    for (int j = 0; j < indent + 3; j++) putchar(' ');
+                    printf("REDIRS:");
+                }
                 Redir *r = &root->data.subshell.redirs[i];
                 if(!r)
                     return;
-                for (int j = 0; j < indent + 3; j++) putchar(' ');
                 switch (r->type) {
-                    case OP_REDIR_IN:     printf("<  %s\n", r->file); break;
-                    case OP_REDIR_OUT:    printf(">  %s\n", r->file); break;
-                    case OP_APPEND: printf(">> %s\n", r->file); break;
-                    case OP_HEREDOC: printf(">> %s\n", r->file); break;
-                    default: break;
+                    case OP_REDIR_IN:     printf(" <%s", r->file); break;
+                    case OP_REDIR_OUT:    printf(" >%s", r->file); break;
+                    case OP_APPEND:       printf(" >>%s", r->file); break;
+                    case OP_HEREDOC:      printf(" >>%s", r->file); break;
+                    default: printf("Unknown redir type"); break;
                 }
             }
+            if(root->data.subshell.n_redirs)
+                printf("\n");
             break;
 
         default:
