@@ -12,9 +12,9 @@ void parse_error(const char *token)
     const char *prefix = "syntax error near unexpected token `";
     const char *suffix = "'\n";
 
-    write(2, prefix, strlen(prefix));
-    write(2, token, strlen(token));
-    write(2, suffix, strlen(suffix));
+    write(2, prefix, ft_strlen(prefix));
+    write(2, token, ft_strlen(token));
+    write(2, suffix, ft_strlen(suffix));
 }
 
 int count_redirs(t_list *tokens)

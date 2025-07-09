@@ -1,6 +1,7 @@
 # include "nsh.h"
 
 // redirections parse errors
+// <2
 //wtf ((ls | cat)<<d)
 
 bool parse_check(t_list *tokens)
