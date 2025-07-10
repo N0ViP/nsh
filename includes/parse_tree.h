@@ -9,7 +9,7 @@ typedef struct s_list		t_list;
 typedef struct s_list_info	t_list_info;
 typedef struct s_token		t_token;
 
-enum e_operator { //op??
+typedef enum e_operator {
 	WORD,
 	OP_OR,
 	OP_AND,
@@ -22,7 +22,7 @@ enum e_operator { //op??
 	OP_CLOSED_PARENTHESE,
 	SUBSHELL,
     COMMAND
-};
+} t_type;
 
 // typedef struct {
 //     const char  *string;
@@ -61,11 +61,18 @@ typedef struct s_tree {
     } data;
 } t_tree;
 
-
-
 t_tree  *parse_tokens(t_list *tokens);
-void    print_tree(t_tree *root, int indent);
 bool    parse_check(t_list *tokens);
 void    parse_error(const char *token);
+t_tree	*new_operator_branch(t_list *tokens, t_list *split);
+t_tree	*new_subshell_branch(t_list *tokens);
+t_tree  *new_command_branch(t_list *tokens);
+int     count_redirs(t_list *tokens);
+Redir   *extract_redirs(t_list **tokens, int n_redirs);
+void    *smalloc(size_t n);
+
+//printers to remove
+void    print_tokens(t_list *list);
+void    print_tree(t_tree *root, int indent);
 
 #endif

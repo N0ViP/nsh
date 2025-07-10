@@ -1,14 +1,28 @@
 CC		=	cc
-CFLAGS	=	#-Wall -Wextra -Werror -g
+CFLAGS	=	-Wall -Wextra -Werror -g
 LIB		=	-lreadline
 INCLUDE	=	./includes
-SOURCE	=	sources/nsh.c	utils/list_add_back.c	utils/ft_substr.c		\
-			stdfcts/ft_isspace.c	stdfcts/ft_strlen.c						\
-			utils/check_token.c	utils/ft_strchr.c							\
-			tokenization/free_token.c	utils/creat_node.c					\
-			tokenization/tokenization.c  utils/free_list.c					\
-			utils/skip_spaces.c												\
-			parser/parse_tree.c		parser/error_check.c
+SOURCE = \
+			sources/nsh.c \
+			utils/list_add_back.c \
+			utils/ft_substr.c \
+			stdfcts/ft_isspace.c \
+			stdfcts/ft_strlen.c \
+			utils/check_token.c \
+			utils/ft_strchr.c \
+			tokenization/free_token.c \
+			tokenization/tokenization.c \
+			utils/creat_node.c \
+			utils/free_list.c \
+			utils/skip_spaces.c \
+			utils/smalloc.c \
+			parser/parse_tree.c \
+			parser/error_check.c \
+			parser/extract_redirs.c \
+			parser/op_subsh.c \
+			parser/print_error.c \
+			parser/simple_cmd.c \
+			sources/printer_to_rm.c
 NAME	=	nsh
 OBJS	=	$(SOURCE:.c=.o)
 
