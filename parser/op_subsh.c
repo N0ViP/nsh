@@ -13,10 +13,14 @@ t_tree	*new_operator_branch(t_list *tokens, t_list *split)
 	node->type = ((t_token *)op_node->content)->type;
 	node->data.branch.left = parse_tokens(tokens);
     if(!(node->data.branch.left))
+	{
         return NULL;
+	}
 	node->data.branch.right = parse_tokens(right);
     if(!(node->data.branch.right))
+	{
         return NULL;//free left
+	}
 	return (node);
 }
 
