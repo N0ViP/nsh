@@ -45,7 +45,7 @@ t_tree	*parse_tokens(t_list *tokens)
 	split_point = find_split_point(tokens);
 	if (split_point)
 		return (new_operator_branch(tokens, split_point));
-	if (((t_token *)tokens->content)->type == OP_OPEN_PARENTHESE)
+	else if (((t_token *)tokens->content)->type == OP_OPEN_PARENTHESE)
 		return (new_subshell_branch(tokens));
 	return (new_command_branch(tokens));
 }

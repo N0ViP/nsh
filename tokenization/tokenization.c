@@ -6,7 +6,7 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 03:38:34 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/07/02 03:38:39 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/07/14 09:33:41 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	get_word_len(char *str)
 }
 
 static bool	creat_token(t_list_info *token_info, char *cmd,
-						enum e_operator operator, int j)
+						enum e_operator operator, int idx)
 {
 	t_list	*node;
 	t_token	*token;
@@ -53,19 +53,7 @@ static bool	creat_token(t_list_info *token_info, char *cmd,
 		return (false);
 	}
 	token->type = operator;
-	// token->value = NULL;
-	// if (operator == WORD)
-	// {
-	// 	token->value = ft_substr(cmd, 0, j);
-	// }
-	// node = creat_node(token);
-	// if ((!token->value && operator == WORD) || !node)
-	// {
-	// 	free(token->value);
-	// 	free(node);
-	// 	return (false);
-	// }
-	token->value = ft_substr(cmd, 0, j);
+	token->value = ft_substr(cmd, 0, idx);
 	node = creat_node(token);
 	if (!token->value || !node)
 	{
