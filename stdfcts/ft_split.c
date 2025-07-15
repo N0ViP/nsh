@@ -1,4 +1,4 @@
-#include "stdfcts.h"
+# include "stdfcts.h"
 
 int	count_words(const char *s, char c)
 {
@@ -13,19 +13,6 @@ int	count_words(const char *s, char c)
 			s++;
 	}
 	return count;
-}
-
-static char	*ft_strndup(const char *s, size_t n)
-{
-	char *dup = malloc(n + 1);
-	size_t i = 0;
-	while (i < n)
-	{
-		dup[i] = s[i];
-		i++;
-	}
-	dup[n] = '\0';
-	return dup;
 }
 
 static void	cleanup(char **result, int i)

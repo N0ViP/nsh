@@ -81,20 +81,40 @@ char	*find_path(char *cmd)
 	return (NULL);
 }
 
+static void not_found(char *str, char flag)
+{
+    write(STDERR_FILENO, "nsh: ", 5);
+    if(flag)
+    {
+        write(STDERR_FILENO, str, ft_strlen(str));
+        write(STDERR_FILENO, ": command not found", 19);
+        write(STDERR_FILENO, "\n", 1);
+    }
+    else
+        perror(str);
+    exit(127);
+}
+
 static void execute(t_tree *branch, char **envp)
 {
     char *exec_path;
     char **argv;
     
     setup_redirection(branch);
+    exec_path = NULL;
     argv = branch->data.cmd.args;
-    exec_path = find_path(argv[0]);
-    if (!exec_path)
+    if (ft_strchr(argv[0], '/'))
     {
-        write(STDERR_FILENO, "nsh: command not found: ", 24);
-        write(STDERR_FILENO, argv[0], ft_strlen(argv[0]));
-        write(STDERR_FILENO, "\n", 1);
-        exit(127);
+		if (access(argv[0], F_OK | X_OK) == 0)
+			exec_path = ft_strndup(argv[0], ft_strlen(argv[0]));
+        else
+            not_found(argv[0], 0);
+    }
+    else
+    {
+        exec_path = find_path(argv[0]);
+        if (!exec_path)
+            not_found(argv[0], 1);
     }
     execve(exec_path, argv, envp);
     exit_failure("execvp");

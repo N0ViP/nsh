@@ -20,6 +20,7 @@
 bool	ft_isspace(int c);
 size_t  ft_strlen(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strndup(const char *s, size_t n);
 char	**ft_split(const char *s, char c);
 
 #endif
