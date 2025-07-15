@@ -24,11 +24,6 @@ typedef enum e_operator {
     COMMAND
 } t_type;
 
-// typedef struct {
-//     const char  *string;
-//     int         start, end;
-// } t_slice;
-
 typedef struct {
     enum e_operator type;
     char *file;

@@ -22,16 +22,11 @@ static void heredoc(const char *delimiter)
     (void)delimiter;
 }
 
-
-static void setup_redirection(t_tree *branch)
+static void setup_redirection(t_redir *redir, int n_redirs)
 {
-    t_redir *redir;
-    int     n_redirs;
-    int     i;
+    int i;
 
     i = 0;
-    redir = branch->data.cmd.redirs;
-    n_redirs = branch->data.cmd.n_redirs;
     while(i < n_redirs)
     {
         if (redir[i].type == OP_REDIR_IN)
@@ -49,6 +44,29 @@ static void setup_redirection(t_tree *branch)
         i++;
     }
 }
+
+static void check_redirection(t_tree *branch)
+{
+    t_redir *redir;
+    int     n_redirs;
+
+    redir = NULL;
+    n_redirs = 0;
+    if(branch->type == COMMAND)
+    {
+        redir = branch->data.cmd.redirs;
+        n_redirs = branch->data.cmd.n_redirs;
+    }
+    else if(branch->type == SUBSHELL)
+    {
+        redir = branch->data.subshell.redirs;
+        n_redirs = branch->data.subshell.n_redirs;
+    }
+    if(!n_redirs)
+        return ;
+    setup_redirection(redir, n_redirs);
+}
+
 void    _free(char **str)
 {
 	char	**first;
@@ -61,6 +79,7 @@ void    _free(char **str)
 	}
 	free(first);
 }
+
 char	*find_path(char *cmd)
 {
 	int		i;
@@ -100,7 +119,7 @@ static void execute(t_tree *branch, char **envp)
     char *exec_path;
     char **argv;
     
-    setup_redirection(branch);
+    check_redirection(branch);
     exec_path = NULL;
     argv = branch->data.cmd.args;
     if (ft_strchr(argv[0], '/'))
@@ -135,26 +154,75 @@ static int execute_command(t_tree *branch, char **envp)
     return WEXITSTATUS(status);
 }
 
-int execute_subshell(t_tree *root, char **envp)
+int execute_subshell(t_tree *branch, char **envp)
 {
-    (void)root, (void)envp;
-    return (0);
+    pid_t pid;
+    int status;
+
+    pid = fork();
+    if (pid < 0)
+        exit_failure("fork");
+    if (pid == 0)
+    {
+        check_redirection(branch);
+        status = execute_tree(branch->data.subshell.child, envp);
+        exit(status);
+    }
+    waitpid(pid, &status, 0);
+    if (WIFEXITED(status))
+        return (WEXITSTATUS(status));
+    return (1);
 }
-int execute_operator_or(t_tree *root, char **envp)
+
+int execute_or_and(t_tree *branch, char **envp)
 {
-    (void)root, (void)envp;
-    return (0);
+    int left_status;
+
+    left_status = execute_tree(branch->data.branch.left, envp);
+    if ((branch->type == OP_AND && left_status == 0) ||
+        (branch->type == OP_OR  && left_status != 0))
+        return execute_tree(branch->data.branch.right, envp);
+    return left_status;
 }
-int execute_operator_and(t_tree *root, char **envp)
+
+int execute_pipeline(t_tree *branch, char **envp)
 {
-    (void)root, (void)envp;
-    return (0);
+    int pipefd[2];
+    pid_t left, right;
+    int status;
+
+    if (pipe(pipefd) < 0)
+        exit_failure("pipe");
+    left = fork();
+    if (left < 0) 
+        exit_failure("fork");
+    if (left == 0)
+    {
+        close(pipefd[0]);
+        dup2(pipefd[1], STDOUT_FILENO);
+        close(pipefd[1]);
+        exit(execute_tree(branch->data.branch.left, envp));
+    }
+    right = fork();
+    if (right < 0) 
+        exit_failure("fork");
+    if (right == 0)
+    {
+        close(pipefd[1]);
+        dup2(pipefd[0], STDIN_FILENO);
+        close(pipefd[0]);
+        exit(execute_tree(branch->data.branch.right, envp));
+    }
+    close(pipefd[0]);
+    close(pipefd[1]);
+    waitpid(left, NULL, 0);
+    waitpid(right, &status, 0);
+    if (WIFEXITED(status))
+        return (WEXITSTATUS(status));
+    return (1);
 }
-int execute_operator_pipe(t_tree *root, char **envp)
-{
-    (void)root, (void)envp;
-    return (0);
-}
+
+
 int execute_tree(t_tree *root, char **envp)
 {
     if (!root)
@@ -163,11 +231,9 @@ int execute_tree(t_tree *root, char **envp)
         return (execute_command(root, envp));
     else if (root->type == SUBSHELL)
         return (execute_subshell(root, envp));
-    else if (root->type == OP_OR)
-        return (execute_operator_or(root, envp));
-    else if (root->type == OP_AND)
-        return (execute_operator_and(root, envp));
     else if (root->type == OP_PIPE)
-        return (execute_operator_pipe(root, envp));
+        return (execute_pipeline(root, envp));
+    else if (root->type == OP_OR || root->type == OP_AND)
+        return (execute_or_and(root, envp));
     return (1);
 }
