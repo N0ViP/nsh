@@ -73,6 +73,7 @@ void    *smalloc(size_t n);
 
 //printers to remove
 void    print_tokens(t_list *list);
-void    print_tree(t_tree *root, int indent);
+void    tree_printer_00(t_tree *root, int indent);
+void    tree_printer_01(t_tree *node, const char *prefix, bool is_left, bool is_first);
 
 #endif

@@ -23,15 +23,16 @@ int	main(void)
 		if (cmd && *cmd)
 			add_history(cmd);
 		
-		printf("\n-------tokenize-------\n\n");
 		tokens = tokenize(cmd);
 		if (!tokens) continue;
+		printf("\n-------tokenize-------\n\n");
 		print_tokens(tokens->list);
 
-		printf("\n-------TREE-------\n\n");
 		if (!parse_check(tokens->list)) continue;
         t_tree *root = parse_tokens(tokens->list);
-        print_tree(root, 0);
+		printf("\n-------TREE-------\n\n");
+        // tree_printer_00(root, 0);
+        tree_printer_01(root, "", false, true);
 
 		free(cmd);
 	}
