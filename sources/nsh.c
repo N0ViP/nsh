@@ -12,11 +12,12 @@
 
 #include "nsh.h"
 
-int	main(void)
+int	main(int argc, char **argv, char**envp)
 {
 	t_list_info	*tokens;
 	char		*cmd;
 
+	(void)argc, (void)argv;
 	while (true)
 	{
 		cmd = readline("\e[32mnsh$\e[0m ");
@@ -30,9 +31,11 @@ int	main(void)
 
 		if (!parse_check(tokens->list)) continue;
         t_tree *root = parse_tokens(tokens->list);
-		printf("\n-------TREE-------\n\n");
-        // tree_printer_00(root, 0);
+		printf("\n---------TREE---------\n\n");
         tree_printer_01(root, "", false, true);
+
+		printf("\n-------EXECUTION-------\n\n");
+		execute_tree(root, envp);
 
 		free(cmd);
 	}

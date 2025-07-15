@@ -48,7 +48,7 @@ void tree_printer_00(t_tree *root, int indent)
                     for (int j = 0; j < indent; j++) putchar(' ');
                     printf("REDIRS:");
                 }
-                Redir *r = &root->data.cmd.redirs[i];
+                t_redir *r = &root->data.cmd.redirs[i];
                 if(!r)
                     return;
                 switch (r->type) {
@@ -91,7 +91,7 @@ void tree_printer_00(t_tree *root, int indent)
                     for (int j = 0; j < indent + 3; j++) putchar(' ');
                     printf("REDIRS:");
                 }
-                Redir *r = &root->data.subshell.redirs[i];
+                t_redir *r = &root->data.subshell.redirs[i];
                 if(!r)
                     return;
                 switch (r->type) {
@@ -120,7 +120,7 @@ void tree_printer_01(t_tree *node, const char *prefix, bool is_left, bool is_fir
 
     char label[512] = {0};
     int n = 0;
-    Redir *rd = NULL;
+    t_redir *rd = NULL;
 
     switch (node->type)
     {

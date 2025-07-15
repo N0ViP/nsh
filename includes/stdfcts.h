@@ -15,8 +15,11 @@
 
 # include <stdbool.h>
 # include <stddef.h>
+# include <stdlib.h>
 
 bool	ft_isspace(int c);
 size_t  ft_strlen(const char *s);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	**ft_split(const char *s, char c);
 
 #endif

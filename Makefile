@@ -8,6 +8,8 @@ SOURCE = \
 			utils/ft_substr.c \
 			stdfcts/ft_isspace.c \
 			stdfcts/ft_strlen.c \
+			stdfcts/ft_strjoin.c \
+			stdfcts/ft_split.c \
 			utils/check_token.c \
 			utils/ft_strchr.c \
 			tokenization/free_token.c \
@@ -22,6 +24,7 @@ SOURCE = \
 			parser/op_subsh.c \
 			parser/print_error.c \
 			parser/simple_cmd.c \
+			execution/execute.c \
 			sources/printer_to_rm.c
 NAME	=	nsh
 OBJS	=	$(SOURCE:.c=.o)

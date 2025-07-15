@@ -15,9 +15,11 @@
 
 # include "tokenization.h"
 # include "parse_tree.h"
+# include "execution.h"
 
 # include <stdio.h>
 # include <stdbool.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 

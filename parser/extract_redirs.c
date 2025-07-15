@@ -18,7 +18,7 @@ int count_redirs(t_list *tokens)
     return count;
 }
 
-static void recurse_redirs(t_list **cur, Redir *redirs, int i)
+static void recurse_redirs(t_list **cur, t_redir *redirs, int i)
 {
     t_token *tok;
     t_token *file_tok;
@@ -42,13 +42,13 @@ static void recurse_redirs(t_list **cur, Redir *redirs, int i)
     return (recurse_redirs(cur, redirs, i));
 }
 
-Redir *extract_redirs(t_list **tokens, int n_redirs)
+t_redir *extract_redirs(t_list **tokens, int n_redirs)
 {
-    Redir *redirs;
+    t_redir *redirs;
 
     if (!n_redirs)
         return (NULL);
-    redirs = smalloc(sizeof(Redir) * n_redirs);
+    redirs = smalloc(sizeof(t_redir) * n_redirs);
     recurse_redirs(tokens, redirs, 0);
     return (redirs);
 }

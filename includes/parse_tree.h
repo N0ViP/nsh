@@ -32,12 +32,12 @@ typedef enum e_operator {
 typedef struct {
     enum e_operator type;
     char *file;
-} Redir;
+} t_redir;
 
 typedef struct {
     char    **args;
     int     n_arg;
-    Redir   *redirs;
+    t_redir *redirs;
     int     n_redirs;
 } t_cmd;
 
@@ -48,7 +48,7 @@ typedef struct s_branch {
 
 typedef struct {
     struct s_tree *child;
-    Redir   *redirs;
+    t_redir   *redirs;
     int     n_redirs;
 } t_subshell;
 
@@ -68,7 +68,7 @@ t_tree	*new_operator_branch(t_list *tokens, t_list *split);
 t_tree	*new_subshell_branch(t_list *tokens);
 t_tree  *new_command_branch(t_list *tokens);
 int     count_redirs(t_list *tokens);
-Redir   *extract_redirs(t_list **tokens, int n_redirs);
+t_redir *extract_redirs(t_list **tokens, int n_redirs);
 void    *smalloc(size_t n);
 
 //printers to remove
