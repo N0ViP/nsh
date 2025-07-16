@@ -80,63 +80,107 @@ void    _free(char **str)
 	free(first);
 }
 
-char	*find_path(char *cmd)
+static void report_error(const char *cmd, t_err e)
 {
-	int		i;
-	char	**paths;
-	char	*cmd_path;
+    int code;
 
-	i = 0;
+    write(STDERR_FILENO, SHELL, ft_strlen(SHELL));
+    write(STDERR_FILENO, ": ", 2);
+    write(STDERR_FILENO, cmd, ft_strlen(cmd));
+
+    if (e == ERR_CMD_NOT_FOUND)
+        write(STDERR_FILENO, ": command not found\n", 20);
+    else if (e == ERR_NO_FILE)
+        write(STDERR_FILENO, ": No such file or directory\n", 28);
+    else if (e == ERR_DIR)
+        write(STDERR_FILENO, ": Is a directory\n", 17);
+    else if (e == ERR_PERM)
+        write(STDERR_FILENO, ": Permission denied\n", 20);
+
+    if(e == ERR_CMD_NOT_FOUND || e == ERR_NO_FILE)
+        code = 127;
+    else
+        code = 126;
+    exit(code);
+}
+static char	*check_slash_path(const char *cmd)
+{
+	struct stat	st;
+
+	if (stat(cmd, &st) < 0)
+		report_error(cmd, ERR_NO_FILE);
+	if (S_ISDIR(st.st_mode))
+		report_error(cmd, ERR_DIR);
+	if (access(cmd, X_OK) < 0)
+		report_error(cmd, ERR_PERM);
+	return (ft_strndup(cmd, ft_strlen(cmd)));
+}
+
+static char	*find_in_path(const char *cmd)
+{
+	struct stat	st;
+	t_err		err = ERR_CMD_NOT_FOUND;
+	char		**paths;
+	char		*p;
+	char		*candidate;
+	int			i;
+
 	paths = ft_split(getenv("PATH"), ':');
+	i = 0;
 	while (paths[i])
 	{
-		cmd_path = ft_strjoin(ft_strjoin(paths[i], "/"), cmd);
-		if (access(cmd_path, F_OK | X_OK) == 0)
-			return (cmd_path);
-		free(cmd_path);
+		p = ft_strjoin(paths[i], "/");
+		candidate = ft_strjoin(p, cmd);
+		free(p);
+
+		if (stat(candidate, &st) == 0)
+		{
+			if (S_ISDIR(st.st_mode))
+				err = ERR_DIR;
+			else if (access(candidate, X_OK) < 0)
+				err = ERR_PERM;
+			else
+				return (_free(paths), candidate);
+		}
+		free(candidate);
+		candidate = NULL;
 		i++;
 	}
-	_free(paths);
+	report_error(cmd, err);
 	return (NULL);
 }
 
-static void not_found(char *str, char flag)
+static char	*resolve_path(const char *cmd)
 {
-    write(STDERR_FILENO, "nsh: ", 5);
-    if(flag)
-    {
-        write(STDERR_FILENO, str, ft_strlen(str));
-        write(STDERR_FILENO, ": command not found", 19);
-        write(STDERR_FILENO, "\n", 1);
-    }
-    else
-        perror(str);
-    exit(127);
+	if (strchr(cmd, '/'))
+		return (check_slash_path(cmd));
+	else
+		return (find_in_path(cmd));
 }
 
-static void execute(t_tree *branch, char **envp)
+static void execute(t_tree *b, char **envp)
 {
-    char *exec_path;
-    char **argv;
-    
-    check_redirection(branch);
-    exec_path = NULL;
-    argv = branch->data.cmd.args;
-    if (ft_strchr(argv[0], '/'))
-    {
-		if (access(argv[0], F_OK | X_OK) == 0)
-			exec_path = ft_strndup(argv[0], ft_strlen(argv[0]));
-        else
-            not_found(argv[0], 0);
-    }
-    else
-    {
-        exec_path = find_path(argv[0]);
-        if (!exec_path)
-            not_found(argv[0], 1);
-    }
-    execve(exec_path, argv, envp);
-    exit_failure("execvp");
+    char    *path;
+    char   **argv;
+
+    check_redirection(b);
+    argv = b->data.cmd.args;
+    path = resolve_path(argv[0]);
+    execve(path, argv, envp);
+    // if (errno == ENOEXEC)
+    // {
+    //     int count = b->data.cmd.n_arg;
+    //     char *sh_argv[count + 2];
+    //     int  i = 0;
+    //     sh_argv[i++] = strdup("sh");
+    //     sh_argv[i++] = strdup(path);
+    //     while (argv[i - 1] != NULL && i < count + 1)
+    //         sh_argv[i] = argv[i - 1], ++i;
+    //     sh_argv[i] = NULL;
+    //     execve("/bin/sh", sh_argv, envp);
+    // }
+    perror(SHELL);
+    exit(EXIT_FAILURE);
 }
 
 static int execute_command(t_tree *branch, char **envp)

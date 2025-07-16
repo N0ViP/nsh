@@ -23,6 +23,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+#define SHELL "nsh"
+
 typedef struct s_list
 {
 	void			*content;
