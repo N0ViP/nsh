@@ -2,6 +2,8 @@
 
 void exit_failure(char *msg)
 {
+    write(STDERR_FILENO, SHELL, ft_strlen(SHELL));
+    write(STDERR_FILENO, ": ", 2);
     perror(msg);
     exit(EXIT_FAILURE);
 }
@@ -88,7 +90,7 @@ static void report_error(const char *cmd, t_state error)
     write(STDERR_FILENO, ": ", 2);
     write(STDERR_FILENO, cmd, ft_strlen(cmd));
     if (error == NOT_FOUND_ERROR)
-        write(STDERR_FILENO, ": command not found\n", 20);
+        write(STDERR_FILENO, ": Command not found\n", 20);
     else if (error == NO_FILE_ERROR)
         write(STDERR_FILENO, ": No such file or directory\n", 28);
     else if (error == IS_DIR_ERROR)
@@ -166,6 +168,7 @@ static char	*resolve_path(const char *cmd)
 {
 	t_state		state;
 	char		**paths;
+	char		*path_env;
 	char		*full_path;
 
 	if (ft_strchr(cmd, '/'))
@@ -175,9 +178,10 @@ static char	*resolve_path(const char *cmd)
 			return (ft_strndup(cmd, ft_strlen(cmd)));
 		report_error(cmd, state);
 	}
-	paths = ft_split(getenv("PATH"), ':');
-    if(!paths)
-        return (NULL);
+    path_env = getenv("PATH");
+    if(!path_env)
+        report_error(cmd, NO_FILE_ERROR);
+	paths = ft_split(path_env, ':');
 	full_path = find_in_path(cmd, paths, &state);
     _free(paths);
 	if (state != VALID_PATH)
@@ -206,8 +210,7 @@ static void execute(t_tree *b, char **envp)
     //     sh_argv[i] = NULL;
     //     execve("/bin/sh", sh_argv, envp);
     // }
-    perror(SHELL);
-    exit(EXIT_FAILURE);
+    exit_failure("execve");
 }
 
 static int execute_command(t_tree *branch, char **envp)
