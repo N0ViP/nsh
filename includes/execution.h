@@ -13,7 +13,7 @@ typedef enum
     NOT_FOUND_ERROR,
     NO_FILE_ERROR,
     IS_DIR_ERROR,
-    PERMITION_ERROR
+    PERMISSION_ERROR
 }   t_state;
 
 
