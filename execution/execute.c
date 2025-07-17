@@ -80,7 +80,7 @@ void    _free(char **str)
 	free(first);
 }
 
-static void report_error(const char *cmd, t_err e)
+static void report_error(const char *cmd, t_state error)
 {
     int code;
 
@@ -88,74 +88,92 @@ static void report_error(const char *cmd, t_err e)
     write(STDERR_FILENO, ": ", 2);
     write(STDERR_FILENO, cmd, ft_strlen(cmd));
 
-    if (e == ERR_CMD_NOT_FOUND)
+    if (error == NOT_FOUND_ERROR)
         write(STDERR_FILENO, ": command not found\n", 20);
-    else if (e == ERR_NO_FILE)
+    else if (error == NO_FILE_ERROR)
         write(STDERR_FILENO, ": No such file or directory\n", 28);
-    else if (e == ERR_DIR)
+    else if (error == IS_DIR_ERROR)
         write(STDERR_FILENO, ": Is a directory\n", 17);
-    else if (e == ERR_PERM)
-        write(STDERR_FILENO, ": Permission denied\n", 20);
+    else if (error == PERMITION_ERROR)
+        write(STDERR_FILENO, ": Permission denied\n", 20), free((void *)cmd);
 
-    if(e == ERR_CMD_NOT_FOUND || e == ERR_NO_FILE)
+    if(error == NOT_FOUND_ERROR || error == NO_FILE_ERROR)
         code = 127;
     else
         code = 126;
     exit(code);
 }
-static char	*check_slash_path(const char *cmd)
+
+static t_state path_validity(const char *cmd)
 {
 	struct stat	st;
 
 	if (stat(cmd, &st) < 0)
-		report_error(cmd, ERR_NO_FILE);
+		return (NO_FILE_ERROR);
 	if (S_ISDIR(st.st_mode))
-		report_error(cmd, ERR_DIR);
+		return (IS_DIR_ERROR);
 	if (access(cmd, X_OK) < 0)
-		report_error(cmd, ERR_PERM);
-	return (ft_strndup(cmd, ft_strlen(cmd)));
+		return (PERMITION_ERROR);
+	return (VALID_PATH);
 }
 
-static char	*find_in_path(const char *cmd)
+static char	*find_in_path(const char *cmd, char **paths)
 {
-	struct stat	st;
-	t_err		err = ERR_CMD_NOT_FOUND;
-	char		**paths;
-	char		*p;
-	char		*candidate;
+	char		*full_path;
+	char		*last_path;
+	char		*slash;
+	t_state		state;
+	t_state		error;
 	int			i;
 
-	paths = ft_split(getenv("PATH"), ':');
 	i = 0;
+    slash = NULL;
+    full_path = NULL;
+    last_path = NULL;
+    error = NOT_FOUND_ERROR;
 	while (paths[i])
 	{
-		p = ft_strjoin(paths[i], "/");
-		candidate = ft_strjoin(p, cmd);
-		free(p);
-
-		if (stat(candidate, &st) == 0)
-		{
-			if (S_ISDIR(st.st_mode))
-				err = ERR_DIR;
-			else if (access(candidate, X_OK) < 0)
-				err = ERR_PERM;
-			else
-				return (_free(paths), candidate);
-		}
-		free(candidate);
-		candidate = NULL;
+		slash = ft_strjoin(paths[i], "/");
+		full_path = ft_strjoin(slash, cmd);
+		free(slash);
+        state = path_validity(full_path);
+        if(state == VALID_PATH)
+            return (_free(paths), full_path);
+        else if(state == IS_DIR_ERROR || state == PERMITION_ERROR)
+        {
+            error = state;
+            if(state == PERMITION_ERROR)
+            {
+                free(last_path);
+                last_path = ft_strndup(full_path, ft_strlen(full_path)); 
+            }
+        }
+		free(full_path);
+		full_path = NULL;
 		i++;
 	}
-	report_error(cmd, err);
+    if(error == PERMITION_ERROR)
+	    report_error(last_path, error);
+    free(last_path);
+    report_error(cmd, error);
 	return (NULL);
 }
 
 static char	*resolve_path(const char *cmd)
 {
-	if (strchr(cmd, '/'))
-		return (check_slash_path(cmd));
-	else
-		return (find_in_path(cmd));
+    t_state		state;
+    char		**paths;
+
+	if (ft_strchr(cmd, '/'))
+    {
+        state = path_validity(cmd);
+        if(state == VALID_PATH)
+            return (ft_strndup(cmd, ft_strlen(cmd)));
+        else
+            return (report_error(cmd, state), NULL);
+    }
+    paths = ft_split(getenv("PATH"), ':');
+    return (find_in_path(cmd, paths));
 }
 
 static void execute(t_tree *b, char **envp)
