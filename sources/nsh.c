@@ -21,6 +21,8 @@ int	main(int argc, char **argv, char**envp)
 	while (true)
 	{
 		cmd = readline("\e[32mnsh$\e[0m ");
+		if(!cmd)
+			exit(0);
 		if (cmd && *cmd)
 			add_history(cmd);
 		

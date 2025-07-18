@@ -1,5 +1,5 @@
 # include "nsh.h"
-
+//<2
 void exit_failure(char *msg)
 {
     write(STDERR_FILENO, SHELL, ft_strlen(SHELL));
@@ -96,11 +96,23 @@ static void report_error(const char *cmd, t_state error)
     else if (error == IS_DIR_ERROR)
         write(STDERR_FILENO, ": Is a directory\n", 17);
     else if (error == PERMISSION_ERROR)
-        write(STDERR_FILENO, ": Permission denied\n", 20), free((void *)cmd);
+        write(STDERR_FILENO, ": Permission denied\n", 20);//, free((void *)cmd)
+    else if (error == STAT_ERROR)
+        perror(cmd);
     code = 126;
     if(error == NOT_FOUND_ERROR || error == NO_FILE_ERROR)
         code = 127;
     exit(code);
+}
+
+static t_state stat_error(void)
+{
+    if (errno == ENOENT)
+        return (NO_FILE_ERROR);
+    else if (errno == EACCES)//should it return err
+        return (PERMISSION_ERROR);
+    else
+        return (STAT_ERROR);
 }
 
 static t_state path_validity(const char *cmd)
@@ -108,7 +120,7 @@ static t_state path_validity(const char *cmd)
 	struct stat	st;
 
 	if (stat(cmd, &st) < 0)
-		return (NO_FILE_ERROR);
+		return (stat_error());
 	if (S_ISDIR(st.st_mode))
 		return (IS_DIR_ERROR);
 	if (access(cmd, X_OK) < 0)
@@ -149,9 +161,9 @@ static char	*find_in_path(const char *cmd, char **paths, t_state *state)
 	{
         full_path = get_path(cmd ,paths[i]);
 		*state = path_validity(full_path);
-		if (*state == VALID_PATH)
+		if (*state == VALID_PATH)//first that works 
 		    return (full_path);
-		if (*state != NO_FILE_ERROR)
+		if (*state != NO_FILE_ERROR)//last err
 			error = update_error(*state, &err_path, full_path);
         if(full_path == err_path)
             continue;
@@ -189,27 +201,38 @@ static char	*resolve_path(const char *cmd)
 	return (full_path);
 }
 
-static void execute(t_tree *b, char **envp)
+static void	sh_check(t_tree *branch, char *path, char **envp)
+{
+	int		i;
+	int		count;
+	char	**argv;
+	char	**sh_argv;
+
+	if (ENOEXEC != errno)
+		return ;
+	i = -1;
+	count = branch->data.cmd.n_arg;
+	argv = branch->data.cmd.args;
+	sh_argv = smalloc(count + 2 * sizeof(char *));
+	sh_argv[++i] = ft_strndup("sh", 2);
+	sh_argv[++i] = path;
+	while (++i < count)
+		sh_argv[i] = argv[i - 1];
+	sh_argv[i] = NULL;
+	execve("/bin/sh", sh_argv, envp);
+}
+
+
+static void execute(t_tree *branch, char **envp)
 {
     char    *path;
     char   **argv;
 
-    check_redirection(b);
-    argv = b->data.cmd.args;
+    check_redirection(branch);
+    argv = branch->data.cmd.args;
     path = resolve_path(argv[0]);
     execve(path, argv, envp);
-    // if (errno == ENOEXEC)
-    // {
-    //     int count = b->data.cmd.n_arg;
-    //     char *sh_argv[count + 2];
-    //     int  i = 0;
-    //     sh_argv[i++] = strdup("sh");
-    //     sh_argv[i++] = strdup(path);
-    //     while (argv[i - 1] != NULL && i < count + 1)
-    //         sh_argv[i] = argv[i - 1], ++i;
-    //     sh_argv[i] = NULL;
-    //     execve("/bin/sh", sh_argv, envp);
-    // }
+    sh_check(branch, path, envp);
     exit_failure("execve");
 }
 
