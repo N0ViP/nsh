@@ -19,6 +19,7 @@
 typedef struct s_list		t_list;
 typedef struct s_list_info	t_list_info;
 
+void            _free(char **str);
 enum e_operator	check_token(char *token);
 t_list			*creat_node(void *content);
 int				skip_spaces(char *str, int i);

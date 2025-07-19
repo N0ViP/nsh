@@ -1,16 +1,22 @@
 # include "nsh.h"
 
+static int	op_priority(t_type type)
+{
+	if (type == OP_PIPE)
+		return (1);
+	return (0);
+}
+
 static bool	is_split_point(t_list *split_point, t_type curr_type)
 {
-    t_type	last_type;
+	t_type	last_type;
 
-    if (!split_point)
-        return (true);
-    last_type = ((t_token *)split_point->next->content)->type;
-    if (curr_type <= last_type)
-        return (true);
-    return (false);
+	if (!split_point)
+		return (true);
+	last_type = ((t_token *)split_point->next->content)->type;
+	return (op_priority(curr_type) <= op_priority(last_type));
 }
+
 static t_list	*find_split_point(t_list *tokens)
 {
 	t_list	*split_point;

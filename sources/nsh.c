@@ -23,7 +23,7 @@ int	main(int argc, char **argv, char**envp)
 		cmd = readline("\e[32mnsh$\e[0m ");
 		if(!cmd)
 			exit(0);
-		if (cmd && *cmd)
+		if (*cmd)
 			add_history(cmd);
 		
 		tokens = tokenize(cmd);
