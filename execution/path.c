@@ -78,9 +78,11 @@ char	*resolve_path(const char *cmd)
 		report_error(cmd, state);
 	}
     path_env = getenv("PATH");
-    if(!path_env)
-        report_error(cmd, NO_FILE_ERROR);
 	paths = ft_split(path_env, ':');
+    if(!paths)
+	{
+        report_error(cmd, NO_FILE_ERROR);
+	}
 	full_path = find_in_path(cmd, paths, &state);
     _free(paths);
 	if (state != VALID_PATH)

@@ -6,9 +6,6 @@ void *smalloc(size_t n)
 
     pointer = malloc(n);
     if (!pointer)
-    {
-        perror("malloc");
-        exit(EXIT_FAILURE); 
-    }
+        exit_failure("malloc");
     return pointer;
 }
