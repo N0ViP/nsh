@@ -23,7 +23,7 @@ static bool	check_close_paren(t_list *tokens, t_token *prev, int *depth)
 	t_token *curr;
 	t_token *next;
 
-    curr = (t_token *)tokens->content;
+	curr = (t_token *)tokens->content;
 	if (*depth == 0)
 		return (parse_error(curr->value), false);
 	if (tokens->next)
@@ -43,7 +43,7 @@ static bool	check_ops_and_redirs(t_list *tokens, t_token *prev)
 {
 	t_token *curr;
 
-    curr = (t_token *)tokens->content;
+	curr = (t_token *)tokens->content;
 	if (curr->type >= OP_OR && curr->type <= OP_PIPE)
 	{
 		if (!prev
@@ -63,7 +63,7 @@ static bool	process_token(t_list *tokens, t_token *prev, int *depth)
 {
 	t_type curr_type;
 
-    curr_type = ((t_token *)tokens->content)->type;
+	curr_type = ((t_token *)tokens->content)->type;
 	if (curr_type == OP_OPEN_PARENTHESE)
 	{
 		(*depth)++;
@@ -85,13 +85,11 @@ static bool	process_token(t_list *tokens, t_token *prev, int *depth)
 
 bool	parse_check(t_list *tokens)
 {
-	t_token *prev;
-	int     depth;
+	t_token	*prev;
+	int		depth;
 
-    depth = 0;
-    prev = NULL;
-	if (!tokens)
-		return (false);
+	depth = 0;
+	prev = NULL;
 	while (tokens)
 	{
 		if (!process_token(tokens, prev, &depth))
