@@ -21,7 +21,7 @@ typedef enum e_operator {
 	OP_OPEN_PARENTHESE,
 	OP_CLOSED_PARENTHESE,
 	SUBSHELL,
-    COMMAND
+	COMMAND
 } t_type;
 
 typedef struct {

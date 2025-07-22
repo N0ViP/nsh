@@ -1,5 +1,5 @@
 # include "nsh.h"
-// <2
+
 static bool	check_open_paren(t_list *tokens, t_token *prev)
 {
 	t_token *next;
@@ -12,16 +12,15 @@ static bool	check_open_paren(t_list *tokens, t_token *prev)
 	 && !(prev->type >= OP_OR && prev->type <= OP_PIPE))
 		return (parse_error("("), false);
 	if ((next->type >= OP_OR && next->type <= OP_REDIR_IN)
-	 || next->type == OP_CLOSED_PARENTHESE
-	 || (prev && prev->type == WORD))
+	 || next->type == OP_CLOSED_PARENTHESE)
 		return (parse_error(next->value), false);
 	return (true);
 }
 
 static bool	check_close_paren(t_list *tokens, t_token *prev, int *depth)
 {
-	t_token *curr;
-	t_token *next;
+	t_token	*curr;
+	t_token	*next;
 
 	curr = (t_token *)tokens->content;
 	if (*depth == 0)
@@ -29,11 +28,11 @@ static bool	check_close_paren(t_list *tokens, t_token *prev, int *depth)
 	if (tokens->next)
 	{
 		next = (t_token *)tokens->next->content;
-		if (!( (next->type >= OP_OR && next->type <= OP_REDIR_IN)
-		 || next->type == OP_CLOSED_PARENTHESE ))//&&
+		if (!((next->type >= OP_OR && next->type <= OP_REDIR_IN)
+		 || next->type == OP_CLOSED_PARENTHESE))
 			return (parse_error(next->value), false);
 	}
-	if (!prev || (prev->type >= OP_OR && prev->type <= OP_REDIR_IN))
+	if (prev->type >= OP_OR && prev->type <= OP_REDIR_IN)
 		return (parse_error(curr->value), false);
 	(*depth)--;
 	return (true);
