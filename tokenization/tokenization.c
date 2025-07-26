@@ -6,7 +6,7 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 03:38:34 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/07/14 09:33:41 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/07/26 08:35:51 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,37 +79,20 @@ static int	extract_token_and_type(t_list_info *token_info, char *cmd)
 		j = get_word_len(cmd);
 		if (j == -1)
 		{
-			return (-1);
+			return (free(cmd), free_list(&token_info, free_token),
+				write(2, "unclosed quotes\n", 16),-1);
 		}
 	}
 	else if (operator == OP_OR || operator == OP_AND
 		|| operator == OP_APPEND || operator == OP_HEREDOC)
-	{
 		j = 2;
-	}
 	if (!creat_token(token_info, cmd, operator, j))
 	{
 		free(cmd);
 		free_list(&token_info, free_token);
-		exit (1);
+		exit (EXIT_FAILURE);
 	}
 	return (j);
-}
-
-static t_list_info	*init_tokens_struct(char *cmd)
-{
-	t_list_info	*token_info;
-
-	token_info = malloc(sizeof(t_list_info));
-	if (!token_info)
-	{
-		free(cmd);
-		exit(1);
-	}
-	token_info->list = NULL;
-	token_info->size = 0;
-	token_info->tail = NULL;
-	return (token_info);
 }
 
 t_list_info	*tokenize(char *cmd)
@@ -121,20 +104,18 @@ t_list_info	*tokenize(char *cmd)
 	i = 0;
 	i += skip_spaces(cmd, i);
 	if (!cmd[i])
-	{
 		return (NULL);
+	token_info = init_list_info_struct();
+	if (!token_info)
+	{
+		free(cmd);
+		exit(EXIT_FAILURE);
 	}
-	token_info = init_tokens_struct(cmd);
 	while (cmd[i])
 	{
 		j = extract_token_and_type(token_info, cmd + i);
 		if (j == -1)
-		{
-			free(cmd);
-			free_list(&token_info, free_token);
-			write(2, "unclosed quotes\n", 16);
 			return (NULL);
-		}
 		i += j;
 		i += skip_spaces(cmd, i);
 	}
