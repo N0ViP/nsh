@@ -6,38 +6,67 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 02:42:03 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/07/26 08:48:51 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/07/26 15:28:37 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "nsh.h"
 
-size_t	get_normal_word(char *str)
+int	*get_normal_word(char *str,t_list_info *value)
 {
-	size_t	i;
+	int		n;
+	char	*word;
+	t_list	*node;
 
-	i = 0;
-	while (str[i] != '\0' && str[i] != '\''
-		&& str[i] != '"' && str[i] != '$')
+	n = 0;
+	while (str[n] != '\0' && str[n] != '\''
+		&& str[n] != '"' && str[n] != '$')
 	{
-		i++;
+		n++;
 	}
-	return (i);
+	if (n != 0)
+	{
+		word = ft_substr(str, 0, n);
+		node = creat_node(word);
+		if (!word || !value || !node)
+		{
+			free(word);
+			free(value);
+			return (-1);
+		}
+		list_add_back(value, node);
+	}
+	return (n);
 }
 
-int	expander(char *str, t_list_info *expand)
+t_list_info	*expander(char *str, t_list_info *expand)
 {
-	size_t		i;
-	size_t		n;
-	t_list_info	value;
+	t_list_info	*value;
+	int			n;
 
-	i = 0;
-	while (str[i])
+	value = init_list_info_struct();
+	if (!value)
+		return (NULL);
+	while (*str)
 	{
-		n = get_normal_word(str + i);
-		
-		
+		n = get_normal_word(str, value);
+		if (n == -1)
+			return (NULL);
+		str += n;
+		n = get_single_quote_word(str, value);
+		if (n == -1)
+			return (NULL);
+		str += n;
+		n = get_double_quote_word(str, value);
+		if (n == -1)
+			return (NULL);
+		str += n;
+		n = get_dollar_word(str, value);
+		if (n == -1)
+			return (NULL);
+		str += n;
 	}
+	return (value);
 }
 
 char **expansion(t_list *lst)
