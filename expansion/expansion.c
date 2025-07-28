@@ -6,7 +6,7 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 02:42:03 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/07/28 09:44:08 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/07/28 18:43:20 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ int	get_normal_word(char *str, t_list_info *value)
 
 	n = 0;
 	while (str[n] != '\0' && str[n] != '\''
-		&& str[n] != '"' && str[n] != '$')
+		&& str[n] != '"'
+		&& (str[n] != '$' || (str[n] == '$' && 
+ 			(str[n + 1] == '\0' || str[n + 1] == '$'))))
 	{
 		n++;
 	}
@@ -75,12 +77,17 @@ int	get_dollar_word(char *str, t_list_info *value)
 	t_list	*list;
 
 	n = 1;
-	if (*str != '$')
+	if (str[0] != '$' || (str[0] == '$' && (str[1] == '\0' || str[1] == '$')))
 		return (0);
-	while (str[1])
+	while (str[n] != '\0' && (ft_isalpha(str[n]) || ft_isnum(str[n]) || str[n] == '_'))
 	{
-		`
+		n++;
+		if (ft_isnum(str[n]))
+		{
+			break ;
+		}
 	}
+	
 }
 
 t_list_info	*expander(char *str, t_list_info *expand)
