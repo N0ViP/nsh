@@ -16,6 +16,8 @@
 		"tuple": "c",
 		"type_traits": "c",
 		"utility": "c",
-		"limits.h": "c"
+		"limits.h": "c",
+		"execution.h": "c",
+		"fcntl.h": "c"
 	}
 }

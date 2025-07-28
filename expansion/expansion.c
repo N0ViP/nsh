@@ -6,13 +6,13 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 02:42:03 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/07/26 15:28:37 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/07/28 09:44:08 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "nsh.h"
 
-int	*get_normal_word(char *str,t_list_info *value)
+int	get_normal_word(char *str, t_list_info *value)
 {
 	int		n;
 	char	*word;
@@ -28,7 +28,7 @@ int	*get_normal_word(char *str,t_list_info *value)
 	{
 		word = ft_substr(str, 0, n);
 		node = creat_node(word);
-		if (!word || !value || !node)
+		if (!word || !node)
 		{
 			free(word);
 			free(value);
@@ -37,6 +37,50 @@ int	*get_normal_word(char *str,t_list_info *value)
 		list_add_back(value, node);
 	}
 	return (n);
+}
+
+int	get_single_quote_word(char *str, t_list_info *value)
+{
+	int		n;
+	char	*word;
+	t_list	*node;
+
+	n = 1;
+	if (*str != '\'')
+		return (0);
+	while (str[n] != '\0' && str[n] != '\'')
+	{
+		n++;
+	}
+	word = ft_substr(str, 1, n);
+	node = creat_node(word);
+	if (!word || !node)
+	{
+		free(word);
+		free(value);
+		return (-1);
+	}
+	list_add_back(value, node);
+	return (n + 1);
+}
+
+int	get_double_quote_word(char *str, t_list_info *value)
+{
+	int	n;
+}
+
+int	get_dollar_word(char *str, t_list_info *value)
+{
+	int		n;
+	t_list	*list;
+
+	n = 1;
+	if (*str != '$')
+		return (0);
+	while (str[1])
+	{
+		`
+	}
 }
 
 t_list_info	*expander(char *str, t_list_info *expand)
