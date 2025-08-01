@@ -6,7 +6,7 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 02:42:03 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/01 06:58:00 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/01 14:18:31 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ size_t	get_normal_word(char *str, t_list_info *value)
 	n = 0;
 	while (str[n] != '\0' && str[n] != '\''
 		&& str[n] != '"' && (str[n] != '$'
-			|| !ft_isalnum(str[n + 1]) || str[n + 1] != '_'))
+			|| !ft_isalpha(str[n + 1]) || str[n + 1] != '_'))
 	{
 		n++;
 	}
