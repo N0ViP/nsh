@@ -6,7 +6,7 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 02:42:03 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/01 05:50:09 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/01 06:23:35 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,23 +78,24 @@ size_t	get_dollar_word(char *str, t_list_info *value)
 	char	*val;
 
 	n = 1;
-	if (str[0] != '$' || (str[0] == '$' && (str[1] == '\0' || str[1] == '$')))
+	if (str[0] != '$' || str[1] == '\0' || str[1] == '$')
 		return (0);
-	while (str[n] != '\0' && (ft_isalnum(str[n]) || str[n] == '_'))
+	if (ft_isdigit(str[n]))
 	{
 		n++;
-		if (ft_isdigit(str[n]))
+	}
+	else
+	{
+		while (str[n] != '\0' && (ft_isalnum(str[n]) || str[n] == '_'))
 		{
-			break ;
+			n++;
 		}
 	}
 	key = ft_substr(str, 1, n);
 	val = get_var_value(key);
 	free(key);
 	if (val)
-	{
 		handle_val(value, val);
-	}
 	return (n);
 }
 
