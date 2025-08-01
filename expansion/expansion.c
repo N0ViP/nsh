@@ -6,7 +6,7 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 02:42:03 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/01 06:23:35 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/01 06:28:47 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,15 +87,16 @@ size_t	get_dollar_word(char *str, t_list_info *value)
 	else
 	{
 		while (str[n] != '\0' && (ft_isalnum(str[n]) || str[n] == '_'))
-		{
 			n++;
-		}
 	}
-	key = ft_substr(str, 1, n);
-	val = get_var_value(key);
-	free(key);
-	if (val)
-		handle_val(value, val);
+	if (n != 1)
+	{
+		key = ft_substr(str, 1, n);
+		val = get_var_value(key);
+		free(key);
+		if (val)
+			handle_val(value, val);
+	}
 	return (n);
 }
 
