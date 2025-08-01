@@ -6,7 +6,7 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 02:42:03 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/01 06:47:43 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/01 06:58:00 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@ size_t	get_normal_word(char *str, t_list_info *value)
 
 	n = 0;
 	while (str[n] != '\0' && str[n] != '\''
-		&& str[n] != '"'
-		&& (str[n] != '$' || (str[n] == '$' && 
- 			(str[n + 1] == '\0' || str[n + 1] == '$'))))
+		&& str[n] != '"' && (str[n] != '$'
+			|| !ft_isalnum(str[n + 1]) || str[n + 1] != '_'))
 	{
 		n++;
 	}
@@ -71,18 +70,6 @@ void	handle_val(t_list_info *value, char *val)
 	list_add_back(value, node);
 }
 
-void	add_dollar(t_list_info *value)
-{
-	t_list	*node;
-	char	*word;
-
-	word = malloc(2);
-	word[0] = '$';
-	word[1] = '\0';
-	node = creat_node(word);
-	list_add_back(value, node);
-}
-
 void	get_add_dollar_expand(t_list_info *value, char *str, int i, int j)
 {
 	char	*key;
@@ -116,10 +103,6 @@ size_t	get_dollar_word(char *str, t_list_info *value)
 	if (n != 1)
 	{
 		get_add_dollar_expand(value, str, 1, n);
-	}
-	else
-	{
-		add_dollar(value);
 	}
 	return (n);
 }
