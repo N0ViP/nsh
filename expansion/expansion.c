@@ -6,7 +6,7 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 02:42:03 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/01 04:21:54 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/01 04:36:51 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,9 @@ void	handle_val(t_list_info *value, char *val)
 {
 	char	**splited_val;
 	
-	splited_val = ft_split()
+	splited_val = ft_split(val, " \t\n");
+	free(val);
+	val = ft_strjoin()
 }
 
 size_t	get_dollar_word(char *str, t_list_info *value)

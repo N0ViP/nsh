@@ -25,13 +25,14 @@ static t_state update_error(t_state state, char **err_path, char *full_path)
 
 static char	*get_path(const char *cmd, char *path)
 {
-    char    *slash;
-    char	*full_path;
+	char	*full_path;
+	char	*arr[3];
 
-    slash = ft_strjoin(path, "/");
-    full_path = ft_strjoin(slash, cmd);
-    free(slash);
-    return (full_path);
+	arr[0] = path;
+	arr[1] = cmd;
+	arr[2] = NULL;
+	full_path = ft_strjoin(arr, "/");
+	return (full_path);
 }
 
 static char	*find_in_path(const char *cmd, char **paths, t_state *state)
