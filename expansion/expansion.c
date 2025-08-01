@@ -6,7 +6,7 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 02:42:03 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/01 04:36:51 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/01 05:50:09 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,6 @@ size_t	get_single_quote_word(char *str, t_list_info *value)
 	}
 	word = ft_substr(str, 1, n);
 	node = creat_node(word);
-	if (!word || !node)
-	{
-		free(word);
-		free(value);
-	}
 	list_add_back(value, node);
 	return (n + 1);
 }
@@ -67,10 +62,13 @@ int	get_double_quote_word(char *str, t_list_info *value)
 void	handle_val(t_list_info *value, char *val)
 {
 	char	**splited_val;
+	t_list	*node;
 	
 	splited_val = ft_split(val, " \t\n");
 	free(val);
-	val = ft_strjoin()
+	val = ft_strjoin(splited_val, " ");
+	node = creat_node(val);
+	list_add_back(value, node);
 }
 
 size_t	get_dollar_word(char *str, t_list_info *value)
@@ -78,7 +76,6 @@ size_t	get_dollar_word(char *str, t_list_info *value)
 	int		n;
 	char	*key;
 	char	*val;
-	t_list	*list;
 
 	n = 1;
 	if (str[0] != '$' || (str[0] == '$' && (str[1] == '\0' || str[1] == '$')))
