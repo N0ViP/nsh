@@ -6,15 +6,15 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 02:42:03 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/07/28 18:43:20 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/01 04:21:54 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "nsh.h"
+# include "expansion.h"
 
-int	get_normal_word(char *str, t_list_info *value)
+size_t	get_normal_word(char *str, t_list_info *value)
 {
-	int		n;
+	size_t	n;
 	char	*word;
 	t_list	*node;
 
@@ -30,20 +30,14 @@ int	get_normal_word(char *str, t_list_info *value)
 	{
 		word = ft_substr(str, 0, n);
 		node = creat_node(word);
-		if (!word || !node)
-		{
-			free(word);
-			free(value);
-			return (-1);
-		}
 		list_add_back(value, node);
 	}
 	return (n);
 }
 
-int	get_single_quote_word(char *str, t_list_info *value)
+size_t	get_single_quote_word(char *str, t_list_info *value)
 {
-	int		n;
+	size_t	n;
 	char	*word;
 	t_list	*node;
 
@@ -60,7 +54,6 @@ int	get_single_quote_word(char *str, t_list_info *value)
 	{
 		free(word);
 		free(value);
-		return (-1);
 	}
 	list_add_back(value, node);
 	return (n + 1);
@@ -71,29 +64,45 @@ int	get_double_quote_word(char *str, t_list_info *value)
 	int	n;
 }
 
-int	get_dollar_word(char *str, t_list_info *value)
+void	handle_val(t_list_info *value, char *val)
+{
+	char	**splited_val;
+	
+	splited_val = ft_split()
+}
+
+size_t	get_dollar_word(char *str, t_list_info *value)
 {
 	int		n;
+	char	*key;
+	char	*val;
 	t_list	*list;
 
 	n = 1;
 	if (str[0] != '$' || (str[0] == '$' && (str[1] == '\0' || str[1] == '$')))
 		return (0);
-	while (str[n] != '\0' && (ft_isalpha(str[n]) || ft_isnum(str[n]) || str[n] == '_'))
+	while (str[n] != '\0' && (ft_isalnum(str[n]) || str[n] == '_'))
 	{
 		n++;
-		if (ft_isnum(str[n]))
+		if (ft_isdigit(str[n]))
 		{
 			break ;
 		}
 	}
-	
+	key = ft_substr(str, 1, n);
+	val = get_var_value(key);
+	free(key);
+	if (val)
+	{
+		handle_val(value, val);
+	}
+	return (n);
 }
 
 t_list_info	*expander(char *str, t_list_info *expand)
 {
 	t_list_info	*value;
-	int			n;
+	size_t		n;
 
 	value = init_list_info_struct();
 	if (!value)
@@ -101,20 +110,12 @@ t_list_info	*expander(char *str, t_list_info *expand)
 	while (*str)
 	{
 		n = get_normal_word(str, value);
-		if (n == -1)
-			return (NULL);
 		str += n;
 		n = get_single_quote_word(str, value);
-		if (n == -1)
-			return (NULL);
 		str += n;
 		n = get_double_quote_word(str, value);
-		if (n == -1)
-			return (NULL);
 		str += n;
 		n = get_dollar_word(str, value);
-		if (n == -1)
-			return (NULL);
 		str += n;
 	}
 	return (value);

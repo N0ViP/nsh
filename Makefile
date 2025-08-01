@@ -22,7 +22,8 @@ STDFCTS_SRC = \
     stdfcts/ft_strndup.c \
     stdfcts/ft_split.c \
 	stdfcts/ft_strchr.c \
-	stdfcts/ft_substr.c
+	stdfcts/ft_substr.c \
+    stdfcts/ft_strcmp.c
 
 TOKEN_SRC = \
     tokenization/free_token.c \

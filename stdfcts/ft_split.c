@@ -1,15 +1,15 @@
 # include "stdfcts.h"
 
-int	count_words(const char *s, char c)
+int	count_words(const char *s, const char *sep)
 {
 	int count = 0;
 	while (*s)
 	{
-		while (*s == c)
+		while (ft_strchr(sep, *s))
 			s++;
 		if (*s)
 			count++;
-		while (*s && *s != c)
+		while (*s && !ft_strchr(sep, *s))
 			s++;
 	}
 	return count;
@@ -22,21 +22,21 @@ static void	cleanup(char **result, int i)
 	free(result);
 }
 
-char	**ft_split(const char *s, char c)
+char	**ft_split(const char *s, const char *sep)
 {
 	if (!s)
 		return NULL;
-	int word_count = count_words(s, c);
+	int word_count = count_words(s, sep);
 	char **result = malloc((word_count + 1) * sizeof(char *));
 	if (!result)
 		return NULL;
 	int i = 0;
 	while (*s && i < word_count)
 	{
-		while (*s == c)
+		while (ft_strchr(sep, *s))
 			s++;
 		int word_len = 0;
-		while (s[word_len] && s[word_len] != c)
+		while (s[word_len] && !ft_strchr(sep, s[word_len]))
 			word_len++;
 		result[i] = ft_strndup(s, word_len);
 		if (!result[i])

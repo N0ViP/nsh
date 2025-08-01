@@ -78,7 +78,7 @@ char	*resolve_path(const char *cmd)
 		report_error(cmd, state);
 	}
     path_env = getenv("PATH");
-	paths = ft_split(path_env, ':');
+	paths = ft_split(path_env, ":");
     if(!paths)
 	{
         report_error(cmd, NO_FILE_ERROR);
