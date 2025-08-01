@@ -6,7 +6,7 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 02:42:03 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/01 06:28:47 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/01 06:47:43 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,31 +71,55 @@ void	handle_val(t_list_info *value, char *val)
 	list_add_back(value, node);
 }
 
-size_t	get_dollar_word(char *str, t_list_info *value)
+void	add_dollar(t_list_info *value)
 {
-	int		n;
+	t_list	*node;
+	char	*word;
+
+	word = malloc(2);
+	word[0] = '$';
+	word[1] = '\0';
+	node = creat_node(word);
+	list_add_back(value, node);
+}
+
+void	get_add_dollar_expand(t_list_info *value, char *str, int i, int j)
+{
 	char	*key;
 	char	*val;
 
+	key = ft_substr(str, i, j);
+	val = get_var_value(key);
+	free(key);
+	if (val)
+	{
+		handle_val(value, val);
+	}
+}
+
+size_t	get_dollar_word(char *str, t_list_info *value)
+{
+	size_t		n;
+
 	n = 1;
 	if (str[0] != '$' || str[1] == '\0' || str[1] == '$')
+	{
 		return (0);
+	}
 	if (ft_isdigit(str[n]))
 	{
-		n++;
-	}
-	else
-	{
 		while (str[n] != '\0' && (ft_isalnum(str[n]) || str[n] == '_'))
+		{
 			n++;
+		}
 	}
 	if (n != 1)
 	{
-		key = ft_substr(str, 1, n);
-		val = get_var_value(key);
-		free(key);
-		if (val)
-			handle_val(value, val);
+		get_add_dollar_expand(value, str, 1, n);
+	}
+	else
+	{
+		add_dollar(value);
 	}
 	return (n);
 }
