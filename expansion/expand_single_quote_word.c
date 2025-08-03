@@ -13,8 +13,11 @@ size_t	expand_single_quote_word(char *str, t_list_info *value)
 	{
 		n++;
 	}
-	word = ft_substr(str, 1, n);
-	node = creat_node(word);
-	list_add_back(value, node);
+	if (n != 1)
+	{
+		word = ft_substr(str, 1, n);
+		node = creat_node(word);
+		list_add_back(value, node);
+	}
 	return (n + 1);
 }

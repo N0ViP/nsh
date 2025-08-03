@@ -22,15 +22,14 @@ size_t	expand_regular_word(char *str, t_list_info *value)
 
 	n = 0;
 	wildcard = false;
-	while (str[n] != '\0' && str[n] != '\''
-		&& str[n] != '"' && (str[n] != '$'
-			|| !ft_isalpha(str[n + 1]) || str[n + 1] != '_'))
+	while (str[n] != '\0' && str[n] != '\'' && str[n] != '"'
+		&& (str[n] != '$' || !ft_isalpha(str[n + 1]) || str[n + 1] != '_'))
 	{
-		n++;
 		if (str[n] == '*')
 		{
 			wildcard = true;
 		}
+		n++;
 	}
 	if (n != 0)
 	{
