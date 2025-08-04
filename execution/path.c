@@ -23,18 +23,6 @@ static t_state update_error(t_state state, char **err_path, char *full_path)
     return (state);
 }
 
-static char	*get_path(const char *cmd, char *path)
-{
-	char	*full_path;
-	char	*arr[3];
-
-	arr[0] = path;
-	arr[1] = (char *) cmd;
-	arr[2] = NULL;
-	full_path = ft_strjoin(arr, "/");
-	return (full_path);
-}
-
 static char	*find_in_path(const char *cmd, char **paths, t_state *state)
 {
 	char		*full_path;
@@ -47,7 +35,7 @@ static char	*find_in_path(const char *cmd, char **paths, t_state *state)
 	error = NOT_FOUND_ERROR;
 	while (paths[++i])
 	{
-        full_path = get_path(cmd ,paths[i]);
+        full_path = join_two_strings(cmd ,paths[i], "/");
 		*state = path_validity(full_path);
 		if (*state == VALID_PATH)//first that works 
 		    return (full_path);
