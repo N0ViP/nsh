@@ -6,30 +6,28 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 02:42:03 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/04 22:09:30 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/05 00:10:53 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "expansion.h"
 
-t_list	*expander(char *str)
+char	*expander(char *str)
 {
-	t_list_info	*expand_list;
-	t_list		*node;
+	char		*word;
 	size_t		n;
 
-	expand_list = init_list_info_struct();
+	word = "";
 	while (*str)
 	{
-		n = expand_regular_word(str, expand_list);
+		n = expand_regular_word(str, &word);
 		str += n;
-		n = expand_single_quote_word(str, expand_list);
+		n = expand_single_quote_word(str, &word);
 		str += n;
-		n = expand_double_quote_word(str, expand_list);
+		n = expand_double_quote_word(str, &word);
 		str += n;
-		n = expand_dollar_word(str, expand_list, true);
+		n = expand_dollar_word(str, &word, true);
 		str += n;
 	}
-	node = join_all_nodes(expand_list);
-	return (node);
+	return (word);
 }

@@ -1,10 +1,10 @@
 #include "expansion.h"
 
-size_t	expand_single_quote_word(char *str, t_list_info *expand_list)
+size_t	expand_single_quote_word(char *str, char **arg)
 {
 	size_t	n;
 	char	*word;
-	t_list	*node;
+	char	*tmp;
 
 	n = 1;
 	if (str[0] != '\'')
@@ -16,8 +16,8 @@ size_t	expand_single_quote_word(char *str, t_list_info *expand_list)
 	if (n > 1)
 	{
 		word = ft_substr(str, 1, n);
-		node = creat_node(word);
-		list_add_back(expand_list, node);
+		tmp = join_two_strings(*arg, word, "");
+		*arg = tmp;
 	}
 	return (n + 1);
 }
