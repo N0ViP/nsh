@@ -1,20 +1,20 @@
 #include "expansion.h"
 
-static void	get_value(t_list_info *value, char *word, bool wildcard)
+static void	get_value(t_list_info *expand_list, char *word, bool wildcard)
 {
 	t_list	*node;
 
 	if (!wildcard)
 	{
 		node = creat_node(word);
-		list_add_back(value, node);
+		list_add_back(expand_list, node);
 	}
 	else
 	{
-		ft_get_wildcard(value, word);
+		ft_get_wildcard(expand_list, word);
 	}
 }
-size_t	expand_regular_word(char *str, t_list_info *value)
+size_t	expand_regular_word(char *str, t_list_info *expand_list)
 {
 	size_t	n;
 	bool	wildcard;
@@ -34,7 +34,7 @@ size_t	expand_regular_word(char *str, t_list_info *value)
 	if (n != 0)
 	{
 		word = ft_substr(str, 0, n);
-		get_value(value, word, wildcard);
+		get_value(expand_list, word, wildcard);
 	}
 	return (n);
 }

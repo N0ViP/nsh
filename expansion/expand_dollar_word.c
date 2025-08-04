@@ -1,29 +1,26 @@
 #include "expansion.h"
 
-static void	handle_val(t_list_info *value, char *val)
-{
-	char	**splited_val; 
-	t_list	*node;
-	
-	splited_val = ft_split(val, " \t\n");
-	free(val);
-	val = ft_strjoin(splited_val, " ");
-	node = creat_node(val);
-	list_add_back(value, node);
-}
-
-static void	add_dollar_expand(t_list_info *value, char *key, bool remove_spaces)
+static void	add_dollar_expand(t_list_info *expand_list, char *key, bool remove_spaces)
 {
 	char	*val;
+	char	**splited_val; 
+	t_list	*node;
 
-	val = get_var_value(key, remove_spaces);
+	val = get_var_value(key);
 	if (val)
 	{
-		handle_val(value, val);
+		if (remove_spaces)
+		{
+			splited_val = ft_split(val, " \t\n");
+			free(val);
+			val = ft_strjoin(splited_val, " ");
+		}
+		node = creat_node(val);
+		list_add_back(expand_list, node);
 	}
 }
 
-size_t	expand_dollar_word(char *str, t_list_info *value, bool remove_spaces)
+size_t	expand_dollar_word(char *str, t_list_info *expand_list, bool remove_spaces)
 {
 	size_t	n;
 	char	*key;
@@ -38,6 +35,6 @@ size_t	expand_dollar_word(char *str, t_list_info *value, bool remove_spaces)
 		n++;
 	}
 	key = ft_substr(str, 1, n);
-	add_dollar_expand(value, key, remove_spaces);
+	add_dollar_expand(expand_list, key, remove_spaces);
 	return (n);
 }
