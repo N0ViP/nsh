@@ -7,20 +7,16 @@
 
 #include <stddef.h>
 #include "stdfcts.h"
+#include "nsh.h"
 
 extern char	**environ;
 
-typedef struct s_env
-{
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-}	t_env;
+typedef struct s_list		t_list;
 
-t_env	*init_env();
-char	*get_var_value(char *key);
-void	remove_from_env(t_env **env, char *key);
-t_env	*ft_getenv(int flag, char *key, char *value);
-void	add_in_env(t_env **env, char *key, char *value);
+t_list	*init_env();
+char	*get_var_value(char *var);
+void	remove_from_env(t_list **env, char *var);
+t_list	*ft_getenv(int flag, char *var);
+void	add_in_env(t_list **env, char *var);
 
 #endif

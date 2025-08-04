@@ -1,8 +1,8 @@
 # include "getenv.h"
 
-t_env	*ft_getenv(int flag, char *key, char *value)
+t_list	*ft_getenv(int flag, char *var)
 {
-	static t_env	*env;
+	static t_list	*env;
 	static bool		init = true;
 
 	if (init = true)
@@ -12,11 +12,11 @@ t_env	*ft_getenv(int flag, char *key, char *value)
 	}
 	if (flag == ADD_IN_ENV)
 	{
-		add_in_env(&env, key, value);
+		add_in_env(&env, var);
 	}
 	else if (flag == REMOVE_FROM_ENV)
 	{
-		remove_from_env(env, key);
+		remove_from_env(env, var);
 	}
 	return (env);
 }
