@@ -13,7 +13,7 @@ size_t	expand_single_quote_word(char *str, t_list_info *expand_list)
 	{
 		n++;
 	}
-	if (n != 1)
+	if (n > 1)
 	{
 		word = ft_substr(str, 1, n);
 		node = creat_node(word);

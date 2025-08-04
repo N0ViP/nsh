@@ -12,7 +12,7 @@ size_t	get_normal_word(char *str, t_list_info *expand_list)
 	{
 		n++;
 	}
-	if (n != 0)
+	if (n > 0)
 	{
 		word = ft_substr(str, 0, n);
 		node = creat_node(word);
@@ -30,7 +30,7 @@ size_t	expand_double_quote_word(char *str, t_list_info *expand_list)
 	i = 1;
 	if (str[0] != '"')
 	{
-		retrun (0);
+		return (0);
 	}
 	while (str[i] != '\0' && str[i] != '"')
 	{
