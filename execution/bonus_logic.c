@@ -1,25 +1,44 @@
 # include "execution.h"
 
-int execute_subshell(t_tree *branch, char **envp)
-{
-    pid_t pid;
-    int status;
-    t_tree *child;
+// int execute_subshell(t_tree *branch, char **envp, t_mode mode)
+// {
+//     pid_t pid;
+//     int status;
+//     t_tree *child;
 
-    pid = fork();
-    if (pid < 0)
-        exit_failure("fork");
+//     (void)mode;
+//     pid = fork();
+//     if (pid < 0)
+//         exit_failure("fork");
+//     child = branch->data.subshell.child;
+//     if (pid == 0)
+//     {
+//         check_redirection(branch);
+//         status = execution_mode(child, envp, NO_FORK_MODE);
+//         exit(status);
+//     }
+//     waitpid(pid, &status, 0);
+//     if (WIFEXITED(status))
+//         return (WEXITSTATUS(status));
+//     return (1);
+// }
+
+static void redir_then_recurse(t_tree *branch, char **envp)
+{
+    t_tree *child;
+    int     status;
+
     child = branch->data.subshell.child;
-    if (pid == 0)
-    {
-        check_redirection(branch);
-        status = execution_mode(child, envp, NO_FORK_MODE);
-        exit(status);
-    }
-    waitpid(pid, &status, 0);
-    if (WIFEXITED(status))
-        return (WEXITSTATUS(status));
-    return (1);
+    check_redirection(branch);
+    status = execution_mode(child, envp, NO_FORK_MODE);
+    exit(status);
+}
+
+int execute_subshell(t_tree *branch, char **envp, t_mode mode)
+{
+    if (mode == DEFAULT_MODE)
+        return (fork_before(redir_then_recurse, branch, envp));
+    return (redir_then_recurse(branch, envp), 1);
 }
 
 int execute_or_and(t_tree *branch, char **envp)
