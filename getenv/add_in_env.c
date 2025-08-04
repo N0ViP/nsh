@@ -11,40 +11,20 @@ static bool	check_modify_key(t_list *ptr, char *var)
 	return (false);
 }
 
-static t_list	*add_key_value(char *var)
-{
-	t_list	*tmp;
-
-	tmp = malloc(sizeof(t_list));
-	tmp->content = (void *)var;
-	tmp->next = NULL;
-	return (tmp);
-}
-
-void	add_in_env(t_list **env, char *var)
+void	add_in_env(t_list_info *env, char *var)
 {
 	t_list	*ptr;
+	t_list	*node;
 
-	if (!*env)
+	ptr = env->list;
+	while (ptr)
 	{
-		*env = add_key_value(var);
-		return ;
-	}
-	ptr = *env;
-	if (check_modify_key(ptr, var))
-	{
-		return ;
-	}
-	while (ptr->next)
-	{
-		if (check_modify_key(ptr->next, var))
+		if (check_modify_key(ptr, var))
 		{
 			return ;
 		}
 		ptr = ptr->next;
 	}
-	if (!ptr->next)
-	{
-		ptr->next = add_key_value(var);
-	}
+	node = creat_node(var);
+	list_add_back(env, node);
 }

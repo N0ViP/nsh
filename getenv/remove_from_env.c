@@ -1,32 +1,49 @@
 # include "getenv.h"
 
-static void	free_var_node(t_list *ptr)
+static void	free_var_node(t_list *node)
 {
-	free(ptr->content);
-	free(ptr);
+	free(node->content);
+	free(node);
+}
+static bool	check_and_remove(t_list *ptr, char *var)
+{
+	t_list	*tmp;
+
+	if (!ft_strcmp_env(ptr->next->content, var))
+	{
+		tmp = ptr->next;
+		ptr->next = ptr->next->next;
+		free_var_node(tmp);
+		return (true);
+	}
+	return (false);
 }
 
-void	remove_from_env(t_list **env, char *var)
+
+
+void	remove_from_env(t_list_info *env, char *var)
 {
 	t_list	*ptr;
 	t_list	*tmp;
 
-	if (!*env)
+	ptr = env->list;
+	if (!ptr)
+	{
 		return ;
-	ptr = *env;
+	}
 	if (!ft_strcmp_env(ptr->content, var))
 	{
-		*env = ptr->next;
-		free_var_node(ptr);
+		tmp = env->list;
+		env->list = env->list->next;
+		free_var_node(tmp);
+		env->size--;
 		return ;
 	}
 	while (ptr->next)
 	{
-		if (!ft_strcmp(ptr->next->content, var))
+		if (check_and_remove(ptr, var))
 		{
-			tmp = ptr->next;
-			ptr->next = ptr->next->next;
-			free_var_node(tmp);
+			env->size--;
 			return ;
 		}
 		ptr = ptr->next;

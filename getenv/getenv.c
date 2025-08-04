@@ -2,8 +2,8 @@
 
 t_list	*ft_getenv(int flag, char *var)
 {
-	static t_list	*env;
-	static bool		init = true;
+	static t_list_info	*env;
+	static bool			init = true;
 
 	if (init = true)
 	{

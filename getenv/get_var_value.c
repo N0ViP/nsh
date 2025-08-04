@@ -14,23 +14,25 @@ static char	*split_val_from_key(char *var)
 	{
 		return (NULL);
 	}
-	value = ft_substr(var, i + 1, ft_strlen(var) - 1);
+	value = ft_substr(var, i + 1, ft_strlen(var));
 }
 
 char	*get_var_value(char *var)
 {
-	t_list	*env;
-	char	*value;
+	t_list_info	*env;
+	t_list		*ptr;
+	char		*value;
 
 	env = ft_getenv(GET_ENV, NULL);
-	while (env)
+	ptr = env->list;
+	while (ptr)
 	{
-		if (!ft_strcmp_env(env->content, var))
+		if (!ft_strcmp_env(ptr->content, var))
 		{
-			value = split_val_from_key(env->content);
+			value = split_val_from_key(ptr->content);
 			return (value);
 		}
-		env = env->next;
+		ptr = ptr->next;
 	}
 	return (NULL);
 }

@@ -10,7 +10,7 @@ t_list_info	*init_list_info_struct()
 		return (NULL);
 	}
 	token_info->list = NULL;
-	token_info->size = 0;
 	token_info->tail = NULL;
+	token_info->size = 0;
 	return (token_info);
 }
