@@ -1,40 +1,27 @@
 #include "expansion.h"
 
-static void	get_value(t_list_info *expand_list, char *word, bool wildcard)
+static void	get_value(t_list_info *expand_list, char *word)
 {
 	t_list	*node;
 
-	if (!wildcard)
-	{
-		node = creat_node(word);
-		list_add_back(expand_list, node);
-	}
-	else
-	{
-		ft_get_wildcard(expand_list, word);
-	}
+	node = creat_node(word);
+	list_add_back(expand_list, node);
 }
 size_t	expand_regular_word(char *str, t_list_info *expand_list)
 {
 	size_t	n;
-	bool	wildcard;
 	char	*word;
 
 	n = 0;
-	wildcard = false;
 	while (str[n] != '\0' && str[n] != '\'' && str[n] != '"'
 		&& !check_if_dollar(str + n))
 	{
-		if (str[n] == '*')
-		{
-			wildcard = true;
-		}
 		n++;
 	}
 	if (n != 0)
 	{
 		word = ft_substr(str, 0, n);
-		get_value(expand_list, word, wildcard);
+		get_value(expand_list, word);
 	}
 	return (n);
 }

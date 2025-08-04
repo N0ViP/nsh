@@ -6,16 +6,19 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 02:42:03 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/04 06:21:44 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/04 21:38:17 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "expansion.h"
 
-void	expander(char *str, t_list_info *expand_list)
+t_list	*expander(char *str)
 {
+	t_list_info	*expand_list;
+	t_list		*node;
 	size_t		n;
 
+	expand_list = init_list_info_struct();
 	while (*str)
 	{
 		n = expand_regular_word(str, expand_list);
@@ -27,19 +30,6 @@ void	expander(char *str, t_list_info *expand_list)
 		n = expand_dollar_word(str, expand_list, true);
 		str += n;
 	}
-}
-
-char	**expansion(t_list *lst)
-{
-	t_list_info	*expand_list;
-	char		**res;
-	
-	expand_list = init_list_info_struct();
-	while (lst)
-	{
-		expander(((t_token *)lst->content)->value, expand_list);
-		lst = lst->next;
-	}
-	res = create_array(expand_list);
-	return (res);
+	node = join_all_nodes(expand_list);
+	return (node);
 }
