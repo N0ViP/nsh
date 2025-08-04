@@ -23,7 +23,7 @@ size_t	expand_regular_word(char *str, t_list_info *value)
 	n = 0;
 	wildcard = false;
 	while (str[n] != '\0' && str[n] != '\'' && str[n] != '"'
-		&& (str[n] != '$' || !ft_isalpha(str[n + 1]) || str[n + 1] != '_'))
+		&& !check_if_dollar(str + n))
 	{
 		if (str[n] == '*')
 		{
