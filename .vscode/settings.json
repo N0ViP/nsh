@@ -18,6 +18,7 @@
 		"utility": "c",
 		"limits.h": "c",
 		"execution.h": "c",
-		"fcntl.h": "c"
+		"fcntl.h": "c",
+		"stdfcts.h": "c"
 	}
 }
