@@ -7,7 +7,7 @@ size_t	get_normal_word(char *str, t_list_info *tmp_value)
 	char	*word;
 
 	n = 0;
-	while (!check_if_dollar(str + n))
+	while (str[n] != '\0' && !check_if_dollar(str + n))
 	{
 		n++;
 	}
@@ -17,6 +17,7 @@ size_t	get_normal_word(char *str, t_list_info *tmp_value)
 		node = creat_node(word);
 		list_add_back(tmp_value, node);
 	}
+	return (n);
 }
 
 size_t	expand_double_quote_word(char *str, t_list_info *value)
@@ -24,17 +25,20 @@ size_t	expand_double_quote_word(char *str, t_list_info *value)
 	char		*word;
 	t_list_info	*tmp_value;
 	size_t		n;
+	size_t		i;
 
-	n = 1;
+	i = 1;
 	if (str[0] != '"')
 	{
 		retrun (0);
 	}
 	tmp_value = init_list_info_struct();
-	while (str[n] != '\0' && str[n] != '"')
+	while (str[i] != '\0' && str[i] != '"')
 	{
-		n = get_normal_word(str + n, tmp_value);
-		n = get_dollar_word(str + n, tmp_value);
+		n = get_normal_word(str + i, tmp_value);
+		i += n;
+		n = get_dollar_word(str + i, tmp_value);
+		i += n;
 	}
 	return (n + 1);
 }

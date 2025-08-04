@@ -8,6 +8,7 @@ MAIN_SRC = \
     sources/printer_to_rm.c
 
 UTILS_SRC = \
+    utils/init_list_info_struct.c \
     utils/list_add_back.c \
 	utils/check_token.c \
     utils/skip_spaces.c \
@@ -23,7 +24,8 @@ STDFCTS_SRC = \
     stdfcts/ft_split.c \
 	stdfcts/ft_strchr.c \
 	stdfcts/ft_substr.c \
-    stdfcts/ft_strcmp.c
+    stdfcts/ft_strcmp.c \
+    stdfcts/ft_strcat.c
 
 TOKEN_SRC = \
     tokenization/free_token.c \

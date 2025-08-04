@@ -12,39 +12,32 @@ static void	handle_val(t_list_info *value, char *val)
 	list_add_back(value, node);
 }
 
-static void	get_add_dollar_expand(t_list_info *value, char *str, int i, int j)
+static void	add_dollar_expand(t_list_info *value, char *key, bool remove_spaces)
 {
-	char	*key;
 	char	*val;
 
-	key = ft_substr(str, i, j);
-	val = get_var_value(key);
-	free(key);
+	val = get_var_value(key, remove_spaces);
 	if (val)
 	{
 		handle_val(value, val);
 	}
 }
 
-size_t	expand_dollar_word(char *str, t_list_info *value)
+size_t	expand_dollar_word(char *str, t_list_info *value, bool remove_spaces)
 {
-	size_t		n;
+	size_t	n;
+	char	*key;
 
 	n = 1;
-	if (str[0] != '$' || str[1] == '\0' || str[1] == '$')
+	if (!check_if_dollar(str))
 	{
 		return (0);
 	}
-	if (ft_isdigit(str[n]))
+	while (str[n] != '\0' && (ft_isalnum(str[n]) || str[n] == '_'))
 	{
-		while (str[n] != '\0' && (ft_isalnum(str[n]) || str[n] == '_'))
-		{
-			n++;
-		}
+		n++;
 	}
-	if (n != 1)
-	{
-		get_add_dollar_expand(value, str, 1, n);
-	}
+	key = ft_substr(str, 1, n);
+	add_dollar_expand(value, key, remove_spaces);
 	return (n);
 }

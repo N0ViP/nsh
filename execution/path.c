@@ -29,7 +29,7 @@ static char	*get_path(const char *cmd, char *path)
 	char	*arr[3];
 
 	arr[0] = path;
-	arr[1] = cmd;
+	arr[1] = (char *) cmd;
 	arr[2] = NULL;
 	full_path = ft_strjoin(arr, "/");
 	return (full_path);
