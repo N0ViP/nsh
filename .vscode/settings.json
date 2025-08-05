@@ -19,6 +19,8 @@
 		"limits.h": "c",
 		"execution.h": "c",
 		"fcntl.h": "c",
-		"stdfcts.h": "c"
+		"stdfcts.h": "c",
+		"readline.h": "c",
+		"parse_tree.h": "c"
 	}
 }
