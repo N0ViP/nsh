@@ -1,20 +1,27 @@
 #include "expansion.h"
 
-size_t	expand_regular_word(char *str, char **arg)
+size_t	expand_regular_word(char *s, char **arg, char **hashmap)
 {
 	size_t	n;
 	char	*word;
 	char	*tmp;
+	size_t	wildcard;
 
 	n = 0;
-	while (str[n] != '\0' && str[n] != '\'' && str[n] != '"'
-		&& !check_if_dollar(str + n))
+	wildcard = 0;
+	while (s[n] != '\0' && s[n] != '\'' && s[n] != '"'
+		&& !check_if_dollar(s + n))
 	{
+		if (s[n] == '*')
+		{
+			wildcard++;
+		}
 		n++;
 	}
-	if (n != 0)
+	if (n > 0)
 	{
-		word = ft_substr(str, 0, n);
+		add_in_wildcard_hashmap(hashmap, wildcard, true);
+		word = ft_substr(s, 0, n);
 		tmp = join_two_strings(*arg, word, "");
 		*arg = tmp;
 	}
