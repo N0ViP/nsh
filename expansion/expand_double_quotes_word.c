@@ -1,49 +1,21 @@
 #include "expansion.h"
 
-size_t	get_normal_word(char *str, char **arg, char **hashmap)
-{
-	size_t	n;
-	size_t	wildcard;
-	char	*word;
-	char	*tmp;
-
-	n = 0;
-	wildcard = 0;
-	while (str[n] != '\0' && str[n] != '"'
-		&& !check_if_dollar(str + n))
-	{
-		if (str[n] == '*')
-		{
-			wildcard++;
-		}
-		n++;
-	}
-	if (n > 0)
-	{
-		add_in_wildcard_hashmap(hashmap, wildcard, false);
-		word = ft_substr(str, 0, n);
-		tmp = join_two_strings(*arg, word, "");
-		*arg = tmp;
-	}
-	return (n);
-}
-
-size_t	expand_double_quotes_word(char *s, char **arg, char **hashmap)
+size_t	expand_double_quotes_word(t_info *info)
 {
 	char		*word;
 	size_t		n;
 	size_t		i;
 
 	i = 1;
-	if (s[0] != '"')
+	if (info->str[0] != '"')
 	{
 		return (0);
 	}
-	while (s[i] != '\0' && s[i] != '"')
+	while (info->str[i] != '\0' && info->str[i] != '"')
 	{
-		n = get_normal_word(s + i, arg, hashmap);
+		n = get_regular_word(info, double_quotes_checker, false);
 		i += n;
-		n = expand_dollar_word(s + i, arg, hashmap, false);
+		n = expand_dollar_word(info, NULL, false);
 		i += n;
 	}
 	return (i + 1);

@@ -1,30 +1,26 @@
 #include "expansion.h"
 
-size_t	expand_single_quote_word(char *s, char **arg, char **hashmap)
+size_t	expand_single_quote_word(t_info *info)
 {
 	size_t	n;
-	char	*word;
-	char	*tmp;
-	size_t	wildcard;
 
 	n = 1;
-	wildcard = 0;
-	if (s[0] != '\'')
-		return (0);
-	while (s[n] != '\0' && s[n] != '\'')
+	info->wildcard = 0;
+	if (info->str[0] != '\'')
 	{
-		if (s[n] == '*')
+		return (0);
+	}
+	while (info->str[n] != '\0' && info->str[n] != '\'')
+	{
+		if (info->str[n] == '*')
 		{
-			wildcard++;
+			info->wildcard++;
 		}
 		n++;
 	}
 	if (n > 1)
 	{
-		add_in_wildcard_hashmap(hashmap, wildcard, false);
-		word = ft_substr(s, 1, n);
-		tmp = join_two_strings(*arg, word, "");
-		*arg = tmp;
+		utils(info, 1, n, false);
 	}
 	return (n + 1);
 }

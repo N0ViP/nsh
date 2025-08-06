@@ -21,6 +21,7 @@
 		"fcntl.h": "c",
 		"stdfcts.h": "c",
 		"readline.h": "c",
-		"parse_tree.h": "c"
+		"parse_tree.h": "c",
+		"expansion.h": "c"
 	}
 }

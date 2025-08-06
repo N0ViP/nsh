@@ -43,7 +43,7 @@ static void	get_value(char **arg, char *val, bool rm_spaces, char **hashmap)
 	}
 }
 
-size_t	expand_dollar_word(char *s, char **arg, char **hashmap, bool rm_spaces)
+size_t	expand_dollar_word(t_info *info, t_list_info *arg_list, bool rm_spaces)
 {
 	char	*key;
 	char	*val;
