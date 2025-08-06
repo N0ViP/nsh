@@ -12,7 +12,6 @@ char	**expand_wildcard(t_info *info, t_list_info *arg_list)
 {
 	char		**splited_words;
 	char		**splited_spaces;
-	t_list_info	*arg;
 
 	arg = init_list_info_struct();
 	splited_words = ft_split(*word, " \t\n", false);
