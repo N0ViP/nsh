@@ -6,6 +6,7 @@
 # include "utils.h"
 
 bool	check_if_dollar(char *str);
+void	expand_wildcard(char **word, char **hashmap);
 size_t	expand_regular_word(char *s, char **arg, char **hashmap);
 size_t	expand_single_quote_word(char *s, char **arg, char **hashmap);
 size_t	expand_double_quotes_word(char *s, char **arg, char **hashmap);

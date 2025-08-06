@@ -6,15 +6,15 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 08:39:36 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/07/01 08:39:38 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/06 01:06:56 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-int	skip_spaces(char *str, int i)
+size_t	skip_spaces(char *str, size_t i)
 {
-	int	j;
+	size_t	j;
 
 	j = 0;
 	while (ft_isspace(str[i + j]))
