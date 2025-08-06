@@ -16,7 +16,7 @@ static size_t	get_wildcard(char *str)
 	return (wildcard);
 }
 
-static void	get_value(char **arg, char *val, bool rm_spaces, char **hashmap)
+static void	get_value(t_info *info, char *val, bool rm_spaces)
 {
 	char	*tmp;
 	char	**splited_val; 
@@ -34,11 +34,11 @@ static void	get_value(char **arg, char *val, bool rm_spaces, char **hashmap)
 		*arg = tmp;
 		if (rm_spaces)
 		{
-			add_in_wildcard_hashmap(hashmap, wildcard, true);
+			add_in_wildcard_hashmap(info, wildcard, true);
 		}
 		else
 		{
-			add_in_wildcard_hashmap(hashmap, wildcard, false);
+			add_in_wildcard_hashmap(info, wildcard, false);
 		}
 	}
 }
@@ -50,16 +50,17 @@ size_t	expand_dollar_word(t_info *info, t_list_info *arg_list, bool rm_spaces)
 	size_t	n;
 
 	n = 1;
-	if (!check_if_dollar(s))
+	if (!check_if_dollar(info->str))
 	{
 		return (0);
 	}
-	while (s[n] != '\0' && (ft_isalnum(s[n]) || s[n] == '_'))
+	while (info->str[n] != '\0'
+		&& (ft_isalnum(info->str[n]) || info->str[n] == '_'))
 	{
 		n++;
 	}
-	key = ft_substr(s, 1, n);
+	key = ft_substr(info->str, 1, n);
 	val = get_var_value(key);
-	get_value(arg, val, rm_spaces, hashmap);
+	get_value(info, val, rm_spaces);
 	return (n);
 }

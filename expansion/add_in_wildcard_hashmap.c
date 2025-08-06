@@ -1,23 +1,25 @@
 #include "expansion.h"
 
-void	add_in_wildcard_hashmap(char **hashmap, size_t wildcard, bool expand)
+void	add_in_wildcard_hashmap(t_info *info, size_t wildcard, bool expand)
 {
 	static size_t	k;
 	static size_t	i;
+	char			*tmp;
 
-	if (!*hashmap)
+	if (!info->hashmap)
 	{
 		k = ARENA_SIZE;
 		i = 0;
-		*hashmap = malloc(k);
+		info->hashmap = malloc(k);
 	}
 	while (i + wildcard > k)
 	{
 		k += ARENA_SIZE;
-		*hashmap = ft_realloc(hashmap, k - ARENA_SIZE, k);
+		tmp = ft_realloc(info->hashmap, k - ARENA_SIZE, k);
+		info->hashmap = tmp;
 	}
 	while (wildcard--)
 	{
-		(*hashmap)[i++] = expand;
+		info->hashmap[i++] = expand;
 	}
 }
