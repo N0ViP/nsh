@@ -15,6 +15,7 @@
 
 # include "tokenization.h"
 # include "parse_tree.h"
+# include "allocation.h"
 # include "execution.h"
 
 # include <stdio.h>
