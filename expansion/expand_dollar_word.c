@@ -8,7 +8,7 @@ static void	add_word_in_arg_list(t_info *info, t_list_info *arg_list)
 	{
 		return ;
 	}
-	list = expand_wildcard(info->word);
+	list = expand_wildcard(&info);
 	join_list(arg_list, list);
 	info->word = NULL;
 }
