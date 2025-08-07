@@ -6,7 +6,7 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 08:40:39 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/05 05:46:02 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/06 22:52:27 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-#define SHELL "nsh"
-#define ARENA_SIZE 4096
+#define SHELL		"nsh"
+#define ARENA_SIZE	4096
+#define WHITE_SAPCE	" \t\n"
 
 typedef struct s_list
 {

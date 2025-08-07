@@ -3,15 +3,6 @@
 #define COUNT_SPACES	true
 #define COUNT_WORD		false
 
-static bool	check_if_match(char *sep, char c)
-{
-	if (ft_strchr(sep, c))
-	{
-		return (true);
-	}
-	return (false);
-}
-
 static size_t	count_chars(const char *s, const char *sep, bool flag)
 {
 	size_t	i;

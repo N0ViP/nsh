@@ -1,45 +1,39 @@
 #include "expansion.h"
 
-static size_t	get_wildcard(char *str)
+static void	split_val(t_info *info, t_list_info *arg_list, char *val)
 {
-	size_t	wildcard;
+	char	*splited_val;
+	bool	space_in_the_start;
+	bool	space_in_the_end;
+	size_t	i;
 
-	wildcard = 0;
-	while (*str)
+	i = 0;
+	splited_val = ft_split(val, " \t\n");
+	space_in_the_start = ft_isspace(val[0]);
+	space_in_the_end = ft_isspace(val[ft_strlen(val) - 1]);
+	if (space_in_the_start)
 	{
-		if (*str == '*')
-		{
-			wildcard++;
-		}
-		str++;
+		
 	}
-	return (wildcard);
+	while (splited_val[i])
+	{
+		
+	}
 }
 
-static void	get_value(t_info *info, char *val, bool rm_spaces)
+static void	get_value(t_info *info, t_list_info *arg_list, char *val, bool rm_spaces)
 {
 	char	*tmp;
-	char	**splited_val; 
-	size_t	wildcard;
 
 	if (val)
 	{
-		if (rm_spaces)
+		if (!rm_spaces)
 		{
-			splited_val = ft_split(val, " \t\n");
-			val = ft_strjoin(splited_val, " ");
+			tmp = join_two_strings(info->word, val, "");
+			info->word = tmp;
+			return ;
 		}
-		wildcard = get_wildcard(val);
-		tmp = join_two_strings(*arg, val, "");
-		*arg = tmp;
-		if (rm_spaces)
-		{
-			add_in_wildcard_hashmap(info, wildcard, true);
-		}
-		else
-		{
-			add_in_wildcard_hashmap(info, wildcard, false);
-		}
+		split_val(info, arg_list, val);
 	}
 }
 
@@ -61,6 +55,6 @@ size_t	expand_dollar_word(t_info *info, t_list_info *arg_list, bool rm_spaces)
 	}
 	key = ft_substr(info->str, 1, n);
 	val = get_var_value(key);
-	get_value(info, val, rm_spaces);
+	get_value(info, arg_list, val, rm_spaces);
 	return (n);
 }

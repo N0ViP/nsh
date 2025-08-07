@@ -6,7 +6,7 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 08:40:51 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/06 02:04:39 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/06 22:50:02 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdbool.h>
 # include <stddef.h>
 # include <stdlib.h>
+# include "utils.h"
 
 bool	ft_isdigit(int a);
 bool	ft_isalpha(int a);
