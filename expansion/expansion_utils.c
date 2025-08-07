@@ -1,6 +1,6 @@
 #include "expansion.h"
 
-void	utils(t_info *info, size_t i, size_t j, bool wildcard_falg)
+void	utils(t_info *info, size_t i, size_t j)
 {
 	char	*word;
 	char	*tmp;

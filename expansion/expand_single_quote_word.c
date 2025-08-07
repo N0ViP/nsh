@@ -20,7 +20,7 @@ size_t	expand_single_quote_word(t_info *info)
 	}
 	if (n > 1)
 	{
-		utils(info, 1, n, false);
+		utils(info, 1, n);
 	}
 	return (n + 1);
 }

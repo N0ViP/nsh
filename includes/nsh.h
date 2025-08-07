@@ -6,7 +6,7 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 08:40:39 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/07 02:11:32 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/07 05:03:03 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_list_info
 {
 	t_list		*list;
 	t_list		*tail;
-	int			size;
+	size_t		size;
 }	t_list_info;
 
 typedef struct s_token

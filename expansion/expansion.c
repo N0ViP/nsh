@@ -6,7 +6,7 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 02:42:03 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/06 05:22:11 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/07 05:29:39 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 char	**expander(char *str)
 {
 	t_list_info	*arg_list;
+	t_list_info	*list;
 	t_info		info;
 	size_t		n;
-	char		**args;
+	char		**res;
 
 	info.str = str;
 	info.word = NULL;
-	info.hashmap = NULL;
 	arg_list = init_list_info_struct();
 	while (*(info.str))
 	{
@@ -34,6 +34,8 @@ char	**expander(char *str)
 		n = expand_dollar_word(&info, arg_list, true);
 		info.str += n;
 	}
-	args = expand_wildcard(&info, arg_list);
-	return (args);
+	list = expand_wildcard(info.word);
+	join_list(arg_list, list);
+	res = list_to_arr(arg_list);
+	return (res);
 }

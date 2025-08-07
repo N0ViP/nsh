@@ -9,4 +9,5 @@ char	*join_two_strings(char *s1, char *s2, char *delemiter)
 	arr[1] = s2;
 	arr[2] = NULL;
 	join = ft_strjoin(arr, delemiter);
+	return (join);
 }

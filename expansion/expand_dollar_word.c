@@ -2,14 +2,14 @@
 
 static void	add_word_in_arg_list(t_info *info, t_list_info *arg_list)
 {
-	t_list	*node;
+	t_list_info	*list;
 
 	if (info->word == NULL)
 	{
 		return ;
 	}
-	node = creat_node(info->word);
-	list_add_back(arg_list, node);
+	list = expand_wildcard(info->word);
+	join_list(arg_list, list);
 	info->word = NULL;
 }
 
