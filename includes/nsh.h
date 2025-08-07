@@ -6,7 +6,7 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 08:40:39 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/06 22:52:27 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/07 02:11:32 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 #define SHELL		"nsh"
 #define ARENA_SIZE	4096
-#define WHITE_SAPCE	" \t\n"
+#define WHITE_SPACE	" \t\n"
 
 typedef struct s_list
 {
