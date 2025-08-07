@@ -4,11 +4,11 @@ static void	add_word_in_arg_list(t_info *info, t_list_info *arg_list)
 {
 	t_list_info	*list;
 
-	if (info->word == NULL)
+	list = expand_wildcard(&info);
+	if (!list)
 	{
 		return ;
 	}
-	list = expand_wildcard(&info);
 	join_list(arg_list, list);
 	info->word = NULL;
 }

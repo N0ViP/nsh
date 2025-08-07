@@ -13,8 +13,9 @@ typedef struct s_expander_vars
 	size_t	*wildcard;
 }	t_info;
 
-t_list_info	*expand_wildcard(t_info *info);
 bool		check_if_dollar(char *str);
+t_list_info	*expand_wildcard(t_info *info);
+bool		get_wildcard_flag(t_info *info);
 bool		regular_word_checker(char *str);
 bool		double_quotes_checker(char *str);
 size_t		expand_single_quote_word(t_info *info);
