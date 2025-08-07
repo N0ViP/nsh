@@ -13,7 +13,7 @@ size_t	expand_double_quotes_word(t_info *info)
 	}
 	while (info->str[i] != '\0' && info->str[i] != '"')
 	{
-		n = get_regular_word(info, double_quotes_checker, false);
+		n = expand_regular_word(info, double_quotes_checker, false);
 		i += n;
 		n = expand_dollar_word(info, NULL, false);
 		i += n;

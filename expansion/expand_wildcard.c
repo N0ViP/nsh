@@ -1,6 +1,6 @@
 #include "expansion.h"
 
-char	**expand_wildcard(char *word)
+t_list_info	*expand_wildcard(t_info *info)
 {
 	;
 }
