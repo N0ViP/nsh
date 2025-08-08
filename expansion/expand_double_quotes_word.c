@@ -2,18 +2,20 @@
 
 size_t	expand_double_quotes_word(t_info *info)
 {
-	char		*word;
 	size_t		i;
 
-	i = 1;
 	if (info->str[0] != '"')
 	{
 		return (0);
 	}
-	while (info->str[i] != '"')
+	info->str++;
+	while (*(info->str) != '"')
 	{
-		i += expand_regular_word(info, double_quotes_checker, false);
-		i += expand_dollar_word(info, NULL, false);
+		i = expand_regular_word(info, double_quotes_checker, false);
+		info->str += i;
+		i = expand_dollar_word(info, NULL, false);
+		info->str += i;
 	}
-	return (i + 1);
+	info->str++;
+	return (0);
 }

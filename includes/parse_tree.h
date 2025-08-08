@@ -31,7 +31,7 @@ typedef struct {
 
 typedef struct {
     char    **args;
-    int     n_arg;
+    int     n_arg;// rm
     t_redir *redirs;
     int     n_redirs;
 } t_cmd;
@@ -64,7 +64,6 @@ t_tree	*new_subshell_branch(t_list *tokens);
 t_tree  *new_command_branch(t_list *tokens);
 int     count_redirs(t_list *tokens);
 t_redir *extract_redirs(t_list **tokens, int n_redirs);
-void    *smalloc(size_t n);
 
 //printers to remove
 void    print_tokens(t_list *list);

@@ -1,6 +1,6 @@
 # include "getenv.h"
 
-t_list	*ft_getenv(int flag, char *var)
+t_list_info	*ft_getenv(int flag, char *var)
 {
 	static t_list_info	*env;
 	static bool			init = true;
@@ -10,14 +10,14 @@ t_list	*ft_getenv(int flag, char *var)
 	{
 		dup_var = ft_strndup(var, ft_strlen(var));
 	}
-	if (init = true)
+	if (init == true)
 	{
 		env = init_env();
 		init = false;
 	}
 	if (flag == ADD_IN_ENV)
 	{
-		add_in_env(&env, dup_var);
+		add_in_env(env, dup_var);
 	}
 	else if (flag == REMOVE_FROM_ENV)
 	{

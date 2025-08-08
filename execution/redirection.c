@@ -57,6 +57,16 @@ void check_redirection(t_tree *branch)
         redir = branch->data.subshell.redirs;
         n_redirs = branch->data.subshell.n_redirs;
     }
+    // if(branch->type == COMMAND)
+    // {
+    //     redir = expand_file_name(&branch->data.cmd);
+    //     n_redirs = branch->data.cmd.n_redirs;
+    // }
+    // else if(branch->type == SUBSHELL)
+    // {
+    //     redir = expand_file_name(&branch->data.cmd);
+    //     n_redirs = branch->data.subshell.n_redirs;
+    // }
     if(!n_redirs)
         return ;
     setup_redirection(redir, n_redirs);

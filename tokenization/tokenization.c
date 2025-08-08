@@ -6,7 +6,7 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 03:38:34 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/01 06:12:07 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/08 08:03:47 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ static bool	creat_token(t_list_info *token_info, char *cmd,
 		free(node);
 		return (false);
 	}
-	node->content = token;
-	token_info->size++;
 	list_add_back(token_info, node);
 	return (true);
 }

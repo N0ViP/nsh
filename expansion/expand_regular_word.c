@@ -6,7 +6,7 @@ size_t	expand_regular_word(t_info *info, bool (*checker)(char *), bool ex_wdc)
 
 	n = 0;
 	info->wildcard = 0;
-	while (checker(info->str + n))
+	while (checker(info ->str + n))
 	{
 		if (info->str[n] == '*')
 		{
@@ -16,7 +16,7 @@ size_t	expand_regular_word(t_info *info, bool (*checker)(char *), bool ex_wdc)
 	}
 	if (n > 0)
 	{
-		utils(info, 1, n, ex_wdc);
+		utils(info, 0, n, ex_wdc);
 	}
 	return (n);
 }

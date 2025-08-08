@@ -6,7 +6,7 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 08:40:39 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/07 05:03:03 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/08 06:01:08 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include "parse_tree.h"
 # include "allocation.h"
 # include "execution.h"
+# include "expansion.h"
+# include "getenv.h"
 
 # include <stdio.h>
 # include <stdbool.h>

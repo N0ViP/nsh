@@ -22,6 +22,9 @@
 		"stdfcts.h": "c",
 		"readline.h": "c",
 		"parse_tree.h": "c",
-		"expansion.h": "c"
+		"expansion.h": "c",
+		"getenv.h": "c",
+		"stddef.h": "c",
+		"sstream": "c"
 	}
 }

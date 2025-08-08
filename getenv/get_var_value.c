@@ -15,6 +15,7 @@ static char	*split_val_from_key(char *var)
 		return (NULL);
 	}
 	value = ft_substr(var, i + 1, ft_strlen(var));
+	return (value);
 }
 
 char	*get_var_value(char *var)
