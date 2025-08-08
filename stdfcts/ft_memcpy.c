@@ -1,6 +1,6 @@
 #include "stdfcts.h"
 
-void	*ft_memcpy(void *d, const void *s, size_t len)
+void	*ft_memcpy(void *d, void *s, size_t len)
 {
 	void	*dest;
 

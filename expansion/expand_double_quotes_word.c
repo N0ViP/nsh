@@ -3,7 +3,6 @@
 size_t	expand_double_quotes_word(t_info *info)
 {
 	char		*word;
-	size_t		n;
 	size_t		i;
 
 	i = 1;
@@ -11,12 +10,10 @@ size_t	expand_double_quotes_word(t_info *info)
 	{
 		return (0);
 	}
-	while (info->str[i] != '\0' && info->str[i] != '"')
+	while (info->str[i] != '"')
 	{
-		n = expand_regular_word(info, double_quotes_checker, false);
-		i += n;
-		n = expand_dollar_word(info, NULL, false);
-		i += n;
+		i += expand_regular_word(info, double_quotes_checker, false);
+		i += expand_dollar_word(info, NULL, false);
 	}
 	return (i + 1);
 }

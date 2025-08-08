@@ -35,7 +35,7 @@ static char	*find_in_path(const char *cmd, char **paths, t_state *state)
 	error = NOT_FOUND_ERROR;
 	while (paths[++i])
 	{
-        full_path = join_two_strings(cmd ,paths[i], "/");
+        full_path = join_two_strings(paths[i], (char *)cmd , "/");
 		*state = path_validity(full_path);
 		if (*state == VALID_PATH)//first that works 
 		    return (full_path);

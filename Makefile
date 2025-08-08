@@ -8,24 +8,16 @@ MAIN_SRC = \
     sources/printer_to_rm.c
 
 UTILS_SRC = \
-    utils/init_list_info_struct.c \
-    utils/list_add_back.c \
-	utils/check_token.c \
-    utils/skip_spaces.c \
-    utils/creat_node.c \
-    utils/smalloc.c \
-    utils/free.c
+    utils/check_if_match.c  utils/init_list_info_struct.c  utils/skip_spaces.c \
+    utils/check_token.c     utils/join_list.c              utils/smalloc.c  \
+    utils/creat_node.c      utils/join_two_strings.c \
+    utils/free.c            utils/list_add_back.c
 
 STDFCTS_SRC = \
-    stdfcts/ft_isspace.c \
-    stdfcts/ft_strlen.c \
-    stdfcts/ft_strjoin.c \
-    stdfcts/ft_strndup.c \
-    stdfcts/ft_split.c \
-	stdfcts/ft_strchr.c \
-	stdfcts/ft_substr.c \
-    stdfcts/ft_strcmp.c \
-    stdfcts/ft_strcat.c
+    stdfcts/ft_isalnum.c  stdfcts/ft_memcpy.c   stdfcts/ft_strcat.c   stdfcts/ft_strlen.c \
+    stdfcts/ft_isalpha.c  stdfcts/ft_min.c      stdfcts/ft_strchr.c   stdfcts/ft_strndup.c \
+    stdfcts/ft_isdigit.c  stdfcts/ft_realloc.c  stdfcts/ft_strcmp.c   stdfcts/ft_substr.c \
+    stdfcts/ft_isspace.c  stdfcts/ft_split.c    stdfcts/ft_strjoin.c
 
 TOKEN_SRC = \
     tokenization/free_token.c \

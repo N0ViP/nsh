@@ -3,7 +3,7 @@
 #define COUNT_SPACES	true
 #define COUNT_WORD		false
 
-static size_t	count_chars(const char *s, const char *sep, bool flag)
+static size_t	count_chars(char *s, char *sep, bool flag)
 {
 	size_t	i;
 
@@ -15,7 +15,7 @@ static size_t	count_chars(const char *s, const char *sep, bool flag)
 	return (i);
 }
 
-static size_t	count_words(char *s, const char *sep)
+static size_t	count_words(char *s, char *sep)
 {
 	size_t count;
 
@@ -32,7 +32,7 @@ static size_t	count_words(char *s, const char *sep)
 	return (count);
 }
 
-static void	fill_result(char **res, char *s, const char *sep, size_t word_count)
+static void	fill_result(char **res, char *s, char *sep, size_t word_count)
 {
 	size_t	i;
 	size_t	word_len;
@@ -49,7 +49,7 @@ static void	fill_result(char **res, char *s, const char *sep, size_t word_count)
 	res[i] = NULL;
 }
 
-char	**ft_split(const char *s, const char *sep)
+char	**ft_split(char *s, char *sep)
 {
 	size_t	word_count;
 	char	**result;

@@ -10,7 +10,7 @@ size_t	expand_single_quote_word(t_info *info)
 	{
 		return (0);
 	}
-	while (info->str[n] != '\0' && info->str[n] != '\'')
+	while (info->str[n] != '\'')
 	{
 		if (info->str[n] == '*')
 		{
