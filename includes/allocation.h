@@ -19,7 +19,7 @@ typedef struct s_section
 void                    *smalloc(size_t size);
 t_section               **get_sections(void);
 void                    destroy_all_sections(void);
-void                    create_section(const char *name);
+t_section               *create_section(const char *name);
 void                    destroy_section(const char *name);
 void                    clear_section_data(t_section *section);
 t_section               *find_section(t_section *section, const char *name);

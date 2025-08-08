@@ -1,6 +1,6 @@
 #include "allocation.h"
 
-void *smalloc(size_t size)
+void *smalloc(size_t size)// static 
 {
     void *pointer;
 
@@ -23,7 +23,7 @@ void *new_allocation(const char *section_name, size_t size)
 
     section = find_section(*get_sections(), section_name);
     if (!section)
-        return (NULL);
+        section = create_section(section_name);
     allocs = &section->allocations;
     cap = &section->capacity;
     cnt = &section->count;

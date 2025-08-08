@@ -6,7 +6,7 @@ static t_section *recursive_search(t_section **section, const char *name)
 
     if (!*section)
         return (NULL);
-    if (!ft_strcmp((*section)->section_name, name))
+    if (!ft_strcmp((*section)->section_name, (char *)name))
     {
         to_destroy = *section;
         *section = to_destroy->next;
