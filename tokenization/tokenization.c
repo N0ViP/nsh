@@ -6,34 +6,33 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 03:38:34 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/08 08:03:47 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/08 23:37:39 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenization.h"
 
-static int	get_word_len(char *str)
+static size_t	get_word_len(char **s)
 {
-	int		j;
+	size_t	j;
 	char	quote;
 
 	j = 0;
-	while (str[j] && !ft_isspace(str[j]) && !ft_strchr("|><()", str[j]))
+	while ((*s)[j] && !ft_isspace((*s)[j]) && !ft_strchr("|><()", (*s)[j]))
 	{
-		if (str[j] == '&' && str[j + 1] == '&')
-		{
+		if ((*s)[j] == '&' && (*s)[j + 1] == '&')
 			break ;
-		}
-		if (str[j] == '"' || str[j] == '\'')
+		if ((*s)[j] == '"' || (*s)[j] == '\'')
 		{
-			quote = str[j++];
-			while (str[j] && str[j] != quote)
+			quote = (*s)[j++];
+			while ((*s)[j] && (*s)[j] != quote)
 			{
 				j++;
 			}
-			if (str[j] != quote)
+			if ((*s)[j] != quote)
 			{
-				return (-1);
+				*s = NULL;
+				return (0);
 			}
 		}
 		j++;
@@ -41,7 +40,7 @@ static int	get_word_len(char *str)
 	return (j);
 }
 
-static bool	creat_token(t_list_info *token_info, char *cmd,
+static bool	creat_token(t_list_info *token_info, char *ptr,
 						enum e_operator operator, int idx)
 {
 	t_list	*node;
@@ -53,7 +52,7 @@ static bool	creat_token(t_list_info *token_info, char *cmd,
 		return (false);
 	}
 	token->type = operator;
-	token->value = ft_substr(cmd, 0, idx);
+	token->value = ft_substr(ptr, 0, idx);
 	node = creat_node(token);
 	if (!token->value || !node)
 	{
@@ -65,43 +64,44 @@ static bool	creat_token(t_list_info *token_info, char *cmd,
 	return (true);
 }
 
-static int	extract_token_and_type(t_list_info *token_info, char *cmd)
+static size_t	extract_token_and_type(t_list_info *token_info, char **ptr)
 {
-	int				j;
+	size_t			j;
 	enum e_operator	operator;
 
 	j = 1;
-	operator = check_token(cmd);
+	operator = check_token(*ptr);
 	if (operator == WORD)
 	{
-		j = get_word_len(cmd);
-		if (j == -1)
+		j = get_word_len(ptr);
+		if (*ptr == NULL)
 		{
-			return (free(cmd), free_list(&token_info, free_token),
-				write(2, "unclosed quotes\n", 16),-1);
+			return (free(*ptr), *ptr = NULL, free_list(&token_info, free_token),
+				write(2, "unclosed quotes\n", 16),0);
 		}
 	}
 	else if (operator == OP_OR || operator == OP_AND
 		|| operator == OP_APPEND || operator == OP_HEREDOC)
 		j = 2;
-	if (!creat_token(token_info, cmd, operator, j))
+	if (!creat_token(token_info, *ptr, operator, j))
 	{
-		free(cmd);
+		free(*ptr);
+		*ptr = NULL;
 		free_list(&token_info, free_token);
 		exit (EXIT_FAILURE);
 	}
+	*ptr += j;
 	return (j);
 }
 
 t_list_info	*tokenize(char *cmd)
 {
 	t_list_info	*token_info;
-	int			i;
-	int			j;
+	char		*ptr;
 
-	i = 0;
-	i += skip_spaces(cmd, i);
-	if (!cmd[i])
+	ptr = cmd;
+	ptr += skip_spaces(ptr, 0);
+	if (!*ptr)
 		return (NULL);
 	token_info = init_list_info_struct();
 	if (!token_info)
@@ -109,13 +109,13 @@ t_list_info	*tokenize(char *cmd)
 		free(cmd);
 		exit(EXIT_FAILURE);
 	}
-	while (cmd[i])
+	while (*ptr)
 	{
-		j = extract_token_and_type(token_info, cmd + i);
-		if (j == -1)
+		extract_token_and_type(token_info, &ptr);
+		if (ptr == NULL)
 			return (NULL);
-		i += j;
-		i += skip_spaces(cmd, i);
+		ptr += skip_spaces(ptr, 0);
+		
 	}
 	return (token_info);
 }
