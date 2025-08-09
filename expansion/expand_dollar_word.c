@@ -20,13 +20,16 @@ static void	split_val(t_info *info, t_list_info *arg_list, char *val, char **spl
 	{
 		add_word_in_arg_list(info, arg_list);
 	}
-	info->word = join_two_strings(info->word, splited_val[0], "");
-	while (splited_val[i])
+	if (splited_val[0])
 	{
-		if (splited_val[i] || has_trailing_space)
-			add_word_in_arg_list(info, arg_list);
-		info->word = splited_val[i];
-		i++;
+		info->word = join_two_strings(info->word, splited_val[0], "");
+		while (splited_val[i])
+		{
+			if (splited_val[i] || has_trailing_space)
+				add_word_in_arg_list(info, arg_list);
+			info->word = splited_val[i];
+			i++;
+		}
 	}
 }
 

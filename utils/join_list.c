@@ -2,6 +2,10 @@
 
 void	join_list(t_list_info *lst_1, t_list_info *lst_2)
 {
+	if (!lst_2->list)
+	{
+		return ;
+	}
 	if (!lst_1->list)
 	{
 		lst_1->list = lst_2->list;
