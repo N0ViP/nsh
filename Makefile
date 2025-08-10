@@ -17,6 +17,10 @@ ALLOC_SRC = \
     allocation/destroy_section.c \
     allocation/free_one_pointer.c
 
+BUILT_SRC = \
+    built_in/echo.c \
+    # built_in/export.c
+
 EXPAND_SRC = \
     expansion/expand.c \
     expansion/check_if_dollar.c \
@@ -99,6 +103,7 @@ SOURCE = $(MAIN_SRC) \
          $(EXEC_SRC) \
          $(UTILS_SRC) \
          $(TOKEN_SRC) \
+         $(BUILT_SRC) \
          $(ALLOC_SRC) \
          $(PARSER_SRC) \
          $(EXPAND_SRC) \
