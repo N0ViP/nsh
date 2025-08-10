@@ -18,6 +18,7 @@
 # include "allocation.h"
 # include "execution.h"
 # include "expansion.h"
+# include "built-in.h"
 # include "getenv.h"
 
 # include <stdio.h>

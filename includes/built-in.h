@@ -7,7 +7,8 @@
 #include "stdfcts.h"
 // #include <linux/limits.h>
 
-void	built_in_echo(char **arr);
+int 	built_in_echo(char **arr);
+int     built_in_export(char **args);
 
 
 #endif

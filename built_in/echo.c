@@ -1,6 +1,6 @@
 #include "built-in.h"
 
-void	built_in_echo(char **arr)
+int	built_in_echo(char **arr)
 {
 	char	*args;
 	bool	new_line;
@@ -17,4 +17,5 @@ void	built_in_echo(char **arr)
 		args = join_two_strings(args, "\n", "");
 	}
 	write(1, args, ft_strlen(args));
+	return (EXIT_SUCCESS);
 }
