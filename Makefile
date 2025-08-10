@@ -8,10 +8,14 @@ MAIN_SRC = \
     sources/printer_to_rm.c
 
 ALLOC_SRC = \
-	allocation/destroy.c \
-    allocation/sections.c \
-    allocation/allocate.c \
-    allocation/clear_data.c
+    allocation/smalloc.c \
+    allocation/allocation.c \
+    allocation/clear_data.c \
+    allocation/destroy_all.c \
+    allocation/find_sections.c \
+    allocation/create_section.c \
+    allocation/destroy_section.c \
+    allocation/free_one_pointer.c
 
 EXPAND_SRC = \
     expansion/expand.c \

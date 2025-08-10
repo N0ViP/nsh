@@ -6,15 +6,6 @@ t_section **get_sections(void)
     return (&pointer_to_sections);
 }
 
-t_section *find_section(t_section *section, const char *name)
-{
-    if (!section)
-        return NULL;
-    if (!ft_strcmp(section->section_name, (char *)name))
-        return (section);
-    return (find_section(section->next, name));
-}
-
 t_section *create_section(const char *name)
 {
     t_section *section;

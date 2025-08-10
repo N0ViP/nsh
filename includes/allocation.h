@@ -22,8 +22,10 @@ void                    destroy_all_sections(void);
 t_section               *create_section(const char *name);
 void                    destroy_section(const char *name);
 void                    clear_section_data(t_section *section);
+t_section               *find_or_create_section(const char *section_name);
 t_section               *find_section(t_section *section, const char *name);
 void                    *new_allocation(const char *section_name, size_t size);
 void                    free_one_pointer(const char *section_name, void *pointer);
+void                    add_allocation_to_section(const char *section_name, void *ptr);
 
 #endif
