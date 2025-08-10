@@ -68,7 +68,10 @@ STDFCTS_SRC = \
     stdfcts/ft_isalpha.c \
     stdfcts/ft_strndup.c \
     stdfcts/ft_isdigit.c \
-    stdfcts/ft_realloc.c 
+    stdfcts/ft_realloc.c \
+    stdfcts/ft_abs.c \
+    stdfcts/ft_itoa.c \
+    stdfcts/ft_numlen.c 
 
 TOKEN_SRC = \
     tokenization/free_token.c \
@@ -89,7 +92,8 @@ EXEC_SRC = \
     execution/command.c \
     execution/pipeline.c \
     execution/bonus_logic.c \
-    execution/redirection.c
+    execution/redirection.c \
+    execution/exit_status.c
 
 SOURCE = $(MAIN_SRC) \
          $(EXEC_SRC) \

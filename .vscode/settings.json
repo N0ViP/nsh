@@ -25,6 +25,7 @@
 		"expansion.h": "c",
 		"getenv.h": "c",
 		"stddef.h": "c",
-		"sstream": "c"
+		"sstream": "c",
+		"stdbool.h": "c"
 	}
 }

@@ -4,6 +4,7 @@
 # include "nsh.h"
 # include "getenv.h"
 # include "utils.h"
+#include "execution.h"
 
 typedef struct s_expander_vars
 {

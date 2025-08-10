@@ -33,6 +33,14 @@ static bool	check_name(char *str)
 	return (true);
 }
 
+static void	print_env(void)
+{
+	t_list_info	*env;
+
+	env = ft_getenv(GET_ENV, NULL);
+	
+}
+
 int	built_in_export(char **args)
 {
 	size_t	i;

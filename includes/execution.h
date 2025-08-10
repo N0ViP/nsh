@@ -8,6 +8,9 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 
+# define SAVE_VALUE 0
+# define GET_VALUE  1
+
 typedef enum
 {
     VALID_PATH,
@@ -32,6 +35,7 @@ int		    execution_mode(t_tree *root, char **envp, t_mode mode);
 void        report_error(const char *cmd, t_state error);
 int		    execute_or_and(t_tree *branch, char **envp);
 int		    execute_tree(t_tree *root, char **envp);
+int 	    _exit_status(bool flag, int value);
 void	    check_redirection(t_tree *branch);
 char	    *resolve_path(const char *cmd);
 void        exit_failure(char *msg);

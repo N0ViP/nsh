@@ -6,7 +6,7 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 08:40:51 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/08 00:58:46 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/10 18:03:33 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # include <stdlib.h>
 # include "utils.h"
 
+int		ft_abs(int x);
+char	*ft_itoa(int n);
+size_t	ft_numlen(int n);
 bool	ft_isdigit(int a);
 bool	ft_isalpha(int a);
 bool	ft_isalnum(int a);

@@ -56,7 +56,7 @@ static void	split_val(t_info *info, t_list_info *arg_list, char *val, char **spl
 // 	add_in_wildcard_hashmap(info, true);
 // }
 
-static void	get_value(t_info *info, t_list_info *arg_list, char *val, bool rm_spaces)
+static void	expand_value(t_info *info, t_list_info *arg_list, char *val, bool rm_spaces)
 {
 	char	*tmp;
 	char	**splited_val;
@@ -76,6 +76,36 @@ static void	get_value(t_info *info, t_list_info *arg_list, char *val, bool rm_sp
 	split_val(info, arg_list, val, splited_val);
 }
 
+static char	*get_value(char *key)
+{
+	char	*value;
+	int		exit_status;
+
+	if (key[0] == '?')
+	{
+		exit_status = _exit_status(GET_VALUE, 0);
+		value = ft_itoa(exit_status);
+	}
+	else
+	{
+		value = get_var_value(key);
+	}
+	return (value);
+}
+
+size_t	get_key_len(char *str)
+{
+	size_t	n;
+
+	n = 1;
+	while (str[n] != '\0'
+		&& (ft_isalnum(str[n]) || str[n] == '_'))
+	{
+		n++;
+	}
+	return (n);
+}
+
 size_t	expand_dollar_word(t_info *info, t_list_info *arg_list, bool rm_spaces)
 {
 	char	*key;
@@ -87,13 +117,16 @@ size_t	expand_dollar_word(t_info *info, t_list_info *arg_list, bool rm_spaces)
 	{
 		return (0);
 	}
-	while (info->str[n] != '\0'
-		&& (ft_isalnum(info->str[n]) || info->str[n] == '_'))
+	if (info->str[n] != '?')
+	{
+		n += get_key_len(&info->str[1]);
+	}
+	else
 	{
 		n++;
 	}
 	key = ft_substr(info->str, 1, n);
-	val = get_var_value(key);
-	get_value(info, arg_list, val, rm_spaces);
+	val = get_value(key);
+	expand_value(info, arg_list, val, rm_spaces);
 	return (n);
 }
