@@ -2,7 +2,14 @@
 
 static bool	check_modify_key(t_list *ptr, char *var)
 {
-	if (!ft_strcmp_env(ptr->content, var))
+	int	reval;
+
+	reval = ft_strcmp_env(ptr->content, var);
+	if (reval == 0)
+	{
+		return (true);
+	}
+	if (reval == 1)
 	{
 		free(ptr->content);
 		ptr->content = var;

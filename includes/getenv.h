@@ -17,7 +17,7 @@ typedef struct s_list_info	t_list_info;
 t_list_info	*init_env();
 char		*get_var_value(char *var);
 t_list_info	*ft_getenv(int flag, char *var);
-bool		ft_strcmp_env(char *s1, char *s2);
+int			ft_strcmp_env(char *s1, char *s2);
 void		add_in_env(t_list_info *env, char *var);
 void		remove_from_env(t_list_info *env, char *var);
 

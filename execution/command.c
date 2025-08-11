@@ -6,8 +6,8 @@ static bool check_for_built_ins(t_tree *branch, int *exit_status)
 
     check_redirection(branch);
     argv = expand_cmd_args(&branch->data.cmd);
-    // if (!ft_strcmp(argv[0], "export"))
-    //     return (*exit_status = built_in_export(argv), true);
+    if (!ft_strcmp(argv[0], "export"))
+        return (*exit_status = built_in_export(argv), true);
     if (!ft_strcmp(argv[0], "echo"))
         return (*exit_status = built_in_echo(++argv), true);
     return (false);

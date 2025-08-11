@@ -19,7 +19,7 @@ ALLOC_SRC = \
 
 BUILT_SRC = \
     built_in/echo.c \
-    # built_in/export.c
+    built_in/export.c
 
 EXPAND_SRC = \
     expansion/expand.c \

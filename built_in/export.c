@@ -33,42 +33,45 @@ static bool	check_name(char *str)
 	return (true);
 }
 
-static int	print_env(void)
+static int	print_env(t_list *env_list)
 {
-	t_list_info	*env;
-	t_list		*ptr;
 	char		*start;
 	char		*equal;
+	int			reval;
 
-	env = ft_getenv(GET_ENV, NULL);
-	ptr = env->list;
-	while (ptr)
+	while (env_list)
 	{
-		start = (char *)ptr->content;
-		equal = ft_strchr(ptr->content, '=');
+		start = (char *)env_list->content;
+		equal = ft_strchr(env_list->content, '=');
 		if (equal)
 		{
-			printf("declare -x %.*s\"%s\"\n", (int)(equal - start + 1), ptr->content, ptr->content + (equal - start) + 1);
+			reval = printf("declare -x %.*s\"%s\"\n", (int)(equal - start + 1), (char *)env_list->content, (char *)env_list->content + (equal - start) + 1);
 		}
 		else
 		{
-			printf("declare -x %s\n", (char *)ptr->content);
+			reval = printf("declare -x %s\n", (char *)env_list->content);
 		}
-		ptr = ptr->next;
+		if (reval == -1)
+		{
+			return (-1);
+		}
+		env_list = env_list->next;
 	}
+	return (0);
 }
 
 int	built_in_export(char **args)
 {
-	size_t	i;
-	int		exit_status;
+	t_list_info	*env;
+	size_t		i;
+	int			exit_status;
 
 	i = 1;
 	exit_status = 0;
+	env = ft_getenv(GET_ENV, NULL);
 	if (!args[1])
 	{
-		exit_status = print_env();
-		return (exit_status);
+		return (print_env(env->list));
 	}
 	while (args[i])
 	{
