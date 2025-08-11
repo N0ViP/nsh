@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   nsh.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 08:37:28 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/09 03:41:38 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/11 07:58:24 by ahoummad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,15 @@ int	main(int argc, char **argv, char**envp)
 		add_history(cmd);
 		
 		tokens = tokenize(cmd);
-		if (!tokens) continue;
+		if (!tokens)
+			continue;
 		// printf("\n-------tokenize-------\n\n");
 		// print_tokens(tokens->list);
-
 		if (!parse_check(tokens->list))
+		{
+			_exit_status(SAVE_VALUE, 2);
 			continue;
+		}
         t_tree *root = parse_tokens(tokens->list);
 		// printf("\n---------TREE---------\n\n");
         // tree_printer_01(root, "", false, true);
