@@ -26,6 +26,8 @@
 		"getenv.h": "c",
 		"stddef.h": "c",
 		"sstream": "c",
-		"stdbool.h": "c"
+		"stdbool.h": "c",
+		"wait.h": "c",
+		"errno.h": "c"
 	}
 }

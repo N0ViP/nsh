@@ -37,6 +37,8 @@ int fork_before(void (*keep_exec)(t_tree *, char **), t_tree *branch, char **env
     if (pid == 0)
         keep_exec(branch, envp);
     waitpid(pid, &status, 0);
+    if (!WIFEXITED(status))
+        return (EXIT_FAILURE);
     return (WEXITSTATUS(status));
 }
 
