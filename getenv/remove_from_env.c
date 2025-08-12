@@ -9,7 +9,7 @@ static bool	check_and_remove(t_list *ptr, char *var)
 {
 	t_list	*tmp;
 
-	if (!ft_strcmp_env(ptr->next->content, var))
+	if (ft_strcmp_env(ptr->next->content, var) == 1)
 	{
 		tmp = ptr->next;
 		ptr->next = ptr->next->next;
@@ -18,8 +18,6 @@ static bool	check_and_remove(t_list *ptr, char *var)
 	}
 	return (false);
 }
-
-
 
 void	remove_from_env(t_list_info *env, char *var)
 {
@@ -31,7 +29,7 @@ void	remove_from_env(t_list_info *env, char *var)
 	{
 		return ;
 	}
-	if (!ft_strcmp_env(ptr->content, var))
+	if (ft_strcmp_env(ptr->content, var) == 1)
 	{
 		tmp = env->list;
 		env->list = env->list->next;

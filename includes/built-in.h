@@ -7,7 +7,10 @@
 #include "stdfcts.h"
 // #include <linux/limits.h>
 
+
 int 	built_in_echo(char **arr);
+int		built_in_env(char *args[]);
+int		built_in_unset(char *args[]);
 int     built_in_export(char **args);
 
 
