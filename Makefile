@@ -121,7 +121,7 @@ all: $(NAME)
 	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCLUDE)
 
 $(NAME): $(OBJS)
-	$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(LIB)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIB)
 
 clean:
 	rm -f $(OBJS)
