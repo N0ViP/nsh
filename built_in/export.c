@@ -53,7 +53,8 @@ static int	print_env(t_list *env_list)
 		}
 		if (reval == -1)
 		{
-			return (-1);
+			perror("nsh: export: write error");
+			return (1);
 		}
 		env_list = env_list->next;
 	}
