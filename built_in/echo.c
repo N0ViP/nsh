@@ -5,8 +5,9 @@ int	built_in_echo(char **arr)
 	char	*args;
 	bool	new_line;
 
+	arr++;
 	new_line = true;
-	if (!ft_strcmp(*arr, "-n"))
+	if (*arr && !ft_strcmp(*arr, "-n"))
 	{
 		arr++;
 		new_line = false;

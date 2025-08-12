@@ -22,7 +22,7 @@ static int	print_env(t_list *env_list)
 	return (0);
 }
 
-int	built_in_env(char *args[])
+int	built_in_env(void)
 {
 	t_list_info	*env;
 	int			exit_status;

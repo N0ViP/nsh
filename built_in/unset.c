@@ -1,6 +1,6 @@
 #include "built-in.h"
 
-int	built_in_unset(char *args[])
+int	built_in_unset(char **args)
 {
 	size_t	i;
 
@@ -10,5 +10,5 @@ int	built_in_unset(char *args[])
 		ft_getenv(REMOVE_FROM_ENV, args[i]);
 		i++;
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }

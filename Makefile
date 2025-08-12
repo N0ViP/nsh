@@ -19,6 +19,8 @@ ALLOC_SRC = \
 
 BUILT_SRC = \
     built_in/echo.c \
+    built_in/unset.c \
+    built_in/env.c \
     built_in/export.c
 
 EXPAND_SRC = \
