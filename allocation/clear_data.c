@@ -10,6 +10,5 @@ void clear_section_data(t_section *section)
     while (cnt--)
         free(section->allocations[cnt]);
     free(section->allocations);
-    free(section->section_name);
     free(section);
 }

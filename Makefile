@@ -4,18 +4,21 @@ LIB		=	-lreadline
 INCLUDE	=	./includes
 
 MAIN_SRC = \
-    sources/nsh.c \
+    sources/main.c \
+    sources/new_shell.c \
     sources/printer_to_rm.c
 
 ALLOC_SRC = \
     allocation/smalloc.c \
-    allocation/allocation.c \
     allocation/clear_data.c \
     allocation/destroy_all.c \
     allocation/find_sections.c \
+    allocation/add_allocation.c \
+    allocation/new_allocation.c \
     allocation/create_section.c \
     allocation/destroy_section.c \
-    allocation/free_one_pointer.c
+    allocation/free_one_pointer.c \
+    allocation/clean_before_prompt.c
 
 BUILT_SRC = \
     built_in/echo.c \
@@ -80,7 +83,6 @@ STDFCTS_SRC = \
     stdfcts/ft_numlen.c 
 
 TOKEN_SRC = \
-    tokenization/free_token.c \
     tokenization/tokenization.c
 
 PARSER_SRC = \
@@ -89,17 +91,24 @@ PARSER_SRC = \
     parser/parse_tree.c \
     parser/print_error.c \
     parser/error_check.c \
+    parser/parse_tokens.c \
     parser/extract_redirs.c
 
 EXEC_SRC = \
-    execution/path.c \
     execution/error.c \
-    execution/execute.c \
+    execution/or_and.c \
     execution/command.c \
+    execution/execute.c \
+    execution/subshell.c \
     execution/pipeline.c \
-    execution/bonus_logic.c \
+    execution/path_errors.c \
     execution/redirection.c \
-    execution/exit_status.c
+    execution/exit_status.c \
+    execution/check_curr_dir.c \
+    execution/path_resolution.c \
+    execution/search_in_paths.c \
+    execution/right_left_pipe.c \
+    execution/built_ins_check.c
 
 SOURCE = $(MAIN_SRC) \
          $(EXEC_SRC) \

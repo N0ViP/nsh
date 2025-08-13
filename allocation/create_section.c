@@ -6,13 +6,13 @@ t_section **get_sections(void)
     return (&pointer_to_sections);
 }
 
-t_section *create_section(const char *name)
+t_section *create_section(t_sid section_id)
 {
     t_section *section;
 
     section = smalloc(sizeof(t_section));
-    section->section_name = ft_strndup(name, ft_strlen(name));
-    section->allocations = malloc(sizeof(void *) * ALLOCATION_CAPACITY);
+    section->section_id = section_id;
+    section->allocations = smalloc(sizeof(void *) * ALLOCATION_CAPACITY);
     section->count = 0;
     section->capacity = ALLOCATION_CAPACITY;
     section->next = *get_sections();

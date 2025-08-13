@@ -22,11 +22,12 @@ static char **extract_args(t_list *tokens, int n_arg)
 
     i = 0;
     cur = tokens;
-    args = smalloc((n_arg + 1) * sizeof(char *));
+    args = new_allocation(PARSING, (n_arg + 1) * sizeof(char *));
     while (cur)
     {
         tok = (t_token *)cur->content;
-        args[i] = tok->value;
+        args[i] = ft_strdup(tok->value);
+        add_allocation_to_section(PARSING, args[i]);
         cur = cur->next;
         i++;
     }
@@ -40,7 +41,7 @@ t_tree *new_command_branch(t_list *tokens)
     int n_redirs;
     int n_arg;
 
-    node = smalloc(sizeof(t_tree));
+    node = new_allocation(PARSING, sizeof(t_tree));
     node->type = COMMAND;
     n_redirs = count_redirs(tokens);
     node->data.cmd.n_redirs = n_redirs;

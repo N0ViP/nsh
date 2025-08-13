@@ -25,6 +25,7 @@ bool	ft_isdigit(int a);
 bool	ft_isalpha(int a);
 bool	ft_isalnum(int a);
 bool	ft_isspace(int c);
+char	*ft_strdup(const char *s);
 size_t  ft_strlen(const  char *s);
 size_t	ft_min(size_t a, size_t b);
 char	*ft_strchr(const char *str, char c);

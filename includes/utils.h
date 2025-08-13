@@ -22,7 +22,7 @@ typedef struct s_list_info	t_list_info;
 
 void            _free(char **str);
 t_list_info	    *init_list_info_struct();
-enum e_operator	check_token(char *token);
+enum e_operator check_token(char *token);
 t_list			*creat_node(void *content);
 size_t			skip_spaces(char *str, size_t i);
 bool			check_if_match(char *sep, char c);

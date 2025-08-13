@@ -49,7 +49,7 @@ char	*ft_strjoin(char **arr, char *delemiter)
 
 	delemiter_len = ft_strlen(delemiter);
 	words_len = ft_words_len(arr, delemiter_len);
-	str = malloc(words_len + 1);
+	str = smalloc(words_len + 1);
 	str[0] = '\0';
 	fill_str(arr, delemiter, str);
 	return (str);

@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_token.c                                       :+:      :+:    :+:   */
+/*   nsh.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/02 03:38:51 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/07/02 03:39:20 by yjaafar          ###   ########.fr       */
+/*   Created: 2025/07/01 08:37:28 by yjaafar           #+#    #+#             */
+/*   Updated: 2025/08/11 07:58:24 by ahoummad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenization.h"
+#include "nsh.h"
 
-void	free_token(t_list *node)
+int	main(void)
 {
-	t_token	*token;
+	char	*command;
 
-	token = node->content;
-	node->content = NULL;
-	free(token->value);
+	while (true)
+	{
+		if(read_command(&command))
+		{
+			new_shell(command);
+		}
+	}
+	return(EXIT_SUCCESS);
 }

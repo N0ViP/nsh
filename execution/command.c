@@ -1,35 +1,20 @@
 # include "execution.h"
 
-static bool check_for_built_ins(t_tree *branch, int *exit_status)
-{
-    char   **argv;
-
-    check_redirection(branch);
-    argv = expand_cmd_args(&branch->data.cmd);
-    if (!ft_strcmp(argv[0], "export"))
-        return (*exit_status = built_in_export(argv), true);
-    else if (!ft_strcmp(argv[0], "unset"))
-        return (*exit_status = built_in_unset(argv), true);
-    else if (!ft_strcmp(argv[0], "echo"))
-        return (*exit_status = built_in_echo(argv), true);
-    else if (!ft_strcmp(argv[0], "env"))
-        return (*exit_status = built_in_env(), true);
-    return (false);
-}
-
-static void execute(t_tree *branch, char **envp)
+static void execute(t_tree *branch)
 {
     char    *path;
     char   **argv;
+    char   **envi;
     
     check_redirection(branch);
     argv = expand_cmd_args(&branch->data.cmd);
-    path = resolve_path(argv[0]);
-    execve(path, argv, envp);
+    path = path_resolution(argv[0]);
+    envi = lst_to_arr(ft_getenv(GET_ENV, NULL));
+    execve(path, argv, envi);
     exit_failure("execve");
 }
 
-int fork_before(void (*keep_exec)(t_tree *, char **), t_tree *branch, char **envp)
+int fork_before(void (*keep_exec)(t_tree *), t_tree *branch)
 {
     int status;
     pid_t pid;
@@ -39,22 +24,22 @@ int fork_before(void (*keep_exec)(t_tree *, char **), t_tree *branch, char **env
     if (pid < 0)
         exit_failure("fork");
     if (pid == 0)
-        keep_exec(branch, envp);
+        keep_exec(branch);
     waitpid(pid, &status, 0);
     if (!WIFEXITED(status))
         return (EXIT_FAILURE);
     return (WEXITSTATUS(status));
 }
 
-int execute_command(t_tree *branch, char **envp, t_mode mode)
+int execute_command(t_tree *branch, t_mode mode)
 {
     int exit_status;
 
     exit_status = 1;
-    if (check_for_built_ins(branch, &exit_status))
+    if (built_ins_check(branch, &exit_status))
         return (exit_status);
     else if (mode == DEFAULT_MODE)
-        return (fork_before(execute, branch, envp));
-    execute(branch, envp);
+        return (fork_before(execute, branch));
+    execute(branch);
     return (exit_status);
 }

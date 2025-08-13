@@ -7,8 +7,7 @@ static bool	check_open_paren(t_list *tokens, t_token *prev)
 	if (!tokens->next)
 		return (parse_error("("), false);
 	next = (t_token *)tokens->next->content;
-	if (prev
-	 && prev->type != OP_OPEN_PARENTHESE
+	if (prev && prev->type != OP_OPEN_PARENTHESE
 	 && !(prev->type >= OP_OR && prev->type <= OP_PIPE))
 		return (parse_error("("), false);
 	if ((next->type >= OP_OR && next->type <= OP_REDIR_IN)
@@ -54,6 +53,12 @@ static bool	check_ops_and_redirs(t_list *tokens, t_token *prev)
 	{
 		if (!tokens->next)
 			return (parse_error("newline"), false);
+		if (tokens->next->next)
+		{
+			curr = (t_token *)tokens->next->next->content;
+			if (curr->type == WORD)
+				return (parse_error(curr->value), false);
+		}
 	}
 	return (true);
 }

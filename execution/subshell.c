@@ -1,0 +1,19 @@
+# include "execution.h"
+
+static void redir_then_recurse(t_tree *branch)
+{
+    t_tree *child;
+    int     status;
+
+    child = branch->data.subshell.child;
+    check_redirection(branch);
+    status = execution_mode(child, NO_FORK_MODE);
+    exit(status);
+}
+
+int execute_subshell(t_tree *branch, t_mode mode)
+{
+    if (mode == DEFAULT_MODE)
+        return (fork_before(redir_then_recurse, branch));
+    return (redir_then_recurse(branch), 1);
+}

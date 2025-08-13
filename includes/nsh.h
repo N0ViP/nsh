@@ -50,4 +50,13 @@ typedef struct s_token
 	enum e_operator	type;
 }	t_token;
 
+void	new_shell(char *cmd);
+bool	read_command(char **cmd);
+
+//printers to remove
+void    print_tokens(t_list *list);
+void    tree_printer_00(t_tree *root, int indent);
+void    tree_printer_01(t_tree *node, const char *prefix, bool is_left, bool is_first);
+void 	print_all_sections();
+
 #endif

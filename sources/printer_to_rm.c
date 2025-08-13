@@ -190,3 +190,42 @@ void tree_printer_01(t_tree *node, const char *prefix, bool is_left, bool is_fir
         tree_printer_01(node->data.branch.right, new_pref, false, is_first);
     }
 }
+
+void print_all_sections(void)
+{
+    t_section *current = *get_sections();
+    int section_count = 0;
+
+    if (!current) {
+        printf("No sections in list.\n");
+        return;
+    }
+
+    printf("===== SECTION LIST DUMP =====\n");
+    while (current) {
+        printf("\n--- Section %d ---\n", section_count++);
+        printf("Section ID:   %d\n", current->section_id);
+        printf("Address:      %p\n", (void*)current);
+        printf("Allocations:  %zu/%zu (used/capacity)\n", 
+               current->count, current->capacity);
+        printf("Next:         %p\n", (void*)current->next);
+
+        if (current->count > 0) {
+            printf("\nAllocation Pointers:\n");
+            for (size_t i = 0; i < current->count; i++)
+            {
+                printf("  [%3zu] %p", i, current->allocations[i]);
+                if (current->allocations[i] == NULL) {
+                    printf(" (NULL)");
+                }
+                printf("\n");
+            }
+        } else {
+            printf("\nNo allocations in this section.\n");
+        }
+
+        current = current->next;
+    }
+    printf("\n=============================\n");
+    printf("Total sections: %d\n", section_count);
+}

@@ -40,83 +40,77 @@ static size_t	get_word_len(char **s)
 	return (j);
 }
 
-static bool	creat_token(t_list_info *token_info, char *ptr,
-						enum e_operator operator, int idx)
+static void add_to_list(t_list **tokens, t_list *new_node)
+{
+    t_list *current;
+
+    if (!*tokens)
+	{
+        *tokens = new_node;
+	}
+    else
+	{
+        current = *tokens;
+        while (current->next)
+            current = current->next;
+        current->next = new_node;
+    }
+}
+
+static t_list *creat_token(char *ptr, t_type type, int idx)
 {
 	t_list	*node;
 	t_token	*token;
 
-	token = malloc(sizeof(t_token));
-	if (!token)
-	{
-		return (false);
-	}
-	token->type = operator;
+	token = new_allocation(TOKENIZATION, sizeof(t_token));
+	token->type = type;
 	token->value = ft_substr(ptr, 0, idx);
+	add_allocation_to_section(TOKENIZATION, token->value);
 	node = creat_node(token);
-	if (!token->value || !node)
-	{
-		free(token->value);
-		free(node);
-		return (false);
-	}
-	list_add_back(token_info, node);
-	return (true);
+	add_allocation_to_section(TOKENIZATION, node);
+	return (node);
 }
 
-static size_t	extract_token_and_type(t_list_info *token_info, char **ptr)
+static size_t	extract_token_and_type(t_list **tokens, char **ptr)
 {
-	size_t			j;
-	enum e_operator	operator;
+	t_type	type;
+	size_t	j;
 
 	j = 1;
-	operator = check_token(*ptr);
-	if (operator == WORD)
+	type = check_token(*ptr);
+	if (type == WORD)
 	{
 		j = get_word_len(ptr);
 		if (*ptr == NULL)
 		{
 			_exit_status(SAVE_VALUE, 2);
-			return (free(*ptr), *ptr = NULL, free_list(&token_info, free_token),
-				write(2, "unclosed quotes\n", 16),0);
+			return (write(2, "unclosed quotes\n", 16), 0);
 		}
 	}
-	else if (operator == OP_OR || operator == OP_AND
-		|| operator == OP_APPEND || operator == OP_HEREDOC)
+	else if (type == OP_OR || type == OP_AND
+		|| type == OP_APPEND || type == OP_HEREDOC)
 		j = 2;
-	if (!creat_token(token_info, *ptr, operator, j))
-	{
-		free(*ptr);
-		*ptr = NULL;
-		free_list(&token_info, free_token);
-		exit (EXIT_FAILURE);
-	}
+	add_to_list(tokens, creat_token(*ptr, type, j));
 	*ptr += j;
 	return (j);
 }
 
-t_list_info	*tokenize(char *cmd)
+t_list	*tokenize(char *cmd)
 {
-	t_list_info	*token_info;
-	char		*ptr;
+	t_list	*tokens;
 
-	ptr = cmd;
-	ptr += skip_spaces(ptr, 0);
-	if (!*ptr)
+	add_allocation_to_section(TOKENIZATION, cmd);
+	cmd += skip_spaces(cmd, 0);
+	if (!*cmd)
 		return (NULL);
-	token_info = init_list_info_struct();
-	if (!token_info)
+	tokens = NULL;
+	while (*cmd)
 	{
-		free(cmd);
-		exit(EXIT_FAILURE);
-	}
-	while (*ptr)
-	{
-		extract_token_and_type(token_info, &ptr);
-		if (ptr == NULL)
+		extract_token_and_type(&tokens, &cmd);
+		if (cmd == NULL)
 			return (NULL);
-		ptr += skip_spaces(ptr, 0);
+		cmd += skip_spaces(cmd, 0);
 		
 	}
-	return (token_info);
+	return (tokens);
 }

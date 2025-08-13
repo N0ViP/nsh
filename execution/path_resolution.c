@@ -1,0 +1,47 @@
+# include "execution.h"
+
+static char *cmd_with_path(char *cmd)
+{
+	t_state		state;
+
+	state = path_validity(cmd);
+	if (state == VALID_PATH)
+	{
+		return (allocate_retval(EXECUTION, cmd));
+	}
+	report_error(cmd, state);
+	return (NULL);
+}
+
+static char *find_in_paths(char *cmd, char **paths, t_state *state)
+{
+    char *ret_path;
+
+	ret_path = search_in_paths(cmd, paths, state);
+    if (ret_path && (*state == VALID_PATH || *state == PERMISSION_ERROR))
+	{										//only if perm error or *state != NO_FILE_ERROR??
+        return (allocate_retval(EXECUTION, ret_path));
+	}
+	return (allocate_retval(EXECUTION, cmd));
+}
+
+char	*path_resolution(char *cmd)
+{
+	t_state		state;
+	char		**paths;
+	char		*path_env;
+	char		*full_path;
+
+	if (ft_strchr(cmd, '/'))
+		return (cmd_with_path(cmd));
+	path_env = get_var_value("PATH");
+	if (!path_env || !*path_env)
+		return (report_error(cmd, NOT_FOUND_ERROR), NULL);
+	paths = ft_split(path_env, ":");
+	add_allocations_to_section(EXECUTION, (void **)paths);
+	full_path = find_in_paths(cmd, paths, &state);
+	if (!check_state_and_curr_dir(cmd, &full_path, &state))
+		report_error(full_path, state);
+	destroy_section(RESOLVE_PATH);
+	return (full_path);
+}

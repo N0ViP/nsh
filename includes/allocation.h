@@ -7,25 +7,37 @@
 
 #define ALLOCATION_CAPACITY 2
 
+typedef enum
+{
+    TOKENIZATION,
+    PARSING,
+    EXECUTION,
+    RESOLVE_PATH,
+    EVIRON
+} t_sid;
+
 typedef struct s_section
 {
-    char                *section_name;
+    t_sid               section_id;
     void                **allocations;
     size_t              capacity;
     size_t              count;
     struct s_section    *next;
 } t_section;
 
-void                    *smalloc(size_t size);
 t_section               **get_sections(void);
+void                    *smalloc(size_t size);
+void                    clean_before_prompt(void);
 void                    destroy_all_sections(void);
-t_section               *create_section(const char *name);
-void                    destroy_section(const char *name);
+t_section               *create_section(t_sid section_id);
+void                    destroy_section(t_sid section_id);
 void                    clear_section_data(t_section *section);
-t_section               *find_or_create_section(const char *section_name);
-t_section               *find_section(t_section *section, const char *name);
-void                    *new_allocation(const char *section_name, size_t size);
-void                    free_one_pointer(const char *section_name, void *pointer);
-void                    add_allocation_to_section(const char *section_name, void *ptr);
+t_section               *find_or_create_section(t_sid section_id);
+void                    *new_allocation(t_sid section_id, size_t size);
+char                    *allocate_retval(t_sid section_id, char *to_copy);
+void                    free_one_pointer(t_sid section_id, void *pointer);
+t_section               *find_section(t_section *section, t_sid section_id);
+void                    add_allocation_to_section(t_sid section_id, void *ptr);
+void                    add_allocations_to_section(t_sid section_id, void **ptr);
 
 #endif

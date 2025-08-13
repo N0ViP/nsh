@@ -18,11 +18,7 @@ char	*ft_substr(char *str, int i, int j)
 	int		k;
 
 	k = 0;
-	res = malloc(j - i + 1);
-	if (!res)
-	{
-		return (NULL);
-	}
+	res = smalloc(j - i + 1);
 	while (i < j)
 	{
 		res[k] = str[i];
