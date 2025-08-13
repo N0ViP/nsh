@@ -39,7 +39,7 @@ void report_error(const char *cmd, t_state error)
     else if (error == IS_DIR_ERROR)
         write(STDERR_FILENO, ": Is a directory\n", 17);
     else if (error == PERMISSION_ERROR)
-        write(STDERR_FILENO, ": Permission denied\n", 20);//, free((void *)cmd)
+        write(STDERR_FILENO, ": Permission denied\n", 20);
     else if (error == STAT_ERROR)
         perror(cmd);
     code = 126;

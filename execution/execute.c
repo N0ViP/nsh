@@ -17,4 +17,5 @@ void execute_tree(t_tree *root)
 {
     execution_mode(root, DEFAULT_MODE);
     destroy_section(PARSING);
+    print_all_sections();
 }

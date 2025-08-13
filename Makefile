@@ -101,6 +101,7 @@ EXEC_SRC = \
     execution/execute.c \
     execution/subshell.c \
     execution/pipeline.c \
+    execution/fork_before.c \
     execution/path_errors.c \
     execution/redirection.c \
     execution/exit_status.c \

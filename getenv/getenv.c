@@ -8,7 +8,7 @@ t_list_info	*ft_getenv(int flag, char *var)
 
 	if (var)
 	{
-		dup_var = ft_strdup(var);
+		dup_var = allocate_retval(ENVIRON, var);
 	}
 	if (init == true)
 	{

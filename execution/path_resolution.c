@@ -15,12 +15,12 @@ static char *cmd_with_path(char *cmd)
 
 static char *find_in_paths(char *cmd, char **paths, t_state *state)
 {
-    char *ret_path;
+    char *ret_cmd;
 
-	ret_path = search_in_paths(cmd, paths, state);
-    if (ret_path && (*state == VALID_PATH || *state == PERMISSION_ERROR))
-	{										//only if perm error or *state != NO_FILE_ERROR??
-        return (allocate_retval(EXECUTION, ret_path));
+	ret_cmd = search_in_paths(cmd, paths, state);
+    if (ret_cmd && (*state == VALID_PATH || *state == PERMISSION_ERROR))
+	{				//only if perm error or rm *state == PERMISSION_ERROR??
+        return (allocate_retval(EXECUTION, ret_cmd));
 	}
 	return (allocate_retval(EXECUTION, cmd));
 }
@@ -36,12 +36,13 @@ char	*path_resolution(char *cmd)
 		return (cmd_with_path(cmd));
 	path_env = get_var_value("PATH");
 	if (!path_env || !*path_env)
-		return (report_error(cmd, NOT_FOUND_ERROR), NULL);
+		return (check_and_curr_dir(cmd));
+	add_allocation_to_section(RESOLVE_PATH, path_env);
 	paths = ft_split(path_env, ":");
-	add_allocations_to_section(EXECUTION, (void **)paths);
+	add_allocations_to_section(RESOLVE_PATH, (void **)paths);
 	full_path = find_in_paths(cmd, paths, &state);
-	if (!check_state_and_curr_dir(cmd, &full_path, &state))
-		report_error(full_path, state);
 	destroy_section(RESOLVE_PATH);
+	if (state != VALID_PATH)
+		report_error(full_path, state);
 	return (full_path);
 }

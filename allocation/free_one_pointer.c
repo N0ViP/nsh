@@ -1,6 +1,6 @@
 #include "allocation.h"
 
-void free_one_pointer(t_sid section_id, void *pointer)//
+void free_one_pointer(t_sid section_id, void *pointer)
 {
     t_section   *section;
     void        **allocs;

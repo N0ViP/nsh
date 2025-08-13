@@ -32,6 +32,7 @@ t_state     stat_error(void);
 void        exit_failure(char *msg);
 void		execute_tree(t_tree *root);
 char	    *path_resolution(char *cmd);
+char        *check_and_curr_dir(char *cmd);
 int		    execute_or_and(t_tree *branch);
 t_state     path_validity(const char *path);
 void	    check_redirection(t_tree *branch);
@@ -46,6 +47,5 @@ pid_t       fork_right_pipe(int pipefd[2], t_tree *branch);
 bool        built_ins_check(t_tree *branch, int *exit_status);
 int         fork_before(void (*keep_exec)(t_tree *), t_tree *branch);
 char        *search_in_paths(char *cmd, char **paths, t_state *state);
-bool        check_state_and_curr_dir(char *cmd, char **full_path, t_state *state);
 
 #endif

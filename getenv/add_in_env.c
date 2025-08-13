@@ -11,7 +11,7 @@ static bool	check_modify_key(t_list *ptr, char *var)
 	}
 	if (reval == 1)
 	{
-		free(ptr->content);
+		free_one_pointer(ENVIRON, ptr->content);
 		ptr->content = var;
 		return (true);
 	}
@@ -33,5 +33,6 @@ void	add_in_env(t_list_info *env, char *var)
 		ptr = ptr->next;
 	}
 	node = creat_node(var);
+	add_allocation_to_section(ENVIRON, node);
 	list_add_back(env, node);
 }

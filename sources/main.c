@@ -21,6 +21,7 @@ int	main(void)
 		if(read_command(&command))
 		{
 			new_shell(command);
+			print_all_sections();
 		}
 	}
 	return(EXIT_SUCCESS);

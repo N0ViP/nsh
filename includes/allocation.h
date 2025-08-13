@@ -10,10 +10,10 @@
 typedef enum
 {
     TOKENIZATION,
-    PARSING,
-    EXECUTION,
     RESOLVE_PATH,
-    EVIRON
+    EXECUTION,
+    PARSING,
+    ENVIRON
 } t_sid;
 
 typedef struct s_section

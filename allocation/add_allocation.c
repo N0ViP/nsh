@@ -24,5 +24,5 @@ void add_allocations_to_section(t_sid section_id, void **ptr)
 {
     add_allocation_to_section(section_id, ptr);
     while (*ptr)
-        add_allocation_to_section(section_id, ptr++);
+        add_allocation_to_section(section_id, *ptr++);
 }

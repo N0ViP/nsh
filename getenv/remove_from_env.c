@@ -2,8 +2,8 @@
 
 static void	free_var_node(t_list *node)
 {
-	free(node->content);
-	free(node);
+	free_one_pointer(ENVIRON, node->content);
+	free_one_pointer(ENVIRON, node);
 }
 
 static bool	check_and_remove(t_list *ptr, char *var)
