@@ -1,19 +1,34 @@
 # include "getenv.h"
 
+t_list_info	**env_list(void)
+{
+	static t_list_info	*env = NULL;
+	return (&env);
+}
+
+bool env(void)
+{
+	t_list_info		**env;
+	static bool		init = false;
+
+	if (init == false)
+	{
+		env = env_list();
+		*env = init_env();
+		init = true;
+	}
+	return (init);
+}
+
 t_list_info	*ft_getenv(int flag, char *var)
 {
-	static t_list_info	*env;
-	static bool			init = true;
-	char				*dup_var;
-
+	t_list_info		*env;
+	char			*dup_var;
+	
+	env = *env_list();
 	if (var)
 	{
 		dup_var = allocate_retval(ENVIRON, var);
-	}
-	if (init == true)
-	{
-		env = init_env();
-		init = false;
 	}
 	if (flag == ADD_IN_ENV)
 	{

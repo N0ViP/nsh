@@ -69,7 +69,7 @@ int	built_in_export(char **args)
 
 	i = 1;
 	exit_status = 0;
-	env = ft_getenv(GET_ENV, NULL);
+	env = *env_list();
 	if (!args[1])
 	{
 		return (print_env(env->list));

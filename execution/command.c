@@ -2,15 +2,15 @@
 
 static void execute(t_tree *branch)
 {
-    char    *path;
+    char   *path;
+    char   **env;
     char   **argv;
-    char   **envi;
     
     check_redirection(branch);
     argv = expand_cmd_args(&branch->data.cmd);
     path = path_resolution(argv[0]);
-    envi = lst_to_arr(ft_getenv(GET_ENV, NULL));
-    execve(path, argv, envi);
+    env = lst_to_arr(*env_list());
+    execve(path, argv, env);
     exit_failure("execve");
 }
 

@@ -11,7 +11,7 @@ static t_list	*dup_env_var(char *str)
 	return (val);
 }
 
-t_list_info	*init_env()
+t_list_info	*init_env(void)
 {
 	int			i;
 	t_list		*node;

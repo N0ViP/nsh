@@ -24,7 +24,7 @@ char	*get_var_value(char *var)
 	t_list		*ptr;
 	char		*value;
 
-	env = ft_getenv(GET_ENV, NULL);
+	env = *env_list();
 	ptr = env->list;
 	while (ptr)
 	{

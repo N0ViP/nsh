@@ -16,7 +16,7 @@ int	main(void)
 {
 	char	*command;
 
-	while (true)
+	while (env())
 	{
 		if(read_command(&command))
 		{

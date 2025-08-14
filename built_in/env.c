@@ -27,7 +27,7 @@ int	built_in_env(void)
 	t_list_info	*env;
 	int			exit_status;
 
-	env = ft_getenv(GET_ENV, NULL);
+	env = *env_list();
 	exit_status = print_env(env->list);
 	return (exit_status);
 }
