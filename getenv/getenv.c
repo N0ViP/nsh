@@ -6,18 +6,12 @@ t_list_info	**env_list(void)
 	return (&env);
 }
 
-bool env(void)
+void env_setup(void)
 {
 	t_list_info		**env;
-	static bool		init = false;
 
-	if (init == false)
-	{
-		env = env_list();
-		*env = init_env();
-		init = true;
-	}
-	return (init);
+	env = env_list();
+	*env = init_env();
 }
 
 t_list_info	*ft_getenv(int flag, char *var)

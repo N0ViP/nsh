@@ -16,7 +16,7 @@ extern char	**environ;
 typedef struct s_list		t_list;
 typedef struct s_list_info	t_list_info;
 
-bool        env(void);
+void        env_setup(void);
 t_list_info	*init_env(void);
 t_list_info	**env_list(void);
 char		*get_var_value(char *var);

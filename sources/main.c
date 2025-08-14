@@ -16,12 +16,11 @@ int	main(void)
 {
 	char	*command;
 
-	while (env())
+	while (init())
 	{
 		if(read_command(&command))
 		{
 			new_shell(command);
-			print_all_sections();
 		}
 	}
 	return(EXIT_SUCCESS);

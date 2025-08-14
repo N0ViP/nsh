@@ -24,6 +24,7 @@
 # include <stdio.h>
 # include <stdbool.h>
 # include <fcntl.h>
+# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -50,6 +51,8 @@ typedef struct s_token
 	enum e_operator	type;
 }	t_token;
 
+bool	init(void);
+void 	signals_setup(void);
 void	new_shell(char *cmd);
 bool	read_command(char **cmd);
 

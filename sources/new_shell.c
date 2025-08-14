@@ -1,19 +1,16 @@
 #include "nsh.h"
 
-bool	read_command(char **cmd)
+bool init(void)
 {
-	*cmd = readline("\e[32mnsh$\e[0m ");
-	if (!*cmd)
-    {
-		exit(0);
-    }
-	else if (!**cmd)
-	{
-		free(*cmd);
-		return (false);
+	static bool	init = false;
+
+	if (init == false)
+	{	
+		signals_setup();
+		env_setup();
+		init = true;
 	}
-	add_history(*cmd);
-	return (true);
+	return (init);
 }
 
 void	new_shell(char *cmd)
