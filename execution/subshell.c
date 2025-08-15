@@ -5,8 +5,9 @@ static void redir_then_recurse(t_tree *branch)
     t_tree *child;
     int     status;
 
+    check_for_heredoc(branch);
+    redirection_setup(branch);
     child = branch->data.subshell.child;
-    check_redirection(branch);
     status = execution_mode(child, NO_FORK_MODE);
     exit(status);
 }

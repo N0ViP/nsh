@@ -26,13 +26,13 @@ typedef enum e_operator
 } t_type;
 
 typedef struct {
-    enum e_operator type;
-    char *file;
+    t_type  type;
+    void    *file;
 } t_redir;
 
 typedef struct {
     char    **args;
-    int     n_arg;// rm
+    int     n_arg;
     t_redir *redirs;
     int     n_redirs;
 } t_cmd;
@@ -49,7 +49,7 @@ typedef struct {
 } t_subshell;
 
 typedef struct s_tree {
-    enum e_operator type;
+    t_type type;
     union {
         t_cmd  cmd;
         t_branch branch;

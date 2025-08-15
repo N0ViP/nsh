@@ -5,6 +5,7 @@
 # include "utils.h"
 # include "stdfcts.h"
 # include "errno.h"
+# include <limits.h>//
 # include <sys/stat.h>
 # include <sys/wait.h>
 
@@ -35,7 +36,8 @@ char	    *path_resolution(char *cmd);
 char        *check_and_curr_dir(char *cmd);
 int		    execute_or_and(t_tree *branch);
 t_state     path_validity(const char *path);
-void	    check_redirection(t_tree *branch);
+void	    redirection_setup(t_tree *branch);
+void	    check_for_heredoc(t_tree *branch);
 int 	    _exit_status(bool flag, int value);
 int		    execution_mode(t_tree *root, t_mode mode);
 void        report_error(const char *cmd, t_state error);
@@ -47,5 +49,6 @@ pid_t       fork_right_pipe(int pipefd[2], t_tree *branch);
 bool        built_ins_check(t_tree *branch, int *exit_status);
 int         fork_before(void (*keep_exec)(t_tree *), t_tree *branch);
 char        *search_in_paths(char *cmd, char **paths, t_state *state);
+bool        get_redirs(t_tree *branch, t_redir **redirs, int *n_redirs);
 
 #endif

@@ -1,6 +1,6 @@
 #include "nsh.h"
 
-static void sigint(int signal)
+static void shell_sigint(int signal)
 {
     (void)signal;
     write(STDOUT_FILENO, "\n", 1);
@@ -9,8 +9,8 @@ static void sigint(int signal)
     rl_redisplay();
 }
 
-void signals_setup(void)
+void shell_signals(void)
 {
-	signal(SIGINT, sigint);
 	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, shell_sigint);
 }

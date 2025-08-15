@@ -100,6 +100,7 @@ EXEC_SRC = \
     execution/error.c \
     execution/or_and.c \
     execution/command.c \
+    execution/heredoc.c \
     execution/execute.c \
     execution/subshell.c \
     execution/pipeline.c \
@@ -129,11 +130,11 @@ OBJS	=	$(SOURCE:.c=.o)
 
 all: $(NAME)
 
-%.o:%.c	$(INCLUDE)
-	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCLUDE)
+%.o:%.c	$(INCLUDE)  ##
+	$(CC) $(CFLAGS) -c $< -o $@ -I/usr/local/opt/readline/include -I $(INCLUDE) 
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIB)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -L/usr/local/opt/readline/lib $(LIB)
 
 clean:
 	rm -f $(OBJS)

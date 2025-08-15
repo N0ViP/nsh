@@ -6,7 +6,7 @@ bool init(void)
 
 	if (init == false)
 	{	
-		signals_setup();
+		shell_signals();
 		env_setup();
 		init = true;
 	}

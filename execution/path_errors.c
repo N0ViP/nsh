@@ -29,7 +29,8 @@ void report_error(const char *cmd, t_state error)
 {
     int code;
 
-    write(STDERR_FILENO, SHELL, ft_strlen(SHELL));
+    code = 126;
+    write(STDERR_FILENO, SHELL, ft_strlen(SHELL));//buffer it
     write(STDERR_FILENO, ": ", 2);
     write(STDERR_FILENO, cmd, ft_strlen(cmd));
     if (error == NOT_FOUND_ERROR)
@@ -42,7 +43,6 @@ void report_error(const char *cmd, t_state error)
         write(STDERR_FILENO, ": Permission denied\n", 20);
     else if (error == STAT_ERROR)
         perror(cmd);
-    code = 126;
     if(error == NOT_FOUND_ERROR || error == NO_FILE_ERROR)
         code = 127;
     destroy_all_sections();

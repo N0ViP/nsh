@@ -52,7 +52,7 @@ typedef struct s_token
 }	t_token;
 
 bool	init(void);
-void 	signals_setup(void);
+void 	shell_signals(void);
 void	new_shell(char *cmd);
 bool	read_command(char **cmd);
 

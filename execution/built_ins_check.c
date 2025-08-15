@@ -4,8 +4,7 @@ bool built_ins_check(t_tree *branch, int *exit_status)
 {
     char   **argv;
 
-    check_redirection(branch);
-    argv = expand_cmd_args(&branch->data.cmd);
+    argv = branch->data.cmd.args;
     if (!ft_strcmp(argv[0], "export"))
         return (*exit_status = built_in_export(argv), true);
     else if (!ft_strcmp(argv[0], "unset"))

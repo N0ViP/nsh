@@ -1,11 +1,14 @@
 # include "execution.h"
 
-static void heredoc(const char *delimiter)
+static void redirect_heredoc(int *fd)
 {
-    (void)delimiter;
+    if (!fd)
+        return ;
+    dup2(*fd, STDIN_FILENO);
+    close(*fd);
 }
 
-static void redirect(const char *file, int flags, int target_fd)
+static void open_redirect(char *file, int flags, int target_fd)
 {
     int fd;
     
@@ -17,7 +20,7 @@ static void redirect(const char *file, int flags, int target_fd)
     close(fd);
 }
 
-static void setup_redirection(t_redir *redir, int n_redirs)
+static void pickup_redirection(t_redir *redir, int n_redirs)
 {
     int i;
 
@@ -25,37 +28,35 @@ static void setup_redirection(t_redir *redir, int n_redirs)
     while(i < n_redirs)
     {
         if (redir[i].type == OP_REDIR_IN)
-            redirect(redir[i].file, O_RDONLY, STDIN_FILENO);
+            open_redirect((char *)redir[i].file,
+                        O_RDONLY, STDIN_FILENO);
         else if (redir[i].type == OP_REDIR_OUT)
-            redirect(redir[i].file,
+            open_redirect((char *)redir[i].file,
                         O_WRONLY | O_CREAT | O_TRUNC, 
                         STDOUT_FILENO);
         else if (redir[i].type == OP_APPEND)
-            redirect(redir[i].file,
+            open_redirect((char *)redir[i].file,
                         O_WRONLY | O_CREAT | O_APPEND,
                         STDOUT_FILENO);
         else if (redir[i].type == OP_HEREDOC)
-            heredoc(redir[i].file);
+            redirect_heredoc((int *)redir[i].file);
         i++;
     }
 }
 
-void check_redirection(t_tree *branch)
+bool get_redirs(t_tree *branch, t_redir **redirs, int *n_redirs)
 {
-    t_redir *redir;
-    int     n_redirs;
-
-    redir = NULL;
-    n_redirs = 0;
-    if(branch->type == COMMAND)
+    *redirs = NULL;
+    *n_redirs = 0;
+    if (branch->type == COMMAND)
     {
-        redir = branch->data.cmd.redirs;
-        n_redirs = branch->data.cmd.n_redirs;
+        *redirs = branch->data.cmd.redirs;
+        *n_redirs = branch->data.cmd.n_redirs;
     }
-    else if(branch->type == SUBSHELL)
+    else if (branch->type == SUBSHELL)
     {
-        redir = branch->data.subshell.redirs;
-        n_redirs = branch->data.subshell.n_redirs;
+        *redirs = branch->data.subshell.redirs;
+        *n_redirs = branch->data.subshell.n_redirs;
     }
     // if(branch->type == COMMAND)
     // {
@@ -67,7 +68,14 @@ void check_redirection(t_tree *branch)
     //     redir = expand_file_name(&branch->data.cmd);
     //     n_redirs = branch->data.subshell.n_redirs;
     // }
-    if(!n_redirs)
-        return ;
-    setup_redirection(redir, n_redirs);
+    return (*n_redirs > 0);
+}
+
+void redirection_setup(t_tree *branch)
+{
+    t_redir *redirs;
+    int     n_redirs;
+
+    if (get_redirs(branch, &redirs, &n_redirs))
+        pickup_redirection(redirs, n_redirs);
 }

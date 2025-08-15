@@ -16,5 +16,5 @@ int execution_mode(t_tree *root, t_mode mode)
 void execute_tree(t_tree *root)
 {
     execution_mode(root, DEFAULT_MODE);
-    destroy_section(PARSING);
+    //destroy_section(PARSING);
 }

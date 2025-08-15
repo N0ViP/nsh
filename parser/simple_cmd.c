@@ -10,7 +10,7 @@ static int count_args(t_list *tokens)
         count++;
         tokens = tokens->next;
     }
-    return count;
+    return (count);
 }
 
 static char **extract_args(t_list *tokens, int n_arg)
@@ -20,19 +20,19 @@ static char **extract_args(t_list *tokens, int n_arg)
     char **args;
     int i;
 
+    if (!n_arg)
+        return (NULL);
     i = 0;
     cur = tokens;
     args = new_allocation(PARSING, (n_arg + 1) * sizeof(char *));
     while (cur)
     {
         tok = (t_token *)cur->content;
-        args[i] = ft_strdup(tok->value);
-        add_allocation_to_section(PARSING, args[i]);
+        args[i++] = allocate_retval(PARSING, tok->value);
         cur = cur->next;
-        i++;
     }
     args[i] = NULL;
-    return args;
+    return (args);
 }
 
 t_tree *new_command_branch(t_list *tokens)
