@@ -102,14 +102,15 @@ static void heredoc_sigint(int signal)
     (void)signal;
     segint_exit = 130;
     _exit_status(SAVE_VALUE, 130);//cat <<l no fork after
-    write(STDOUT_FILENO, "\n", 1);
-    rl_startup_hook = nothing;
+    // write(STDOUT_FILENO, "\n", 1);
     rl_done = 1;
 }
 
 static void heredoc_signals(void)
 {
     segint_exit = 0;
+    rl_event_hook = nothing;
+    // rl_event_hook = 
     signal(SIGQUIT, SIG_IGN);
     signal(SIGINT, heredoc_sigint);
 }

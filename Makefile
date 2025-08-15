@@ -8,7 +8,7 @@ MAIN_SRC = \
     sources/read_cmd.c \
     sources/new_shell.c \
     sources/signal_setup.c \
-    sources/printer_to_rm.c
+    # sources/printer_to_rm.c
 
 ALLOC_SRC = \
     allocation/smalloc.c \
