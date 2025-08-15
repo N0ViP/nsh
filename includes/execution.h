@@ -12,6 +12,8 @@
 # define SAVE_VALUE 0
 # define GET_VALUE  1
 
+extern int heredoc_exit;
+
 typedef enum
 {
     VALID_PATH,
@@ -37,7 +39,7 @@ char        *check_and_curr_dir(char *cmd);
 int		    execute_or_and(t_tree *branch);
 t_state     path_validity(const char *path);
 void	    redirection_setup(t_tree *branch);
-void	    check_for_heredoc(t_tree *branch);
+int         check_for_heredoc(t_tree *branch);
 int 	    _exit_status(bool flag, int value);
 int		    execution_mode(t_tree *root, t_mode mode);
 void        report_error(const char *cmd, t_state error);

@@ -1,9 +1,6 @@
 # include "execution.h"
 
-extern int rl_done;
-extern rl_hook_func_t *rl_startup_hook;
-int segint_exit = 0;
-
+int heredoc_exit = 0;
 
 static char *get_tty_name(void)
 {
@@ -100,7 +97,7 @@ static int nothing(void) { return 0; }
 static void heredoc_sigint(int signal)
 {
     (void)signal;
-    segint_exit = 130;
+    heredoc_exit = 130;
     _exit_status(SAVE_VALUE, 130);//cat <<l no fork after
     // write(STDOUT_FILENO, "\n", 1);
     rl_done = 1;
@@ -108,9 +105,7 @@ static void heredoc_sigint(int signal)
 
 static void heredoc_signals(void)
 {
-    segint_exit = 0;
     rl_event_hook = nothing;
-    // rl_event_hook = 
     signal(SIGQUIT, SIG_IGN);
     signal(SIGINT, heredoc_sigint);
 }
@@ -121,7 +116,7 @@ static bool write_heredoc(int wfd, char *delimiter)
     char    *line;
 
     d_len = ft_strlen(delimiter);
-    while (segint_exit == 0)
+    while (heredoc_exit == 0)
     {
         line = readline("> ");
         if (!line)//
@@ -137,7 +132,7 @@ static bool write_heredoc(int wfd, char *delimiter)
         write(wfd, "\n", 1);
         free(line);
     }
-    if (segint_exit == 130)
+    if (heredoc_exit == 130)
         return (true);
     return (false);
 }
@@ -151,7 +146,7 @@ int open_heredoc(char *delimiter)
 
     tty_name = get_tty_name();
     if (!tty_name)
-        tty_name = num_to_str((unsigned long)&tty_name);
+        tty_name = num_to_str((unsigned long)&tty_name);//is it working
     fail_check = heredoc_write_read(tty_name, &wfd, &rfd);
     if (fail_check)
         return (-1);
@@ -179,17 +174,18 @@ static int *heredoc(char *delimiter)
     return (pointer);
 }
 
-void check_for_heredoc(t_tree *branch)
+int check_for_heredoc(t_tree *branch)
 {
     t_redir *redirs;
     int     n_redirs;
     int     i;
 
     i = -1;
+    heredoc_exit = 0;
     if (!get_redirs(branch, &redirs, &n_redirs))
-        return ;
-    while(++i < n_redirs)
+        return (heredoc_exit);
+    while(++i < n_redirs && !heredoc_exit)
         if (redirs[i].type == OP_HEREDOC)
             redirs[i].file = heredoc(redirs[i].file);
-    return ;
+    return (heredoc_exit);
 }

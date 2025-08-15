@@ -18,10 +18,9 @@ int execute_command(t_tree *branch, t_mode mode)
 {
     int exit_status;
 
-    exit_status = 1;
-    check_for_heredoc(branch);//here just herdoc then after fork redirs
-    if (!branch->data.cmd.n_arg)
-        return (EXIT_SUCCESS);
+    exit_status = check_for_heredoc(branch);
+    if (!branch->data.cmd.n_arg || exit_status == 130)
+        return (exit_status);
     expand_cmd_args(&branch->data.cmd);
     if (built_ins_check(branch, &exit_status))
         return (exit_status);

@@ -53,12 +53,6 @@ static bool	check_ops_and_redirs(t_list *tokens, t_token *prev)
 	{
 		if (!tokens->next)
 			return (parse_error("newline"), false);
-		if (tokens->next->next)
-		{
-			curr = (t_token *)tokens->next->next->content;
-			if (curr->type == WORD)
-				return (parse_error(curr->value), false);
-		}
 	}
 	return (true);
 }
