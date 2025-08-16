@@ -6,7 +6,7 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 02:42:03 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/08 23:54:37 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/16 12:53:49 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ t_list_info *expander(char *str)
 	t_list_info	*arg_list;
 	t_info		info;
 
+	info.len = 0;
 	info.str = str;
-	info.word = NULL;
+	info.ex_word = init_list_info_struct();
 	arg_list = init_list_info_struct();
 	while (*(info.str))
 	{

@@ -8,11 +8,13 @@
 
 typedef struct s_expander_vars
 {
-	char	*str;
-	char	*word;
-	char	*hashmap;
-	size_t	wildcard;
+	t_list_info	*ex_word;
+	char		*str;
+	char		*hashmap;
+	size_t		len;
+	size_t		wildcard;
 }	t_info;
+
 
 t_list_info *expander(char *str);
 bool		check_if_dollar(char *str);

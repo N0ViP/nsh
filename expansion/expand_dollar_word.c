@@ -3,7 +3,17 @@
 static void	add_word_in_arg_list(t_info *info, t_list_info *arg_list)
 {
 	expand_wildcard(info, arg_list);
-	info->word = NULL;
+	re_init_list_info_struct(info->ex_word);
+	info->len = 0;
+}
+
+static void	add_word_node(t_info *info, char *value)
+{
+	t_list	*node;
+
+	info->len += ft_strlen(value);
+	node = creat_node(value);
+	list_add_back(info->ex_word, node);
 }
 
 static void	split_val(t_info *info, t_list_info *arg_list, char *val, char **splited_val)
@@ -22,12 +32,14 @@ static void	split_val(t_info *info, t_list_info *arg_list, char *val, char **spl
 	}
 	if (splited_val[0])
 	{
-		info->word = join_two_strings(info->word, splited_val[0], "");
+		add_word_node(info, splited_val[0]);
 		while (splited_val[i])
 		{
 			if (splited_val[i] || has_trailing_space)
+			{
 				add_word_in_arg_list(info, arg_list);
-			info->word = splited_val[i];
+			}
+			add_word_node(info, splited_val[i]);
 			i++;
 		}
 	}
@@ -58,7 +70,7 @@ static void	split_val(t_info *info, t_list_info *arg_list, char *val, char **spl
 
 static void	expand_value(t_info *info, t_list_info *arg_list, char *val, bool rm_spaces)
 {
-	char	*tmp;
+	t_list	*node;
 	char	**splited_val;
 
 	if (!val)
@@ -67,12 +79,14 @@ static void	expand_value(t_info *info, t_list_info *arg_list, char *val, bool rm
 	}
 	if (!rm_spaces)
 	{
-		tmp = join_two_strings(info->word, val, "");
-		info->word = tmp;
+		// add_in_wildcard_hashmap(info, rm_spaces);
+		node = creat_node(val);
+		list_add_back(info->ex_word, node);
+		info->len += ft_strlen(val);
 		return ;
 	}
-	splited_val = ft_split(val, WHITE_SPACE);
 	// get_wildcard(splited_val, info);
+	splited_val = ft_split(val, WHITE_SPACE);
 	split_val(info, arg_list, val, splited_val);
 }
 

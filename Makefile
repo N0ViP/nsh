@@ -62,7 +62,8 @@ UTILS_SRC = \
     utils/list_add_back.c \
     utils/check_if_match.c \
     utils/join_two_strings.c \
-    utils/init_list_info_struct.c  
+    utils/init_list_info_struct.c \
+    utils/re_init_list_info_struct.c
 
 STDFCTS_SRC = \
     stdfcts/ft_min.c \

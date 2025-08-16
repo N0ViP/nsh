@@ -22,6 +22,8 @@ int execute_command(t_tree *branch, t_mode mode)
     if (!branch->data.cmd.n_arg || exit_status == 130)
         return (exit_status);
     expand_cmd_args(&branch->data.cmd);
+    if (!branch->data.cmd.args || !branch->data.cmd.args[0])
+        return (exit_status);
     if (built_ins_check(branch, &exit_status))
         return (exit_status);
     else if (mode == DEFAULT_MODE)
