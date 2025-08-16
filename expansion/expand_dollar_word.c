@@ -83,7 +83,7 @@ static char	*get_value(char *key)
 
 	if (key[0] == '?')
 	{
-		exit_status = _exit_status(GET_VALUE, 0);
+		exit_status = _exit_status(EXTRACT, 0);
 		value = ft_itoa(exit_status);
 	}
 	else

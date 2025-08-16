@@ -7,12 +7,12 @@ static char *get_tty_name(void)
     char *tty, *name;
 
 
-    if (!isatty(STDIN_FILENO))//
+    if (!isatty(STDIN_FILENO))//add it at the begining
         return (NULL);
     tty = ttyname(STDIN_FILENO);
     if (!tty)
         return (NULL);
-    name = strrchr(tty, '/');//
+    name = ft_strrchr(tty, '/');
     if(name)
         name++;
     else
@@ -57,14 +57,14 @@ static char *compose_name(char *tty_name, char *prefix, char *sufix, size_t coun
     cnt_len = ft_strlen(counter_s);
     name = new_allocation(EXECUTION ,tty_len + cnt_len + 19);
     ptr = name;
-    memcpy(ptr, prefix, 9);
+    ft_memcpy(ptr, prefix, 9);
     ptr += 9;
-    memcpy(ptr, tty_name, tty_len);
+    ft_memcpy(ptr, tty_name, tty_len);
     ptr += tty_len;
     *ptr++ = '_';
-    memcpy(ptr, counter_s, cnt_len);
+    ft_memcpy(ptr, counter_s, cnt_len);
     ptr += cnt_len;
-    memcpy(ptr, sufix, 8);
+    ft_memcpy(ptr, sufix, 8);
     ptr += 8;
     *ptr = '\0';
     return (name);
@@ -72,7 +72,7 @@ static char *compose_name(char *tty_name, char *prefix, char *sufix, size_t coun
 
 static int	heredoc_write_read(char *tty_name, int *wfd, int *rfd)
 {
-    static unsigned int counter = INT_MAX;//file long??
+    static unsigned int counter = INT_MAX;
 	char			    *heredoc_name;
 	int				    tries;
 
@@ -80,6 +80,7 @@ static int	heredoc_write_read(char *tty_name, int *wfd, int *rfd)
 	while (tries++ < 1000)
 	{
 		heredoc_name = compose_name(tty_name, "/tmp/nsh_", ".heredoc", counter--);
+        printf("%s\n", heredoc_name);
 		*wfd = open(heredoc_name, O_CREAT | O_EXCL | O_RDWR, 0600);
 		if (*wfd >= 0)
 		{
@@ -97,9 +98,8 @@ static int nothing(void) { return 0; }
 static void heredoc_sigint(int signal)
 {
     (void)signal;
+    _exit_status(UPDATE, 130);
     heredoc_exit = 130;
-    _exit_status(SAVE_VALUE, 130);//cat <<l no fork after
-    // write(STDOUT_FILENO, "\n", 1);
     rl_done = 1;
 }
 
@@ -119,16 +119,15 @@ static bool write_heredoc(int wfd, char *delimiter)
     while (heredoc_exit == 0)
     {
         line = readline("> ");
-        if (!line)//
+        if (!line)
             break;
-        // if (!*line)// add \n??
-        //     continue;
         if (ft_strlen(line) == d_len && !ft_strcmp(line, delimiter))
         {
             free(line);
             break;
         }
-        write(wfd, line, ft_strlen(line));
+        if (*line)
+            write(wfd, line, ft_strlen(line));
         write(wfd, "\n", 1);
         free(line);
     }
@@ -146,12 +145,10 @@ int open_heredoc(char *delimiter)
 
     tty_name = get_tty_name();
     if (!tty_name)
-        tty_name = num_to_str((unsigned long)&tty_name);//is it working
+        tty_name = num_to_str((unsigned long)&tty_name);
     fail_check = heredoc_write_read(tty_name, &wfd, &rfd);
     if (fail_check)
         return (-1);
-
-    
     heredoc_signals();
     fail_check = write_heredoc(wfd, delimiter);
     close(wfd);

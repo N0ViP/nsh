@@ -83,7 +83,7 @@ static size_t	extract_token_and_type(t_list **tokens, char **ptr)
 		j = get_word_len(ptr);
 		if (*ptr == NULL)
 		{
-			_exit_status(SAVE_VALUE, 2);
+			_exit_status(UPDATE, 2);
 			return (write(2, "unclosed quotes\n", 16), 0);
 		}
 	}

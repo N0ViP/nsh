@@ -23,9 +23,10 @@ ALLOC_SRC = \
     allocation/clean_before_prompt.c
 
 BUILT_SRC = \
-    built_in/echo.c \
-    built_in/unset.c \
     built_in/env.c \
+    built_in/echo.c \
+    built_in/exit.c \
+    built_in/unset.c \
     built_in/export.c
 
 EXPAND_SRC = \
@@ -66,23 +67,24 @@ UTILS_SRC = \
 
 STDFCTS_SRC = \
     stdfcts/ft_min.c \
+    stdfcts/ft_abs.c \
+    stdfcts/ft_itoa.c \
     stdfcts/ft_split.c \
+    stdfcts/ft_numlen.c \
     stdfcts/ft_substr.c \
     stdfcts/ft_strcmp.c \
     stdfcts/ft_strchr.c \
     stdfcts/ft_memcpy.c \
     stdfcts/ft_strcat.c \
     stdfcts/ft_strlen.c \
+    stdfcts/ft_strrchr.c \
     stdfcts/ft_isspace.c \
     stdfcts/ft_strjoin.c \
     stdfcts/ft_isalnum.c \
     stdfcts/ft_isalpha.c \
     stdfcts/ft_strndup.c \
     stdfcts/ft_isdigit.c \
-    stdfcts/ft_realloc.c \
-    stdfcts/ft_abs.c \
-    stdfcts/ft_itoa.c \
-    stdfcts/ft_numlen.c 
+    stdfcts/ft_realloc.c
 
 TOKEN_SRC = \
     tokenization/tokenization.c
