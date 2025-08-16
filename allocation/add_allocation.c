@@ -13,7 +13,9 @@ void add_allocation_to_section(t_sid section_id, void *ptr)
     if (*cnt == *cap)
     {
         *cap *= ALLOCATION_CAPACITY;
-        allocs = realloc(allocs, *cap * sizeof(void *));//
+        allocs = ft_realloc(allocs,
+                            *cnt * sizeof(void *),
+                            *cap * sizeof(void *));
         section->allocations = allocs;
     }
     allocs[*cnt] = ptr;

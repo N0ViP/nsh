@@ -80,7 +80,7 @@ static int	heredoc_write_read(char *tty_name, int *wfd, int *rfd)
 	while (tries++ < 1000)
 	{
 		heredoc_name = compose_name(tty_name, "/tmp/nsh_", ".heredoc", counter--);
-        printf("%s\n", heredoc_name);
+        // printf("%s\n", heredoc_name);
 		*wfd = open(heredoc_name, O_CREAT | O_EXCL | O_RDWR, 0600);
 		if (*wfd >= 0)
 		{

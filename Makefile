@@ -34,8 +34,6 @@ EXPAND_SRC = \
     expansion/check_if_dollar.c \
     expansion/expand_wildcard.c \
     expansion/expansion_utils.c \
-    expansion/expand_cmd_args.c \
-    expansion/expand_filenames.c \
     expansion/get_wildcard_flag.c \
     expansion/expand_dollar_word.c \
     expansion/expand_regular_word.c \
@@ -116,7 +114,9 @@ EXEC_SRC = \
     execution/path_resolution.c \
     execution/search_in_paths.c \
     execution/right_left_pipe.c \
-    execution/built_ins_check.c
+    execution/built_ins_check.c \
+    execution/expand_cmd_args.c \
+    execution/expand_filenames.c
 
 SOURCE = $(MAIN_SRC) \
          $(EXEC_SRC) \
