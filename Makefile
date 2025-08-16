@@ -35,6 +35,7 @@ EXPAND_SRC = \
     expansion/expand_wildcard.c \
     expansion/expansion_utils.c \
     expansion/expand_cmd_args.c \
+    expansion/expand_filenames.c \
     expansion/get_wildcard_flag.c \
     expansion/expand_dollar_word.c \
     expansion/expand_regular_word.c \

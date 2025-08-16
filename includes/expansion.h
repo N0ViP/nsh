@@ -18,9 +18,10 @@ typedef struct s_expander_vars
 
 t_list_info *expander(char *str);
 bool		check_if_dollar(char *str);
-void		expand_cmd_args(t_cmd *cmd);
 bool		get_wildcard_flag(t_info *info);
 bool		regular_word_checker(char *str);
+bool		expand_cmd_args(t_tree *branch);
+bool 		expand_filenames(t_tree *branch);
 bool		double_quotes_checker(char *str);
 size_t		expand_single_quote_word(t_info *info);
 size_t		expand_double_quotes_word(t_info *info);

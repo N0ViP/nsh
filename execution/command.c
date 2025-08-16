@@ -16,18 +16,17 @@ static void execute(t_tree *branch)
 
 int execute_command(t_tree *branch, t_mode mode)
 {
-    int exit_status;
 
-    exit_status = check_for_heredoc(branch);
-    if (!branch->data.cmd.n_arg || exit_status == 130)
-        return (exit_status);
-    expand_cmd_args(&branch->data.cmd);
-    if (!branch->data.cmd.args || !branch->data.cmd.args[0])
-        return (exit_status);
-    if (built_ins_check(branch, &exit_status))
-        return (exit_status);
+    if (check_for_heredoc(branch) == 130)
+        return (_exit_status(EXTRACT, 0));
+    if (!expand_filenames(branch))
+        return (_exit_status(EXTRACT, 0));
+    if (!expand_cmd_args(branch))
+        return (_exit_status(EXTRACT, 0));
+    if (built_ins_check(branch))
+        return (_exit_status(EXTRACT, 0));
     else if (mode == DEFAULT_MODE)
         return (fork_before(execute, branch));
     execute(branch);
-    return (exit_status);
+    return (EXIT_FAILURE);
 }

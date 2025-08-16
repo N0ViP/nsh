@@ -6,6 +6,8 @@ static void redir_then_recurse(t_tree *branch)
     int     status;
 
     check_for_heredoc(branch);
+    if (!expand_filenames(branch))
+        exit(EXIT_FAILURE);
     redirection_setup(branch);
     child = branch->data.subshell.child;
     status = execution_mode(child, NO_FORK_MODE);

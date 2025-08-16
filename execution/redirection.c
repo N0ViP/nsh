@@ -58,16 +58,6 @@ bool get_redirs(t_tree *branch, t_redir **redirs, int *n_redirs)
         *redirs = branch->data.subshell.redirs;
         *n_redirs = branch->data.subshell.n_redirs;
     }
-    // if(branch->type == COMMAND)
-    // {
-    //     redir = expand_file_name(&branch->data.cmd);
-    //     n_redirs = branch->data.cmd.n_redirs;
-    // }
-    // else if(branch->type == SUBSHELL)
-    // {
-    //     redir = expand_file_name(&branch->data.cmd);
-    //     n_redirs = branch->data.subshell.n_redirs;
-    // }
     return (*n_redirs > 0);
 }
 
@@ -77,5 +67,7 @@ void redirection_setup(t_tree *branch)
     int     n_redirs;
 
     if (get_redirs(branch, &redirs, &n_redirs))
+    {
         pickup_redirection(redirs, n_redirs);
+    }
 }
