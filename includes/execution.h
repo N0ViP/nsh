@@ -9,8 +9,8 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 
-# define SAVE_VALUE 0
-# define GET_VALUE  1
+# define UPDATE 0
+# define EXTRACT 1
 
 extern int heredoc_exit;
 

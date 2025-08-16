@@ -24,7 +24,7 @@ void	new_shell(char *cmd)
     }
 	else if (!parse_check(tokens))
 	{
-		_exit_status(SAVE_VALUE, 2);
+		_exit_status(UPDATE, 2);
 		return (clean_before_prompt());
 	}
     else
