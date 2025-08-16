@@ -1,4 +1,4 @@
-#include "expansion.h"
+#include "execution.h"
 
 bool expand_cmd_args(t_tree *branch)
 {
@@ -8,6 +8,8 @@ bool expand_cmd_args(t_tree *branch)
 	size_t			i;
 
 	i = 0;
+	if (!branch->data.cmd.n_arg)
+		return (_exit_status(UPDATE, EXIT_SUCCESS), false);
 	args = branch->data.cmd.args;
 	args_list = init_list_info_struct();
 	while (args[i])

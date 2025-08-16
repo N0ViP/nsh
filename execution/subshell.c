@@ -5,7 +5,6 @@ static void redir_then_recurse(t_tree *branch)
     t_tree *child;
     int     status;
 
-    check_for_heredoc(branch);
     if (!expand_filenames(branch))
         exit(EXIT_FAILURE);
     redirection_setup(branch);

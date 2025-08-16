@@ -44,7 +44,7 @@ static char	*num_to_str(unsigned long v)
 	return (s);
 }
 
-static char *compose_name(char *tty_name, char *prefix, char *sufix, size_t counter)
+static char *compose_name(char *prefix, char *tty_name, size_t counter, char *sufix)
 {
     char    *counter_s;
     size_t  tty_len;
@@ -70,7 +70,7 @@ static char *compose_name(char *tty_name, char *prefix, char *sufix, size_t coun
     return (name);
 }
 
-static int	heredoc_write_read(char *tty_name, int *wfd, int *rfd)
+static int	open_heredoc_write_read(char *tty_name, int *wfd, int *rfd)
 {
     static unsigned int counter = INT_MAX;
 	char			    *heredoc_name;
@@ -79,8 +79,10 @@ static int	heredoc_write_read(char *tty_name, int *wfd, int *rfd)
 	tries = 0;
 	while (tries++ < 1000)
 	{
-		heredoc_name = compose_name(tty_name, "/tmp/nsh_", ".heredoc", counter--);
-        // printf("%s\n", heredoc_name);
+		heredoc_name = compose_name("/tmp/nsh_",
+                                    tty_name,
+                                    counter--,
+                                    ".heredoc");
 		*wfd = open(heredoc_name, O_CREAT | O_EXCL | O_RDWR, 0600);
 		if (*wfd >= 0)
 		{
@@ -93,7 +95,10 @@ static int	heredoc_write_read(char *tty_name, int *wfd, int *rfd)
 	return (true);
 }
 
-static int nothing(void) { return 0; }
+static int nothing(void)
+{
+    return 0;
+}
 
 static void heredoc_sigint(int signal)
 {
@@ -110,30 +115,173 @@ static void heredoc_signals(void)
     signal(SIGINT, heredoc_sigint);
 }
 
-static bool write_heredoc(int wfd, char *delimiter)
+static void copy_new_delemiter(char **delimiter, size_t new_len)
 {
-    size_t  d_len;
-    char    *line;
+    char    *new_dlm;
+    char    *dlm;
 
-    d_len = ft_strlen(delimiter);
-    while (heredoc_exit == 0)
+    new_dlm = new_allocation(PARSING, new_len + 1);
+    dlm = *delimiter;
+    *delimiter = new_dlm;
+    while (*dlm)
     {
-        line = readline("> ");
-        if (!line)
-            break;
-        if (ft_strlen(line) == d_len && !ft_strcmp(line, delimiter))
+        if (*dlm != '"' && *dlm != '\'')
+            *new_dlm++ = *dlm;
+        dlm++;
+    }
+    *new_dlm = '\0';
+}
+
+static bool look_for_quotes(char **delimiter)
+{
+    bool    was_quoted;
+    size_t  new_len;
+    char    *dlm;
+
+
+    new_len = 0;
+    dlm = *delimiter;
+    was_quoted = false;
+    while (*dlm)
+    {
+        if (!was_quoted && (*dlm == '"' || *dlm == '\''))
         {
-            free(line);
-            break;
+            was_quoted = true;
         }
+        else if (!(*dlm == '"' || *dlm == '\''))
+        {
+            new_len++;
+        }
+        dlm++;
+    }
+    copy_new_delemiter(delimiter, new_len);
+    return (was_quoted);
+}
+
+static size_t compute_total(t_list  *node)
+{
+    size_t  total;
+    size_t  count;
+
+    total = 0;
+    count = 0;
+    while (node)
+    {
+        if (node->content)
+            total += ft_strlen((char *)node->content);
+        count++;
+        node = node->next;
+    }
+    if (count > 1)
+        total += (count - 1);
+    return (total);
+}
+
+static void joine_string(t_list  *node, char *to_fill, size_t total)
+{
+    char    *content;
+    size_t  len;
+
+    while (node)
+    {
+        content = (char *)node->content;
+        if (content)
+        {
+            len = ft_strlen(content);
+            if (len > 0)
+            {
+                ft_memcpy(to_fill, content, len);
+                to_fill += len;
+                total -= len;
+            }
+        }
+        if (node->next && total)
+        {
+            *to_fill = ' ';
+            to_fill++;
+            total--;
+        }
+        node = node->next;
+    }
+    *to_fill = '\0';
+}
+
+char    *join_list_strings(t_list_info *info)
+{
+    t_list              *node;
+    size_t              total;
+    char                *joined_strings;
+
+    if (!info || !info->list)
+        return (allocate_retval(PARSING, ""));
+
+    node = info->list;
+
+    total = compute_total(node);
+
+    joined_strings = new_allocation(PARSING, total + 1);
+    joine_string(node, joined_strings, total);
+    return (joined_strings);
+}
+
+static bool is_delimiter(char *line, char *delimiter)
+{
+    if (!line)
+        return (true);
+    if (ft_strlen(line) == ft_strlen(delimiter)
+        && !ft_strcmp(line, delimiter))
+    {
+        free(line);
+        return (true);
+    }
+    return (false);
+}
+
+static void write_expanded_line(int wfd, char *line)
+{
+    t_list_info *list;
+    char        *expanded;
+
+    list = expander(line);
+    expanded = join_list_strings(list);
+    if (expanded && *expanded)
+    {
+        write(wfd, expanded, ft_strlen(expanded));
+    }
+}
+
+static bool process_line(int wfd, char *line, bool was_quoted, char *delimiter)
+{
+    if (is_delimiter(line, delimiter))
+        return (true);
+    if (was_quoted)
+    {
         if (*line)
             write(wfd, line, ft_strlen(line));
-        write(wfd, "\n", 1);
+    }
+    else
+    {
+        if (*line)
+            write_expanded_line(wfd, line);
+    }
+    write(wfd, "\n", 1);
+    return (false);
+}
+
+static bool write_to_heredoc(int wfd, char *delimiter)
+{
+    char    *line;
+    bool    was_quoted;
+
+    was_quoted = look_for_quotes(&delimiter);
+    while (heredoc_exit == 0)
+    {
+        line = readline("> ");// history
+        if (process_line(wfd, line, was_quoted, delimiter))
+            break;
         free(line);
     }
-    if (heredoc_exit == 130)
-        return (true);
-    return (false);
+    return (heredoc_exit == 130);
 }
 
 int open_heredoc(char *delimiter)
@@ -146,11 +294,11 @@ int open_heredoc(char *delimiter)
     tty_name = get_tty_name();
     if (!tty_name)
         tty_name = num_to_str((unsigned long)&tty_name);
-    fail_check = heredoc_write_read(tty_name, &wfd, &rfd);
+    fail_check = open_heredoc_write_read(tty_name, &wfd, &rfd);
     if (fail_check)
         return (-1);
     heredoc_signals();
-    fail_check = write_heredoc(wfd, delimiter);
+    fail_check = write_to_heredoc(wfd, delimiter);
     close(wfd);
     shell_signals();
     if (fail_check)
@@ -171,7 +319,7 @@ static int *heredoc(char *delimiter)
     return (pointer);
 }
 
-int check_for_heredoc(t_tree *branch)
+static int process_heredocs(t_tree *branch)
 {
     t_redir *redirs;
     int     n_redirs;
@@ -185,4 +333,29 @@ int check_for_heredoc(t_tree *branch)
         if (redirs[i].type == OP_HEREDOC)
             redirs[i].file = heredoc(redirs[i].file);
     return (heredoc_exit);
+}
+
+bool look_for_heredocs(t_tree *root)
+{
+	if (!root)
+		return (true);
+	if (root->type == COMMAND)
+	{
+		if (process_heredocs(root) == 130)
+			return (false);
+		return (true);
+	}
+	else if (root->type == SUBSHELL)
+	{
+		if (process_heredocs(root) == 130)
+			return (false);
+		if (!look_for_heredocs(root->data.subshell.child))
+			return (false);
+		return (true);
+	}
+	if (!look_for_heredocs(root->data.branch.left))
+		return (false);
+	if (!look_for_heredocs(root->data.branch.right))
+		return (false);
+    return (true);
 }

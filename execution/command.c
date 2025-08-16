@@ -16,9 +16,6 @@ static void execute(t_tree *branch)
 
 int execute_command(t_tree *branch, t_mode mode)
 {
-
-    if (check_for_heredoc(branch) == 130)
-        return (_exit_status(EXTRACT, 0));
     if (!expand_filenames(branch))
         return (_exit_status(EXTRACT, 0));
     if (!expand_cmd_args(branch))
