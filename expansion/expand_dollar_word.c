@@ -1,13 +1,13 @@
 #include "expansion.h"
 
-static void	add_word_in_arg_list(t_info *info, t_list_info *arg_list)
+static void	finalize_and_add_arg(t_info *info, t_list_info *arg_list)
 {
 	expand_wildcard(info, arg_list);
 	re_init_list_info_struct(info->ex_word);
 	info->len = 0;
 }
 
-static void	add_word_node(t_info *info, char *value)
+static void	append_word_to_current_arg(t_info *info, char *value)
 {
 	t_list	*node;
 
@@ -16,32 +16,42 @@ static void	add_word_node(t_info *info, char *value)
 	list_add_back(info->ex_word, node);
 }
 
-static void	split_val(t_info *info, t_list_info *arg_list, char *val, char **splited_val)
+static void	append_split_args(t_info *info, t_list_info *arg_list, char **splited_val, bool has_trailing_space)
+{
+	size_t	i;
+
+	i = 1;
+	append_word_to_current_arg(info, splited_val[0]);
+	if (splited_val[i] || has_trailing_space)
+	{
+		finalize_and_add_arg(info, arg_list);
+	}
+	while (splited_val[i])
+	{
+		append_word_to_current_arg(info, splited_val[i]);
+		i++;
+		if (splited_val[i] || has_trailing_space)
+		{
+			finalize_and_add_arg(info, arg_list);
+		}
+	}
+}
+
+static void	process_and_split_value(t_info *info, t_list_info *arg_list, char *val, char **splited_val)
 {
 	
 	bool	has_leading_space;
 	bool	has_trailing_space;
-	size_t	i;
 
-	i = 1;
 	has_leading_space = ft_isspace(val[0]);
 	has_trailing_space = ft_isspace(val[ft_strlen(val) - 1]);
 	if (has_leading_space)
 	{
-		add_word_in_arg_list(info, arg_list);
+		finalize_and_add_arg(info, arg_list);
 	}
 	if (splited_val[0])
 	{
-		add_word_node(info, splited_val[0]);
-		while (splited_val[i])
-		{
-			if (splited_val[i] || has_trailing_space)
-			{
-				add_word_in_arg_list(info, arg_list);
-			}
-			add_word_node(info, splited_val[i]);
-			i++;
-		}
+		append_split_args(info, arg_list, splited_val, has_trailing_space);
 	}
 }
 
@@ -87,7 +97,7 @@ static void	expand_value(t_info *info, t_list_info *arg_list, char *val, bool rm
 	}
 	// get_wildcard(splited_val, info);
 	splited_val = ft_split(val, WHITE_SPACE);
-	split_val(info, arg_list, val, splited_val);
+	process_and_split_value(info, arg_list, val, splited_val);
 }
 
 static char	*get_value(char *key)
