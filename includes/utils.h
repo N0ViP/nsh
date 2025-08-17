@@ -20,7 +20,6 @@
 typedef struct s_list		t_list;
 typedef struct s_list_info	t_list_info;
 
-void            _free(char **str);
 t_list_info	    *init_list_info_struct();
 enum e_operator check_token(char *token);
 t_list			*creat_node(void *content);
@@ -31,6 +30,5 @@ void			re_init_list_info_struct(t_list_info *list_info);
 void			join_list(t_list_info *lst_1, t_list_info *lst_2);
 void			list_add_back(t_list_info *list_info, t_list *node);
 char			*join_two_strings(char *s1, char *s2, char *delemiter);
-void			free_list(t_list_info **list_info, void (*free_content)());
 
 #endif

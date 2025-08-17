@@ -12,7 +12,7 @@ MAIN_SRC = \
 
 HEREDOC_SRC = \
     heredoc/num_to_str.c \
-    heredoc/joine_string.c \
+    heredoc/join_string.c \
     heredoc/open_heredoc.c \
     heredoc/process_line.c \
     heredoc/compose_name.c \
@@ -36,7 +36,9 @@ ALLOC_SRC = \
     allocation/clean_before_prompt.c
 
 BUILT_SRC = \
+    built_in/cd.c \
     built_in/env.c \
+    built_in/pwd.c \
     built_in/echo.c \
     built_in/exit.c \
     built_in/unset.c \
@@ -62,11 +64,11 @@ GETENV_SRC = \
     getenv/add_in_env.c \
     getenv/ft_strcmp_env.c \
     getenv/get_var_value.c \
+    getenv/set_var_value.c \
     getenv/create_env_arr.c \
     getenv/remove_from_env.c
 
 UTILS_SRC = \
-    utils/free.c \
     utils/join_list.c \
     utils/creat_node.c \
     utils/lst_to_arr.c \

@@ -1,6 +1,6 @@
 # include "heredoc.h"
 
-void joine_string(t_list  *node, char *to_fill, size_t total)
+void join_string(t_list  *node, char *to_fill, size_t total)
 {
     char    *content;
     size_t  len;
