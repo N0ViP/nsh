@@ -35,6 +35,7 @@ void	expand_wildcard(t_info *info, t_list_info *arg_list)
 		return ;
 	}
 	word = join_words(info);
+	// here we'll add wildcard
 	node = creat_node(word);
 	list_add_back(arg_list, node);
 }

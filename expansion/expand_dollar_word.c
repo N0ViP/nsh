@@ -55,33 +55,10 @@ static void	process_and_split_value(t_info *info, t_list_info *arg_list, char *v
 	}
 }
 
-// static void	get_wildcard_splited_val(char **splited_val, t_info *info)
+// static void	get_wildcard(char *val, t_info *info, bool ex_wdc)
 // {
 // 	size_t	i;
-// 	size_t	j;
-
-// 	i = 0;
-// 	info->wildcard = 0;
-// 	while (splited_val[i])
-// 	{
-// 		j = 0;
-// 		while (splited_val[i][j])
-// 		{
-// 			if (splited_val[i][j])
-// 			{
-// 				info->wildcard++;
-// 			}
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// 	add_in_wildcard_hashmap(info, true);
-// }
-
-// static void	get_wildcard(char *val, t_info *info)
-// {
-// 	size_t	i;
-
+// 
 // 	i = 0;
 // 	info->wildcard = 0;
 // 	while (splited_val[i])
@@ -92,28 +69,34 @@ static void	process_and_split_value(t_info *info, t_list_info *arg_list, char *v
 // 		}
 // 		i++;
 // 	}
-// 	add_in_wildcard_hashmap(info, false);
+// 	add_in_wildcard_hashmap(info, ex_wdc);
 // }
 
 static void	expand_value(t_info *info, t_list_info *arg_list, char *val, bool rm_spaces)
 {
 	t_list	*node;
 	char	**splited_val;
+	size_t	i;
 
+	i = 0;
 	if (!val)
 	{
 		return ;
 	}
 	if (!rm_spaces)
 	{
-		// get_wildcard_splited_val(val, info);
+		// get_wildcard(val, info, false);
 		node = creat_node(val);
 		list_add_back(info->ex_word, node);
 		info->len += ft_strlen(val);
 		return ;
 	}
-	// get_wildcard_splited_val(splited_val, info);
 	splited_val = ft_split(val, WHITE_SPACE);
+	while (splited_val[i])
+	{
+		// get_wildcard(splited_val[i], info, true);
+		i++;
+	}
 	process_and_split_value(info, arg_list, val, splited_val);
 }
 
