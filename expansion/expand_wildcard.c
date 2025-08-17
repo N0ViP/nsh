@@ -25,6 +25,18 @@ char	*join_words(t_info *info)
 	return (res);
 }
 
+// f*d****
+//  0 1111
+// is_match(word, mask)
+// {
+// 	return ();
+// }
+
+// while()
+// {
+// 	if (s[i] == '*' && check_wdc())
+// }
+
 void	expand_wildcard(t_info *info, t_list_info *arg_list)
 {
 	char	*word;

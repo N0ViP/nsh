@@ -20,6 +20,7 @@ void	add_in_wildcard_hashmap(t_info *info, bool ex_wdc)
 	}
 	while (info->wildcard--)
 	{
-		info->hashmap[i++] = ex_wdc;
+		info->hashmap[i] = ex_wdc;
+		i++;
 	}
 }

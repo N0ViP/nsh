@@ -55,22 +55,22 @@ static void	process_and_split_value(t_info *info, t_list_info *arg_list, char *v
 	}
 }
 
-// static void	get_wildcard(char *val, t_info *info, bool ex_wdc)
-// {
-// 	size_t	i;
-// 
-// 	i = 0;
-// 	info->wildcard = 0;
-// 	while (splited_val[i])
-// 	{
-// 		if (splited_val[i][j])
-// 		{
-// 			info->wildcard++;
-// 		}
-// 		i++;
-// 	}
-// 	add_in_wildcard_hashmap(info, ex_wdc);
-// }
+static void	get_wildcard(char *val, t_info *info, bool ex_wdc)
+{
+	size_t	i;
+
+	i = 0;
+	info->wildcard = 0;
+	while (val[i])
+	{
+		if (val[i])
+		{
+			info->wildcard++;
+		}
+		i++;
+	}
+	add_in_wildcard_hashmap(info, ex_wdc);
+}
 
 static void	expand_value(t_info *info, t_list_info *arg_list, char *val, bool rm_spaces)
 {
@@ -85,7 +85,7 @@ static void	expand_value(t_info *info, t_list_info *arg_list, char *val, bool rm
 	}
 	if (!rm_spaces)
 	{
-		// get_wildcard(val, info, false);
+		get_wildcard(val, info, false);
 		node = creat_node(val);
 		list_add_back(info->ex_word, node);
 		info->len += ft_strlen(val);
@@ -94,7 +94,7 @@ static void	expand_value(t_info *info, t_list_info *arg_list, char *val, bool rm
 	splited_val = ft_split(val, WHITE_SPACE);
 	while (splited_val[i])
 	{
-		// get_wildcard(splited_val[i], info, true);
+		get_wildcard(splited_val[i], info, true);
 		i++;
 	}
 	process_and_split_value(info, arg_list, val, splited_val);

@@ -8,6 +8,6 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 	new_ptr = smalloc(new_size);
 	n = ft_min(old_size, new_size);
 	ft_memcpy(new_ptr, ptr, n);
-	free(ptr);
+	free(ptr);	//dd
 	return (new_ptr);
 }
