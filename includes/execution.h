@@ -39,7 +39,6 @@ char        *check_and_curr_dir(char *cmd);
 int		    execute_or_and(t_tree *branch);
 t_state     path_validity(const char *path);
 bool        built_ins_check(t_tree *branch);
-bool        look_for_heredocs(t_tree *root);
 void	    redirection_setup(t_tree *branch);
 int 	    _exit_status(bool flag, int value);
 int		    execution_mode(t_tree *root, t_mode mode);

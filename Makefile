@@ -11,7 +11,17 @@ MAIN_SRC = \
     # sources/printer_to_rm.c
 
 HEREDOC_SRC = \
-    heredoc/heredoc.c 
+    heredoc/num_to_str.c \
+    heredoc/joine_string.c \
+    heredoc/open_heredoc.c \
+    heredoc/process_line.c \
+    heredoc/compose_name.c \
+    heredoc/heredoc_signals.c \
+    heredoc/look_for_quotes.c \
+    heredoc/process_heredocs.c \
+    heredoc/write_to_heredoc.c \
+    heredoc/join_list_strings.c \
+    heredoc/look_for_heredocs.c
 
 ALLOC_SRC = \
     allocation/smalloc.c \
