@@ -10,6 +10,19 @@ MAIN_SRC = \
     sources/signal_setup.c \
     # sources/printer_to_rm.c
 
+HEREDOC_SRC = \
+    heredoc/num_to_str.c \
+    heredoc/joine_string.c \
+    heredoc/open_heredoc.c \
+    heredoc/process_line.c \
+    heredoc/compose_name.c \
+    heredoc/heredoc_signals.c \
+    heredoc/look_for_quotes.c \
+    heredoc/process_heredocs.c \
+    heredoc/write_to_heredoc.c \
+    heredoc/join_list_strings.c \
+    heredoc/look_for_heredocs.c
+
 ALLOC_SRC = \
     allocation/smalloc.c \
     allocation/clear_data.c \
@@ -102,7 +115,6 @@ EXEC_SRC = \
     execution/error.c \
     execution/or_and.c \
     execution/command.c \
-    execution/heredoc.c \
     execution/execute.c \
     execution/subshell.c \
     execution/pipeline.c \
@@ -127,6 +139,7 @@ SOURCE = $(MAIN_SRC) \
          $(PARSER_SRC) \
          $(EXPAND_SRC) \
          $(GETENV_SRC) \
+         $(HEREDOC_SRC) \
          $(STDFCTS_SRC)
 
 NAME	=	nsh

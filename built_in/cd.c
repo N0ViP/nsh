@@ -15,10 +15,10 @@ void	built_in_cd(char **args)
 		write(2, "cd: Permission denied\n", 22);
 }
 
-int main()
-{
-	char *av[] = {"/", NULL};
-	printf("%s\n", getcwd(NULL, 0));
-	built_in_cd(av);
-	printf("%s\n", getcwd(NULL, 0));
-}
+// int main()
+// {
+// 	char *av[] = {"/", NULL};
+// 	printf("%s\n", getcwd(NULL, 0));
+// 	built_in_cd(av);
+// 	printf("%s\n", getcwd(NULL, 0));
+// }
