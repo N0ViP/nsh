@@ -1,11 +1,19 @@
 # include "execution.h"
 
-static void redirect_heredoc(int *fd)
+static void redirect_heredoc(t_heredoc *heredoc)
 {
-    if (!fd)
+    int rfd;
+
+    if (!heredoc || heredoc->rfd < 0)
         return ;
-    dup2(*fd, STDIN_FILENO);
-    close(*fd);
+    rfd = heredoc->rfd;
+    if (!heredoc->was_quoted)
+        rfd = expanded_heredoc_file(rfd);
+    if (rfd >= 0)
+    {
+        dup2(rfd, STDIN_FILENO);
+        close(rfd);
+    }
 }
 
 static void open_redirect(char *file, int flags, int target_fd)
@@ -39,7 +47,7 @@ static void pickup_redirection(t_redir *redir, int n_redirs)
                         O_WRONLY | O_CREAT | O_APPEND,
                         STDOUT_FILENO);
         else if (redir[i].type == OP_HEREDOC)
-            redirect_heredoc((int *)redir[i].file);
+            redirect_heredoc((t_heredoc *)redir[i].file);
         i++;
     }
 }

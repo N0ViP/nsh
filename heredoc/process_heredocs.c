@@ -1,16 +1,19 @@
 # include "heredoc.h"
 
-static int *get_heredoc_fd(char *delimiter)
+static t_heredoc *get_heredoc_infos(char *delimiter)
 {
-    int *pointer;
-    int fd;
+    t_heredoc   *heredoc;
+    bool        was_quoted;
+    int         fd;
 
+    was_quoted = look_for_quotes(&delimiter);
     fd = open_heredoc(delimiter);
     if (fd < 0)
         return (NULL);
-    pointer = new_allocation(EXECUTION, sizeof(int));
-    *pointer = fd;
-    return (pointer);
+    heredoc = new_allocation(EXECUTION, sizeof(t_heredoc));
+    heredoc->was_quoted = was_quoted;
+    heredoc->rfd = fd;
+    return (heredoc);
 }
 
 int process_heredocs(t_tree *branch)
@@ -25,6 +28,6 @@ int process_heredocs(t_tree *branch)
         return (heredoc_exit);
     while(++i < n_redirs && !heredoc_exit)
         if (redirs[i].type == OP_HEREDOC)
-            redirs[i].file = get_heredoc_fd(redirs[i].file);//return null!!
+            redirs[i].file = get_heredoc_infos(redirs[i].file);//return null!!
     return (heredoc_exit);
 }
