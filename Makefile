@@ -16,12 +16,15 @@ HEREDOC_SRC = \
     heredoc/open_heredoc.c \
     heredoc/process_line.c \
     heredoc/compose_name.c \
+    heredoc/expand_heredoc.c \
     heredoc/heredoc_signals.c \
     heredoc/look_for_quotes.c \
     heredoc/process_heredocs.c \
     heredoc/write_to_heredoc.c \
+    heredoc/write_and_expand.c \
     heredoc/join_list_strings.c \
-    heredoc/look_for_heredocs.c
+    heredoc/look_for_heredocs.c \
+    heredoc/read_file_into_buffer.c
 
 ALLOC_SRC = \
     allocation/smalloc.c \
