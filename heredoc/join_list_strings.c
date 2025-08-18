@@ -23,7 +23,7 @@ char    *join_list_strings(t_list_info *info)
 {
     t_list              *node;
     size_t              total;
-    char                *joined_strings;
+    char                *joined_content;
 
     if (!info || !info->list)
         return (allocate_retval(PARSING, ""));
@@ -32,7 +32,6 @@ char    *join_list_strings(t_list_info *info)
 
     total = compute_total(node);
 
-    joined_strings = new_allocation(PARSING, total + 1);
-    join_string(node, joined_strings, total);
-    return (joined_strings);
+    joined_content = join_list_content(node, " ", total);
+    return (joined_content);
 }

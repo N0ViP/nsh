@@ -6,7 +6,7 @@
 /*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 02:42:03 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/17 16:48:12 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/18 05:00:51 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,5 @@ t_list_info *expander(char *str)
 		info.str += expand_dollar_word(&info, arg_list, true);
 	}
 	expand_wildcard(&info, arg_list);
-	// printf("\n");
 	return (arg_list);
 }
