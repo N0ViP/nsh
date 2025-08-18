@@ -7,6 +7,7 @@ bool init(void)
 	if (init == false)
 	{	
 		shell_signals();
+		update_cwd();
 		env_setup();
 		init = true;
 	}

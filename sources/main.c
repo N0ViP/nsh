@@ -16,10 +16,6 @@ int	main(void)
 {
 	char	*command;
 
-	 bool  a = 32;
-        printf("%zu\n", sizeof(a));
-        printf("%d\n", a);
-
 	while (init())
 	{
 		if(read_command(&command))

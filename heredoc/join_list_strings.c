@@ -33,6 +33,6 @@ char    *join_list_strings(t_list_info *info)
     total = compute_total(node);
 
     joined_strings = new_allocation(PARSING, total + 1);
-    joine_string(node, joined_strings, total);
+    join_string(node, joined_strings, total);
     return (joined_strings);
 }

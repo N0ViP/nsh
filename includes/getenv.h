@@ -22,6 +22,7 @@ t_list_info	**env_list(void);
 char		*get_var_value(char *var);
 t_list_info	*ft_getenv(int flag, char *var);
 int     	ft_strcmp_env(char *s1, char *s2);
+void        set_var_value(char *key, char *value);
 void		add_in_env(t_list_info *env, char *var);
 void		remove_from_env(t_list_info *env, char *var);
 

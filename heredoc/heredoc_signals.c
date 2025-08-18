@@ -1,6 +1,6 @@
 # include "heredoc.h"
 
-int heredoc_exit = 0;
+int heredoc_exit = 0;// g_
 
 static int nothing(void)
 {

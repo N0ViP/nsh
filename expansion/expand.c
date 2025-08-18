@@ -35,6 +35,6 @@ t_list_info *expander(char *str)
 		info.str += expand_dollar_word(&info, arg_list, true);
 	}
 	expand_wildcard(&info, arg_list);
-	printf("\n");
+	// printf("\n");
 	return (arg_list);
 }
