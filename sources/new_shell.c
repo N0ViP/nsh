@@ -5,7 +5,7 @@ bool init(void)
 	static bool	init = false;
 
 	if (init == false)
-	{	
+	{
 		shell_signals();
 		update_cwd();
 		env_setup();

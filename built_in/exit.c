@@ -58,6 +58,8 @@ int	built_in_exit(char **argv, int n_arg)
 {
 	long long exit_code;
 
+    if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
+        return (_exit_status(EXTRACT, 0));
     write(STDOUT_FILENO, "exit\n", 5);
     if (n_arg > 1)
     {
