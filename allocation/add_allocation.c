@@ -1,5 +1,17 @@
 #include "allocation.h"
 
+static void	*reallocate_memory(void *pointer, size_t old_size, size_t new_size)
+{
+	void	*new_ptr;
+	size_t	min;
+
+	new_ptr = smalloc(new_size);
+	min = ft_min(old_size, new_size);
+	ft_memcpy(new_ptr, pointer, min);
+	free(pointer);
+	return (new_ptr);
+}
+
 void add_allocation_to_section(t_sid section_id, void *ptr)
 {
     void        **allocs;
@@ -13,9 +25,9 @@ void add_allocation_to_section(t_sid section_id, void *ptr)
     if (*cnt == *cap)
     {
         *cap *= ALLOCATION_CAPACITY;
-        allocs = ft_realloc(allocs,
-                            *cnt * sizeof(void *),
-                            *cap * sizeof(void *));
+        allocs = reallocate_memory(allocs,
+                                    *cnt * sizeof(void *),
+                                    *cap * sizeof(void *));
         section->allocations = allocs;
     }
     allocs[*cnt] = ptr;
@@ -26,10 +38,3 @@ void add_allocation(void *pointer)
 {
     add_allocation_to_section(*current_section(), pointer);
 }
-
-// void add_allocations_to_section(t_sid section_id, void **ptr)
-// {
-//     add_allocation_to_section(section_id, ptr);
-//     while (*ptr)
-//         add_allocation_to_section(section_id, *ptr++);
-// }

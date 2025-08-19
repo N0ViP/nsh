@@ -10,7 +10,7 @@ void	add_in_wildcard_hashmap(t_info *info, bool ex_wdc)
 	{
 		k = ARENA_SIZE;
 		i = 0;
-		info->hashmap = malloc(k);
+		info->hashmap = allocate_memory(k);
 	}
 	while (i + info->wildcard > k)
 	{

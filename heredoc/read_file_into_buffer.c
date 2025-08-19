@@ -28,7 +28,7 @@ bool read_file_into_buffer(int old_rfd, char **buffer, size_t *length)
     size_t  capacity;
 
     capacity = ARENA_SIZE;
-    *buffer = smalloc(capacity + 1);
+    *buffer = allocate_memory(capacity + 1);
     while (true)
     {
         read_bytes = read(old_rfd, *buffer + *length, capacity - *length);
@@ -44,6 +44,5 @@ bool read_file_into_buffer(int old_rfd, char **buffer, size_t *length)
     }
     close(old_rfd);
     (*buffer)[*length] = '\0';
-    add_allocation(*buffer);
     return (true);
 }

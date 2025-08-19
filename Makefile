@@ -33,6 +33,7 @@ ALLOC_SRC = \
     allocation/add_allocation.c \
     allocation/new_allocation.c \
     allocation/create_section.c \
+    allocation/current_section.c \
     allocation/destroy_section.c \
     allocation/free_one_pointer.c \
     allocation/clean_before_prompt.c

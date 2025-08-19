@@ -5,7 +5,7 @@
 # include "utils.h"
 # include "stdfcts.h"
 
-#define ALLOCATION_CAPACITY 2
+#define ALLOCATION_CAPACITY 64
 
 typedef enum
 {
@@ -36,10 +36,8 @@ void                    clear_section_data(t_section *section);
 t_section               *find_or_create_section(t_sid section_id);
 void                    set_current_section(t_sid updated_section_id);
 void                    *new_allocation(t_sid section_id, size_t size);
-char                    *allocate_retval(t_sid section_id, char *to_copy);
 void                    free_one_pointer(t_sid section_id, void *pointer);
 t_section               *find_section(t_section *section, t_sid section_id);
 void                    add_allocation_to_section(t_sid section_id, void *ptr);
-void                    add_allocations_to_section(t_sid section_id, void **ptr);
 
 #endif
