@@ -5,8 +5,8 @@
 
 # define ADD_IN_ENV			1
 # define REMOVE_FROM_ENV	2
-# define EXPORT true
-# define UNSET false
+# define EXPORT             true
+# define UNSET              false
 
 extern char	**environ;
 

@@ -17,7 +17,7 @@ t_list_info	*init_env(void)
 	t_list_info	*env;
 
 	i = 0;
-	set_current_section(ENVIRON);
+	set_current_section(REMAINS);
 	env = init_list_info_struct();
 	while (environ[i])
 	{

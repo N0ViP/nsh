@@ -22,7 +22,7 @@ t_list_info	*ft_getenv(int flag, char *var)
 	env = *env_list();
 	if (var)
 	{
-		set_current_section(ENVIRON);
+		set_current_section(REMAINS);
 		dup_var = ft_strdup(var);
 		set_current_section(GLOBALE);
 	}

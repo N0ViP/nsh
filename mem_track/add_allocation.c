@@ -1,6 +1,6 @@
-#include "allocation.h"
+#include "mem_track.h"
 
-static void	*reallocate_memory(void *pointer, size_t old_size, size_t new_size)
+void	*reallocate_memory(void *pointer, size_t old_size, size_t new_size)
 {
 	void	*new_ptr;
 	size_t	min;
@@ -24,7 +24,7 @@ void add_allocation_to_section(t_sid section_id, void *ptr)
     cnt = &section->count;
     if (*cnt == *cap)
     {
-        *cap *= ALLOCATION_CAPACITY;
+        *cap *= INITIAL_CAPACITY;
         allocs = reallocate_memory(allocs,
                                     *cnt * sizeof(void *),
                                     *cap * sizeof(void *));

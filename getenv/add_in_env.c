@@ -11,7 +11,7 @@ static bool	check_modify_key(t_list *ptr, char *var)
 	}
 	if (reval == 1)
 	{
-		free_one_pointer(ENVIRON, ptr->content);
+		free_one_pointer(REMAINS, ptr->content);
 		ptr->content = var;
 		return (true);
 	}
@@ -32,7 +32,7 @@ void	add_in_env(t_list_info *env, char *var)
 		}
 		ptr = ptr->next;
 	}
-	set_current_section(ENVIRON);
+	set_current_section(REMAINS);
 	node = creat_node(var);
 	set_current_section(GLOBALE);
 	list_add_back(env, node);

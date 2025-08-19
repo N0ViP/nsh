@@ -17,7 +17,7 @@
 
 # include "tokenization.h"
 # include "parse_tree.h"
-# include "allocation.h"
+# include "mem_track.h"
 # include "execution.h"
 # include "expansion.h"
 # include "built-in.h"
@@ -27,6 +27,7 @@
 # include "utils.h"
 
 #define SHELL		"nsh"
+#define INITIAL_CAPACITY 64
 #define ARENA_SIZE	4096
 #define WHITE_SPACE	" \t\n"
 

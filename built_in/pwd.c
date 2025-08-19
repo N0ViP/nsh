@@ -13,7 +13,7 @@ char *update_cwd(void)
 
     old_cwd = shell_cwd();
 	new_cwd = getcwd(NULL, 0);
-	add_allocation_to_section(ENVIRON, new_cwd);
+	add_allocation_to_section(REMAINS, new_cwd);
     *old_cwd = new_cwd;
     return (*old_cwd);
 }

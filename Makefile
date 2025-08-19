@@ -27,17 +27,20 @@ HEREDOC_SRC = \
     heredoc/read_file_into_buffer.c
 
 ALLOC_SRC = \
-    allocation/smalloc.c \
-    allocation/clear_data.c \
-    allocation/destroy_all.c \
-    allocation/find_sections.c \
-    allocation/add_allocation.c \
-    allocation/new_allocation.c \
-    allocation/create_section.c \
-    allocation/current_section.c \
-    allocation/destroy_section.c \
-    allocation/free_one_pointer.c \
-    allocation/clean_before_prompt.c
+    mem_track/smalloc.c \
+    mem_track/close_fds.c \
+    mem_track/clear_data.c \
+    mem_track/destroy_all.c \
+    mem_track/fds_tracker.c \
+    mem_track/find_sections.c \
+    mem_track/add_allocation.c \
+    mem_track/new_allocation.c \
+    mem_track/create_section.c \
+    mem_track/current_section.c \
+    mem_track/destroy_section.c \
+    mem_track/free_one_pointer.c \
+    mem_track/track_open_files.c \
+    mem_track/clean_before_prompt.c
 
 BUILT_SRC = \
     built_in/cd.c \

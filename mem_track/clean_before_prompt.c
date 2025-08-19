@@ -1,4 +1,4 @@
-#include "allocation.h"
+#include "mem_track.h"
 
 static t_section *recurse_skip_env(t_section *section)
 {
@@ -7,7 +7,7 @@ static t_section *recurse_skip_env(t_section *section)
     if (!section)
         return (NULL);
     env_section = recurse_skip_env(section->next);
-    if (section->section_id == ENVIRON)
+    if (section->section_id == REMAINS)
         return (section->next = NULL, section);
     clear_section_data(section);
     return (env_section);
