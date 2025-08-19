@@ -12,7 +12,6 @@ MAIN_SRC = \
 
 HEREDOC_SRC = \
     heredoc/num_to_str.c \
-    heredoc/join_string.c \
     heredoc/open_heredoc.c \
     heredoc/process_line.c \
     heredoc/compose_name.c \
@@ -68,7 +67,6 @@ GETENV_SRC = \
     getenv/ft_strcmp_env.c \
     getenv/get_var_value.c \
     getenv/set_var_value.c \
-    getenv/create_env_arr.c \
     getenv/remove_from_env.c
 
 UTILS_SRC = \

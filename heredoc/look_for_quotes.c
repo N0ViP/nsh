@@ -5,7 +5,7 @@ static void copy_new_delemiter(char **delimiter, size_t new_len)
     char    *new_dlm;
     char    *dlm;
 
-    new_dlm = new_allocation(PARSING, new_len + 1);
+    new_dlm = allocate_memory(new_len + 1);
     dlm = *delimiter;
     *delimiter = new_dlm;
     while (*dlm)

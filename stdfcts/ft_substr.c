@@ -18,7 +18,7 @@ char	*ft_substr(char *str, int i, int j)
 	int		k;
 
 	k = 0;
-	res = smalloc(j - i + 1);
+	res = allocate_memory(j - i + 1);
 	while (i < j)
 	{
 		res[k] = str[i];

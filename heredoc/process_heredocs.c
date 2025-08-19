@@ -10,7 +10,7 @@ static t_heredoc *get_heredoc_infos(char *delimiter)
     fd = open_heredoc(delimiter);
     if (fd < 0)
         return (NULL);
-    heredoc = new_allocation(EXECUTION, sizeof(t_heredoc));
+    heredoc = allocate_memory(sizeof(t_heredoc));
     heredoc->was_quoted = was_quoted;
     heredoc->rfd = fd;
     return (heredoc);

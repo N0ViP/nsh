@@ -23,7 +23,6 @@ static void update_oldpwd(void)
     pwd = get_var_value("PWD");
     if (pwd)
     {
-		add_allocation_to_section(EXECUTION, pwd);
         set_var_value("OLDPWD", pwd);
     }
 }
@@ -36,7 +35,6 @@ static bool update_pwd(void)
     if (cwd)
 	{
 		set_var_value("PWD", cwd);
-		free(cwd);	
 		return (true);
     }
 	return (false);
@@ -52,7 +50,6 @@ static bool go_home(void)
 		print_cd_error(NULL, "HOME not set");
         return (false);
 	}
-	add_allocation_to_section(EXECUTION, home);
 	if (chdir(home) == -1)
 	{
 		print_cd_error(home, strerror(errno));
@@ -77,7 +74,6 @@ static bool go_old_pwd(void)
 		print_cd_error(NULL, "OLDPWD not set");
         return (false);
 	}
-	add_allocation_to_section(EXECUTION, oldpwd);
 	if (chdir(oldpwd) == -1)
 	{
 		print_cd_error(oldpwd, strerror(errno));

@@ -24,11 +24,11 @@ static char **extract_args(t_list *tokens, int n_arg)
         return (NULL);
     i = 0;
     cur = tokens;
-    args = new_allocation(PARSING, (n_arg + 1) * sizeof(char *));
+    args = allocate_memory((n_arg + 1) * sizeof(char *));
     while (cur)
     {
         tok = (t_token *)cur->content;
-        args[i++] = allocate_retval(PARSING, tok->value);
+        args[i++] = ft_strdup(tok->value);
         cur = cur->next;
     }
     args[i] = NULL;
@@ -41,7 +41,7 @@ t_tree *new_command_branch(t_list *tokens)
     int n_redirs;
     int n_arg;
 
-    node = new_allocation(PARSING, sizeof(t_tree));
+    node = allocate_memory(sizeof(t_tree));
     node->type = COMMAND;
     n_redirs = count_redirs(tokens);
     node->data.cmd.n_redirs = n_redirs;

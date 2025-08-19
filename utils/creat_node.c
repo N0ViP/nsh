@@ -16,7 +16,7 @@ t_list	*creat_node(void *content)
 {
 	t_list	*node;
 
-	node = smalloc(sizeof(t_list));
+	node = allocate_memory(sizeof(t_list));
 	node->content = content;
 	node->next = NULL;
 	return (node);

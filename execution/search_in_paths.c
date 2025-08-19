@@ -5,7 +5,6 @@ static char *try_path(char *dir, char *cmd, t_state *state)
     char *full_path;
 	
 	full_path = join_two_strings(dir, cmd, "/");
-    add_allocation_to_section(RESOLVE_PATH, full_path);
     *state = path_validity(full_path);
     return (full_path);
 }

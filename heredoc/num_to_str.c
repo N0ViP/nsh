@@ -13,7 +13,7 @@ char	*num_to_str(unsigned long v)
 		tmp /= 10;
 		digits++;
 	}
-	s = new_allocation(EXECUTION, digits + 1);
+	s = allocate_memory(digits + 1);
 	s[digits] = '\0';
 	while (digits > 0)
 	{

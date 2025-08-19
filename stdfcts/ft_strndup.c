@@ -6,7 +6,7 @@ char	*ft_strndup(const char *s, size_t n)
 	size_t	i;
 	
 	i = 0;
-	dup = smalloc(n + 1);
+	dup = allocate_memory(n + 1);
 	while (i < n)
 	{
 		dup[i] = s[i];
@@ -24,7 +24,7 @@ char	*ft_strdup(const char *s)
 	
 	i = 0;
 	n = ft_strlen(s);
-	dup = smalloc(n + 1);
+	dup = allocate_memory(n + 1);
 	while (i < n)
 	{
 		dup[i] = s[i];

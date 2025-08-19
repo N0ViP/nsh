@@ -32,7 +32,8 @@ void	add_in_env(t_list_info *env, char *var)
 		}
 		ptr = ptr->next;
 	}
+	set_current_section(ENVIRON);
 	node = creat_node(var);
-	add_allocation_to_section(ENVIRON, node);
+	set_current_section(GLOBALE);
 	list_add_back(env, node);
 }

@@ -22,7 +22,9 @@ t_list_info	*ft_getenv(int flag, char *var)
 	env = *env_list();
 	if (var)
 	{
-		dup_var = allocate_retval(ENVIRON, var);
+		set_current_section(ENVIRON);
+		dup_var = ft_strdup(var);
+		set_current_section(GLOBALE);
 	}
 	if (flag == ADD_IN_ENV)
 	{

@@ -26,7 +26,7 @@ char    *join_list_strings(t_list_info *info)
     char                *joined_content;
 
     if (!info || !info->list)
-        return (allocate_retval(PARSING, ""));
+        return (ft_strdup(""));
 
     node = info->list;
 

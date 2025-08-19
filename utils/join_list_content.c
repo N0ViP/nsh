@@ -8,7 +8,7 @@ char	*join_list_content(t_list *list, char *del, size_t len)
 	size_t	tmp_del_len;
 
 	i = 0;
-	str = malloc(len + 1);
+	str = allocate_memory(len + 1);
 	tmp_del_len = ft_strlen(del);
 	while (list)
 	{

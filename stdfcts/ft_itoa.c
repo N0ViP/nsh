@@ -8,7 +8,7 @@ char	*ft_itoa(int n)
 
 	is_negative = (n < 0);
 	num_len = ft_numlen(n) + (size_t)is_negative;
-	res = malloc(num_len + 1);
+	res = allocate_memory(num_len + 1);
 	res[num_len--] = '\0';
 	if (n == 0)
 	{

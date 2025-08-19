@@ -76,6 +76,7 @@ int	built_in_exit(char **argv, int n_arg)
         }
         exit((unsigned char)exit_code);
     }
+    destroy_all_sections();
     exit(_exit_status(EXTRACT, 0) & 0b11111111);
 	return (EXIT_SUCCESS);
 }

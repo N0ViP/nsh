@@ -34,7 +34,7 @@ static void recurse_redirs(t_list **cur, t_redir *redirs, int i)
             return ;
         file_tok = (t_token *)file_node->content;
         redirs[i].type = tok->type;
-        redirs[i++].file = allocate_retval(PARSING, file_tok->value);
+        redirs[i++].file = ft_strdup(file_tok->value);
         *cur = file_node->next;
     }
     else
@@ -48,7 +48,7 @@ t_redir *extract_redirs(t_list **tokens, int n_redirs)
 
     if (!n_redirs)
         return (NULL);
-    redirs = new_allocation(PARSING, sizeof(t_redir) * n_redirs);
+    redirs = allocate_memory(sizeof(t_redir) * n_redirs);
     recurse_redirs(tokens, redirs, 0);
     return (redirs);
 }

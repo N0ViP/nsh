@@ -11,6 +11,7 @@ static void write_expanded_line(int wfd, char *line)
     {
         write(wfd, expanded, ft_strlen(expanded));
     }
+    return ;
 }
 
 void write_line_by_line(int wfd, char *buffer, size_t length)
@@ -27,7 +28,7 @@ void write_line_by_line(int wfd, char *buffer, size_t length)
         if (buffer[idx] == '\n' || idx == length)
         {
             line_len = (idx + 1) - start;
-            line = new_allocation(EXECUTION, line_len + 1);
+            line = allocate_memory(line_len + 1);
             ft_memcpy(line, buffer + start, line_len);
             line[line_len] = '\0';
             write_expanded_line(wfd, line);

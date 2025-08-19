@@ -9,7 +9,7 @@ t_tree	*new_operator_branch(t_list *tokens, t_list *split)
 	op_node = split->next;
 	right = op_node->next;
 	split->next = NULL;
-	node = new_allocation(PARSING, sizeof(t_tree));
+	node = allocate_memory(sizeof(t_tree));
 	node->type = ((t_token *)op_node->content)->type;
 	node->data.branch.left = parse_tokens(tokens);
 	node->data.branch.right = parse_tokens(right);
@@ -46,7 +46,7 @@ t_tree	*new_subshell_branch(t_list *tokens)
 	t_list	*inside;
 	int		n_redirs;
 
-	node = new_allocation(PARSING, sizeof(t_tree));
+	node = allocate_memory(sizeof(t_tree));
 	inside = tokens->next;
 	close = find_close(inside);
 	after = close->next->next;

@@ -15,7 +15,7 @@ char *get_tty_name(void)
         name++;
     else
         name = tty;
-    return (allocate_retval(EXECUTION, name));
+    return (ft_strdup(name));
 }
 
 char *compose_name(char *prefix, char *tty_name, size_t counter, char *sufix)
@@ -29,7 +29,7 @@ char *compose_name(char *prefix, char *tty_name, size_t counter, char *sufix)
     counter_s = num_to_str(counter);
     tty_len = ft_strlen(tty_name);
     cnt_len = ft_strlen(counter_s);
-    name = new_allocation(EXECUTION ,tty_len + cnt_len + 19);
+    name = allocate_memory(tty_len + cnt_len + 19);
     ptr = name;
     ft_memcpy(ptr, prefix, 9);
     ptr += 9;

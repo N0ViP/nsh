@@ -59,7 +59,7 @@ char	**ft_split(char *s, char *sep)
 		return (NULL);
 	}
 	word_count = count_words((char *) s, sep);
-	result = malloc((word_count + 1) * sizeof(char *));
+	result = allocate_memory((word_count + 1) * sizeof(char *));
 	fill_result(result, (char *) s, sep, word_count);
 	return (result);
 }

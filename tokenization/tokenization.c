@@ -62,12 +62,10 @@ static t_list *creat_token(char *ptr, t_type type, int idx)
 	t_list	*node;
 	t_token	*token;
 
-	token = new_allocation(TOKENIZATION, sizeof(t_token));
+	token = allocate_memory(sizeof(t_token));
 	token->type = type;
 	token->value = ft_substr(ptr, 0, idx);
-	add_allocation_to_section(TOKENIZATION, token->value);
 	node = creat_node(token);
-	add_allocation_to_section(TOKENIZATION, node);
 	return (node);
 }
 
@@ -99,7 +97,7 @@ t_list	*tokenize(char *cmd)
 {
 	t_list	*tokens;
 
-	add_allocation_to_section(TOKENIZATION, cmd);
+	add_allocation(cmd);
 	cmd += skip_spaces(cmd, 0);
 	if (!*cmd)
 		return (NULL);
