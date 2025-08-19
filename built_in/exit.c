@@ -9,6 +9,12 @@ static void print_exit_error(char *error, char *arg)
     write(STDERR_FILENO, error, ft_strlen(error));
 }
 
+static bool string_end_check(char *str)
+{
+    str += skip_spaces(str, 0);
+    return (*str == '\0');
+}
+
 static bool convert_to_num(char *str, int sign, long long *exit_code)
 {
     unsigned long long    number;
@@ -22,7 +28,11 @@ static bool convert_to_num(char *str, int sign, long long *exit_code)
     while (*str)
     {
         if (*str < '0' || *str > '9')
+        {
+            if (string_end_check(str))
+                break;
             return (false);
+        }
         digit = (*str++ - '0');
         if (number > (limit - digit) / 10)
             return (false);
@@ -43,6 +53,7 @@ static bool arg_to_exit_code(char *str, long long *exit_code)
     sign = 1;
     if (!str || !*str)
         return (false);
+    i += skip_spaces(str, i);
     if (str[i] == '-' || str[i] == '+')
     {
         if (str[i] == '-')
