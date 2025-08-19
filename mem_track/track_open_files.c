@@ -21,7 +21,7 @@ static void save_to_shell_fds(int fd)
     (*fds)[1]++;
 }
 
-int open_file(char *path, int flags, mode_t mode)
+int create_open(char *path, int flags, mode_t mode)
 {
     int fd;
 
@@ -33,7 +33,7 @@ int open_file(char *path, int flags, mode_t mode)
     return (fd);
 }
 
-int open_readonly_file(char *path)
+int open_readonly(char *path)
 {
     int fd;
 
@@ -43,4 +43,15 @@ int open_readonly_file(char *path)
         save_to_shell_fds(fd);
     }
     return (fd);
+}
+
+bool create_pipe(int pipefd[2])
+{
+    if (pipe(pipefd) < 0)
+    {
+        return (false);
+    }
+    save_to_shell_fds(pipefd[0]);
+    save_to_shell_fds(pipefd[1]);
+    return (true);
 }

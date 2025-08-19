@@ -36,6 +36,6 @@ void write_line_by_line(int wfd, char *buffer, size_t length)
         }
         idx++;
     }
-    close(wfd);
+    close_and_remove(wfd);
     free_one_pointer(*current_section(), buffer);
 }

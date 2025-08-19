@@ -13,10 +13,10 @@ static bool	open_write_read(char *tty_name, int *wfd, int *rfd)
                                     tty_name,
                                     counter--,
                                     ".heredoc");
-		*wfd = open(heredoc_name, O_CREAT | O_EXCL | O_RDWR, 0600);
+		*wfd = create_open(heredoc_name, O_CREAT | O_EXCL | O_RDWR, 0600);
 		if (*wfd >= 0)
 		{
-            *rfd = open(heredoc_name, O_RDONLY);
+            *rfd = open_readonly(heredoc_name);
             if (*rfd >= 0)
 			    return (unlink(heredoc_name), true);
 		}
@@ -43,10 +43,10 @@ int open_heredoc(char *delimiter)
 
     if (!create_file(&wfd, &rfd))
         return (-1);
-    // printf("%d %d\n", wfd, rfd);
+    printf("%d %d\n", wfd, rfd);
     heredoc_signals();
     interrupted = write_to_heredoc(wfd, delimiter);
-    close(wfd);
+    close_and_remove(wfd);
     shell_signals();
     if (interrupted)
         return (-1);

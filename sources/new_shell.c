@@ -32,7 +32,6 @@ void	new_shell(char *cmd)
     else
     {
         execute_tree(parse_in_tree(tokens));
-		close_everything();
 		return (clean_before_prompt());
     }
 }

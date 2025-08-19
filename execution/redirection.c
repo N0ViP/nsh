@@ -12,7 +12,7 @@ static void redirect_heredoc(t_heredoc *heredoc)
     if (rfd >= 0)
     {
         dup2(rfd, STDIN_FILENO);
-        close(rfd);
+        close_and_remove(rfd);
     }
 }
 
@@ -20,12 +20,12 @@ static void open_redirect(char *file, int flags, int target_fd)
 {
     int fd;
     
-    fd = open(file, flags, 0644);
+    fd = create_open(file, flags, 0644);
     if (fd < 0)
-        exit_failure((char *)file);
+        exit_failure(file);
     if (dup2(fd, target_fd) < 0)
         exit_failure("dup2");
-    close(fd);
+    close_and_remove(fd);
 }
 
 static void pickup_redirection(t_redir *redir, int n_redirs)

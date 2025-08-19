@@ -19,4 +19,5 @@ void clean_before_prompt(void)
 
     sections = get_sections();
     *sections = recurse_skip_env(*sections);
+    return (close_everything());
 }

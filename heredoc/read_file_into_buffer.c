@@ -42,7 +42,7 @@ bool read_file_into_buffer(int old_rfd, char **buffer, size_t *length)
         if (!read_bytes)
             break;
     }
-    close(old_rfd);
+    close_and_remove(old_rfd);
     (*buffer)[*length] = '\0';
     return (true);
 }

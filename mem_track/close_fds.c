@@ -22,10 +22,7 @@ void close_and_remove(int fd)
     fds = shell_fds();
     idx = find_fd(fd);
     if (idx < 2)
-    {
-        close(fd);
         return ;
-    }
     (*fds)[1]--;
     if (idx != (*fds)[1])
         (*fds)[idx] = (*fds)[(*fds)[1]];
