@@ -6,11 +6,11 @@ static void redir_then_recurse(t_tree *branch)
     int     status;
 
     if (!expand_filenames(branch))
-        exit(EXIT_FAILURE);
+        exit_shell(EXIT_FAILURE);
     redirection_setup(branch);
     child = branch->data.subshell.child;
     status = execution_mode(child, NO_FORK_MODE);
-    exit(status);
+    exit_shell(status);
 }
 
 int execute_subshell(t_tree *branch, t_mode mode)

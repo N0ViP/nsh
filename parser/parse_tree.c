@@ -6,6 +6,6 @@ t_tree	*parse_in_tree(t_list *tokens)
 
 	set_current_section(GLOBALE);
 	root = parse_tokens(tokens);
-	//destroy_section(TOKENIZATION);
+	destroy_section(TOKENIZE);
 	return (root);
 }

@@ -30,7 +30,7 @@ void report_error(const char *cmd, t_state error)
     int code;
 
     code = 126;
-    write(STDERR_FILENO, SHELL, ft_strlen(SHELL));//buffer it
+    write(STDERR_FILENO, SHELL, ft_strlen(SHELL));
     write(STDERR_FILENO, ": ", 2);
     write(STDERR_FILENO, cmd, ft_strlen(cmd));
     if (error == NOT_FOUND_ERROR)
@@ -45,6 +45,5 @@ void report_error(const char *cmd, t_state error)
         perror(cmd);
     if(error == NOT_FOUND_ERROR || error == NO_FILE_ERROR)
         code = 127;
-    destroy_all_sections();
-    exit(code);
+    exit_shell(code);
 }

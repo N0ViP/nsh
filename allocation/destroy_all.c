@@ -8,7 +8,7 @@ static void recursive_destruction(t_section *section)
     clear_section_data(section);
 }
 
-void destroy_all_sections(void)
+void destroy_everything(void)
 {
     t_section **sections;
 

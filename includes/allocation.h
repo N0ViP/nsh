@@ -25,7 +25,7 @@ t_section               **get_sections(void);
 void                    *smalloc(size_t size);
 t_sid                   *current_section(void);
 void                    clean_before_prompt(void);
-void                    destroy_all_sections(void);
+void                    destroy_everything(void);
 void                    add_allocation(void *pointer);
 void                    *allocate_memory(size_t size);
 t_section               *create_section(t_sid section_id);

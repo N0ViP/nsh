@@ -53,6 +53,7 @@ bool	init(void);
 void 	shell_signals(void);
 void	new_shell(char *cmd);
 bool	read_command(char **cmd);
+void 	exit_shell(int exit_status);
 
 //printers to remove
 void    print_tokens(t_list *list);

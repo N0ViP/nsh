@@ -59,24 +59,23 @@ int	built_in_exit(char **argv, int n_arg)
 	long long exit_code;
 
     if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
-        return (_exit_status(EXTRACT, 0));
-    write(STDOUT_FILENO, "exit\n", 5);
+        exit_shell(_exit_status(EXTRACT, 0) & 0b11111111);
+    write(STDERR_FILENO, "exit\n", 5);
     if (n_arg > 1)
     {
         exit_code = 0;
         if (!arg_to_exit_code(argv[1], &exit_code))
         {
             print_exit_error(" numeric argument required\n", argv[1]);
-            exit(255);
+            exit_shell(255);
         }
         if (n_arg > 2)
         {
             print_exit_error("too many arguments\n", NULL);
             return (EXIT_FAILURE);
         }
-        exit((unsigned char)exit_code);
+        exit_shell((unsigned char)exit_code);
     }
-    destroy_all_sections();
-    exit(_exit_status(EXTRACT, 0) & 0b11111111);
+    exit_shell(_exit_status(EXTRACT, 0) & 0b11111111);
 	return (EXIT_SUCCESS);
 }
