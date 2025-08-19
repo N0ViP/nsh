@@ -13,6 +13,8 @@
 #ifndef NSH_H
 # define NSH_H
 
+# include "librairies.h"
+
 # include "tokenization.h"
 # include "parse_tree.h"
 # include "allocation.h"
@@ -20,14 +22,9 @@
 # include "expansion.h"
 # include "built-in.h"
 # include "heredoc.h"
+# include "stdfcts.h"
 # include "getenv.h"
-
-# include <stdio.h>
-# include <stdbool.h>
-# include <fcntl.h>
-# include <signal.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# include "utils.h"
 
 #define SHELL		"nsh"
 #define ARENA_SIZE	4096

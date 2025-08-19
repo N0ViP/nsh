@@ -2,8 +2,6 @@
 # define PARSE_TREE_H
 
 # include "nsh.h"
-# include "utils.h"
-# include "stdfcts.h"
 
 typedef struct s_list		t_list;
 typedef struct s_list_info	t_list_info;

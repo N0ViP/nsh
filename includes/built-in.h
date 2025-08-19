@@ -2,10 +2,6 @@
 # define BUILT_IN_H
 
 #include "nsh.h"
-#include "execution.h"
-#include "utils.h"
-#include "stdfcts.h"
-
 
 char    *update_cwd(void);
 char    **shell_cwd(void);

@@ -14,8 +14,6 @@
 # define UTILS_H
 
 # include "nsh.h"
-# include "stdbool.h"
-# include <stdlib.h>
 
 typedef struct s_list		t_list;
 typedef struct s_list_info	t_list_info;

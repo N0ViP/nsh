@@ -1,13 +1,10 @@
 #ifndef FT_GETENV_H
 # define FT_GETENV_H
 
-# define ADD_IN_ENV			1
-# define REMOVE_FROM_ENV	2
-
-#include <stddef.h>
-#include "stdfcts.h"
 #include "nsh.h"
 
+# define ADD_IN_ENV			1
+# define REMOVE_FROM_ENV	2
 # define EXPORT true
 # define UNSET false
 

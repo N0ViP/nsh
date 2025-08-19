@@ -2,8 +2,6 @@
 # define ALLOCATION_H
 
 # include "nsh.h"
-# include "utils.h"
-# include "stdfcts.h"
 
 #define ALLOCATION_CAPACITY 64
 

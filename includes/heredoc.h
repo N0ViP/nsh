@@ -3,7 +3,7 @@
 
 #include "nsh.h"
 
-extern int  heredoc_exit; // is it allowed
+extern int  heredoc_exit;
 
 typedef struct
 {

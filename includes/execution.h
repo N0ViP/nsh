@@ -2,12 +2,6 @@
 # define EXECUTION_H
 
 # include "nsh.h"
-# include "utils.h"
-# include "stdfcts.h"
-# include "errno.h"
-# include <limits.h>//
-# include <sys/stat.h>
-# include <sys/wait.h>
 
 # define UPDATE 0
 # define EXTRACT 1

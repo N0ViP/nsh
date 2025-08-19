@@ -14,9 +14,6 @@
 # define TOKENIZATION_H
 
 # include "nsh.h"
-# include "utils.h"
-# include "stdfcts.h"
-# include <unistd.h>
 
 typedef struct s_list		t_list;
 typedef struct s_list_info	t_list_info;

@@ -13,10 +13,7 @@
 #ifndef STDFCTS_H
 # define STDFCTS_H
 
-# include <stdbool.h>
-# include <stddef.h>
-# include <stdlib.h>
-# include "utils.h"
+# include "nsh.h"
 
 int		ft_abs(int x);
 char	*ft_itoa(int n);
