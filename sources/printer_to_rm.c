@@ -30,87 +30,87 @@ void print_tokens(t_list *list)
     }
 }
 
-void tree_printer_00(t_tree *root, int indent)
-{
-    if (!root) return;
-    for (int i = 0; i < indent; i++) putchar(' ');
+// void tree_printer_00(t_tree *root, int indent)
+// {
+//     if (!root) return;
+//     for (int i = 0; i < indent; i++) putchar(' ');
 
-    switch (root->type) {
-        case COMMAND:
-            printf("CMD: ");
-            for (int i = 0; i < root->data.cmd.n_arg; i++)
-                printf(" %s", root->data.cmd.args[i]);
-            printf("\n");
-            for (int i = 0; i < root->data.cmd.n_redirs; i++)
-            {
-                if(i == 0)
-                {
-                    for (int j = 0; j < indent; j++) putchar(' ');
-                    printf("REDIRS:");
-                }
-                t_redir *r = &root->data.cmd.redirs[i];
-                if(!r)
-                    return;
-                switch (r->type) {
-                    case OP_REDIR_IN:     printf(" <%s", r->file); break;
-                    case OP_REDIR_OUT:    printf(" >%s", r->file); break;
-                    case OP_APPEND:       printf(" >>%s", r->file); break;
-                    case OP_HEREDOC:      printf(" >>%s", r->file); break;
-                    default: printf("Unknown redir type"); break;
-                }
-            }
-            if(root->data.cmd.n_redirs)
-                printf("\n");
-            break;
+//     switch (root->type) {
+//         case COMMAND:
+//             printf("CMD: ");
+//             for (int i = 0; i < root->data.cmd.n_arg; i++)
+//                 printf(" %s", root->data.cmd.args[i]);
+//             printf("\n");
+//             for (int i = 0; i < root->data.cmd.n_redirs; i++)
+//             {
+//                 if(i == 0)
+//                 {
+//                     for (int j = 0; j < indent; j++) putchar(' ');
+//                     printf("REDIRS:");
+//                 }
+//                 t_redir *r = &root->data.cmd.redirs[i];
+//                 if(!r)
+//                     return;
+//                 switch (r->type) {
+//                     case OP_REDIR_IN:     printf(" <%s", r->file); break;
+//                     case OP_REDIR_OUT:    printf(" >%s", r->file); break;
+//                     case OP_APPEND:       printf(" >>%s", r->file); break;
+//                     case OP_HEREDOC:      printf(" >>%s", r->file); break;
+//                     default: printf("Unknown redir type"); break;
+//                 }
+//             }
+//             if(root->data.cmd.n_redirs)
+//                 printf("\n");
+//             break;
 
-        case OP_PIPE:
-            printf("PIPE\n");
-            tree_printer_00(root->data.branch.left, indent + 3);
-            tree_printer_00(root->data.branch.right, indent + 3);
-            break;
+//         case OP_PIPE:
+//             printf("PIPE\n");
+//             tree_printer_00(root->data.branch.left, indent + 3);
+//             tree_printer_00(root->data.branch.right, indent + 3);
+//             break;
 
-        case OP_OR:
-            printf("OR (||)\n");
-            tree_printer_00(root->data.branch.left, indent + 3);
-            tree_printer_00(root->data.branch.right, indent + 3);
-            break;
+//         case OP_OR:
+//             printf("OR (||)\n");
+//             tree_printer_00(root->data.branch.left, indent + 3);
+//             tree_printer_00(root->data.branch.right, indent + 3);
+//             break;
 
-        case OP_AND:
-            printf("AND (&&)\n");
-            tree_printer_00(root->data.branch.left, indent + 3);
-            tree_printer_00(root->data.branch.right, indent + 3);
-            break;
+//         case OP_AND:
+//             printf("AND (&&)\n");
+//             tree_printer_00(root->data.branch.left, indent + 3);
+//             tree_printer_00(root->data.branch.right, indent + 3);
+//             break;
 
-        case SUBSHELL:
-            printf("SUBSHELL\n");
-            tree_printer_00(root->data.subshell.child, indent + 3);
-            for (int i = 0; i < root->data.subshell.n_redirs; i++)
-            {
-                if(i == 0)
-                {
-                    for (int j = 0; j < indent + 3; j++) putchar(' ');
-                    printf("REDIRS:");
-                }
-                t_redir *r = &root->data.subshell.redirs[i];
-                if(!r)
-                    return;
-                switch (r->type) {
-                    case OP_REDIR_IN:     printf(" <%s", r->file); break;
-                    case OP_REDIR_OUT:    printf(" >%s", r->file); break;
-                    case OP_APPEND:       printf(" >>%s", r->file); break;
-                    case OP_HEREDOC:      printf(" >>%s", r->file); break;
-                    default: printf("Unknown redir type"); break;
-                }
-            }
-            if(root->data.subshell.n_redirs)
-                printf("\n");
-            break;
+//         case SUBSHELL:
+//             printf("SUBSHELL\n");
+//             tree_printer_00(root->data.subshell.child, indent + 3);
+//             for (int i = 0; i < root->data.subshell.n_redirs; i++)
+//             {
+//                 if(i == 0)
+//                 {
+//                     for (int j = 0; j < indent + 3; j++) putchar(' ');
+//                     printf("REDIRS:");
+//                 }
+//                 t_redir *r = &root->data.subshell.redirs[i];
+//                 if(!r)
+//                     return;
+//                 switch (r->type) {
+//                     case OP_REDIR_IN:     printf(" <%s", r->file); break;
+//                     case OP_REDIR_OUT:    printf(" >%s", r->file); break;
+//                     case OP_APPEND:       printf(" >>%s", r->file); break;
+//                     case OP_HEREDOC:      printf(" >>%s", r->file); break;
+//                     default: printf("Unknown redir type"); break;
+//                 }
+//             }
+//             if(root->data.subshell.n_redirs)
+//                 printf("\n");
+//             break;
 
-        default:
-            printf("Unknown node type\n");
-            break;
-    }
-}
+//         default:
+//             printf("Unknown node type\n");
+//             break;
+//     }
+// }
 
 
 void tree_printer_01(t_tree *node, const char *prefix, bool is_left, bool is_first)
@@ -166,11 +166,11 @@ void tree_printer_01(t_tree *node, const char *prefix, bool is_left, bool is_fir
             char redir[64];
             switch (rd[i].type)
             {
-                case OP_REDIR_IN:  sprintf(redir, " <%s", rd[i].file);  break;
-                case OP_REDIR_OUT: sprintf(redir, " >%s", rd[i].file);  break;
-                case OP_APPEND:    sprintf(redir, " >>%s", rd[i].file); break;
-                case OP_HEREDOC:   sprintf(redir, " <<%s", rd[i].file); break;
-                default:           sprintf(redir, " ?%s", rd[i].file);  break;
+                case OP_REDIR_IN:  sprintf(redir, " <%s", (char *)rd[i].file);  break;
+                case OP_REDIR_OUT: sprintf(redir, " >%s", (char *)rd[i].file);  break;
+                case OP_APPEND:    sprintf(redir, " >>%s", (char *)rd[i].file); break;
+                case OP_HEREDOC:   sprintf(redir, " <<%s", (char *)rd[i].file); break;
+                default:           sprintf(redir, " ?%s", (char *)rd[i].file);  break;
             }
             strcat(redirs_str, redir);
         }

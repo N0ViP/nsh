@@ -9,7 +9,7 @@ MAIN_SRC = \
     sources/new_shell.c \
     sources/exit_shell.c \
     sources/signal_setup.c \
-    # sources/printer_to_rm.c
+    sources/printer_to_rm.c
 
 HEREDOC_SRC = \
     heredoc/num_to_str.c \
