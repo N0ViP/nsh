@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 02:42:03 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/18 05:00:51 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/20 16:08:15 by ahoummad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ t_list_info *expander(char *str)
 		info.str += expand_double_quotes_word(&info);
 		info.str += expand_dollar_word(&info, arg_list, true);
 	}
-	expand_wildcard(&info, arg_list);
+	process_arg(&info, arg_list);
 	return (arg_list);
 }

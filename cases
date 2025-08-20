@@ -3,4 +3,6 @@ ctr c \n
  
 ahoummad@c1r7p4:~/nsh$  > ""$a   bash: ""$a: ambiguous redirect
 
+static fork
 
+| | | ctr c

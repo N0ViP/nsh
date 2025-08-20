@@ -2,7 +2,7 @@
 
 static void	finalize_and_add_arg(t_info *info, t_list_info *arg_list)
 {
-	expand_wildcard(info, arg_list);
+	process_arg(info, arg_list);
 	re_init_list_info_struct(info->ex_word);
 	info->len = 0;
 }

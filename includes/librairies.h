@@ -9,10 +9,13 @@
 # include <stddef.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <dirent.h>
 # include <stdbool.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
+# include <sys/types.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+
 
 #endif

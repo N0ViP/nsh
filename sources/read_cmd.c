@@ -6,7 +6,7 @@ bool	read_command(char **cmd)
 	if (!*cmd)
     {
 		write(STDERR_FILENO, "exit\n", 5);//
-		exit_shell(EXIT_SUCCESS);
+		exit_shell(_exit_status(EXTRACT, 0));
     }
 	else if (!**cmd)
 	{
