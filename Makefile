@@ -58,8 +58,8 @@ BUILT_SRC = \
 
 EXPAND_SRC = \
     expansion/expand.c \
+    expansion/process_arg.c \
     expansion/check_if_dollar.c \
-    expansion/expand_wildcard.c \
     expansion/expansion_utils.c \
     expansion/get_wildcard_flag.c \
     expansion/expand_dollar_word.c \

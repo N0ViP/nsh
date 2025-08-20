@@ -1,28 +1,29 @@
 #include "expansion.h"
 
-void	add_in_wildcard_hashmap(t_info *info, bool ex_wdc)
+bool	*add_in_wildcard_hashmap(size_t wildcard, int flag, bool ex_wdc)
 {
-	static size_t	k;
+	static size_t	cap;
 	static size_t	i;
-	bool			*new_hashmap;
+	static bool		*hashmap;
 
-	if (!info->hashmap)
+	if (flag == RESET_OFFSET)
 	{
-		k = INITIAL_CAPACITY;
 		i = 0;
-		info->hashmap = allocate_memory(k * sizeof(bool));
 	}
-	if (k < i + info->wildcard)
+	if (!hashmap)
 	{
-		while (k < i + info->wildcard)
-		{
-			k *= 2;
-		}
-		new_hashmap = ft_realloc(info->hashmap, i * sizeof(bool), k * sizeof(bool));
-		info->hashmap = new_hashmap;
+		cap = INITIAL_CAPACITY;
+		hashmap = new_allocation(REMAINS, cap * sizeof(bool));
 	}
-	while (info->wildcard--)
+	if (cap < i + wildcard)
 	{
-		info->hashmap[i++] = ex_wdc;
+		while (cap < i + wildcard)
+			cap *= 2;
+		hashmap = ft_realloc(hashmap, i * sizeof(bool), cap * sizeof(bool));
 	}
+	while (wildcard--)
+	{
+		hashmap[i++] = ex_wdc;
+	}
+	return (hashmap);
 }

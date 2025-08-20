@@ -17,7 +17,6 @@ typedef struct s_expander_vars
 # define PREV_OFFSET	2
 # define RESET_OFFSET	3
 
-
 t_list_info *expander(char *str);
 size_t		wildcard_offset(int flag);
 bool		check_if_dollar(char *str);
@@ -29,8 +28,8 @@ bool		double_quotes_checker(char *str);
 size_t		expand_single_quote_word(t_info *info);
 size_t		expand_double_quotes_word(t_info *info);
 void		process_arg(t_info *info, t_list_info *arg_list);
-void		add_in_wildcard_hashmap(t_info *info, bool ex_wdc);
 void		utils(t_info *info, size_t i, size_t j, bool ex_wdc);
+bool		*add_in_wildcard_hashmap(size_t wildcard, int flag, bool ex_wdc);
 size_t		expand_dollar_word(t_info *info, t_list_info *arg_list, bool rm_spaces);
 size_t		expand_regular_word(t_info *info, bool (*checker)(char *), bool ex_wdc);
 

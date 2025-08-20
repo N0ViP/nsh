@@ -32,7 +32,7 @@ static void	add_in_args_list(t_list_info *args, char *dname)
 
 static bool	if_match(bool *hashmap, char *pattern, char *word)
 {
-	//??
+	
 }
 
 static t_list_info	*expand_wildcard(bool *hashmap, char *word)
@@ -83,6 +83,6 @@ void	process_arg(t_info *info, t_list_info *arg_list)
 		node = creat_node(word);
 		list_add_back(arg_list, node);
 	}
-	info->hashmap = NULL;
+	add_in_wildcard_hashmap(0, RESET_OFFSET, false);
 	wildcard_offset(RESET_OFFSET);
 }

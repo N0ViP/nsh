@@ -69,7 +69,7 @@ static void	get_wildcard(char *val, t_info *info, bool ex_wdc)
 		}
 		i++;
 	}
-	add_in_wildcard_hashmap(info, ex_wdc);
+	add_in_wildcard_hashmap(info->wildcard, CURR_OFFSET, ex_wdc);
 }
 
 static void	expand_value(t_info *info, t_list_info *arg_list, char *val, bool rm_spaces)
