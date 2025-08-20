@@ -1,6 +1,6 @@
 # include "execution.h"
 
-void redirect_heredoc(t_heredoc *heredoc)
+static void redirect_heredoc(t_heredoc *heredoc)
 {
     int rfd;
 
@@ -15,14 +15,31 @@ void redirect_heredoc(t_heredoc *heredoc)
         close_and_remove(rfd);
     }
 }
-bool open_redirect(char *file, int flags, int target_fd)
+
+void dup_redirections(t_tree *branch)
 {
-    int fd;
-    
-    fd = create_open(file, flags, 0644);
-    if (fd < 0)
-        return (return_failure(file));
-    dup2(fd, target_fd);
-    close_and_remove(fd);
-    return (false);
+    t_redir *redirs;
+    int     n_redirs;
+    int     dup_fd;
+    int     fd;
+    size_t  i;
+
+    if (get_redirs(branch, &redirs, &n_redirs))
+    {
+        i = -1;
+        while (++i < (size_t)n_redirs)
+        {
+            if (redirs[i].type == OP_HEREDOC)
+            {
+                redirect_heredoc((t_heredoc *)redirs[i].file);
+                continue;
+            }
+            dup_fd = STDOUT_FILENO;
+            fd = *(int *)redirs[i].file;
+            if (redirs[i].type == OP_REDIR_IN)
+                dup_fd = STDIN_FILENO;
+            dup2(fd, dup_fd);
+            close_and_remove(fd);
+        }            
+    }
 }
