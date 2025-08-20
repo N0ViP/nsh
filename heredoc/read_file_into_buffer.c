@@ -26,7 +26,7 @@ bool read_file_into_buffer(int old_rfd, char **buffer, size_t *length)
     size_t  capacity;
 
     *length = 0;
-    capacity = ARENA_SIZE;
+    capacity = INITIAL_CAPACITY;
     *buffer = allocate_memory(capacity + 1);
     while (true)
     {

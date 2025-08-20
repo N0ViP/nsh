@@ -30,9 +30,23 @@ static void	add_in_args_list(t_list_info *args, char *dname)
 	list_add_back(args, node);
 }
 
+static bool	match_here(const char *p, const char *w, bool *hashmap)
+{
+	if (*p == '\0')
+		return (*w == '\0');
+	if (*p == '*' && wildcard_offset(CURR_OFFSET))
+	{
+		wildcard_offset(NEXT_OFFSET);
+		return (match_here(p + 1, w, hashmap)
+			|| (*w && match_here(p, w + 1, hashmap)));
+	}
+	wildcard_offset(NEXT_OFFSET);
+	return (*p == *w && match_here(p + 1, w + 1, hashmap));
+}
+
 static bool	if_match(bool *hashmap, char *pattern, char *word)
 {
-	
+	return (match_here(pattern, word, hashmap));
 }
 
 static t_list_info	*expand_wildcard(bool *hashmap, char *word)
@@ -47,7 +61,8 @@ static t_list_info	*expand_wildcard(bool *hashmap, char *word)
 	dirent = readdir(dirp);
 	while (dirent)
 	{
-		if (if_match(hashmap, word, dirent->d_name))
+		if ((dirent->d_name[0] != '.' || word[0] == '.')
+			&& if_match(hashmap, word, dirent->d_name))
 		{
 			dname = ft_strdup(dirent->d_name);
 			add_in_args_list(args, dname);
