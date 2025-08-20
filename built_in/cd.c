@@ -20,6 +20,11 @@ int built_in_cd(t_cmd *cmd_args)
 {
     char   **path;
 
+    if (cmd_args->n_arg > 2)
+    {
+        print_cd_error(NULL, "too many arguments");
+        return (EXIT_FAILURE);
+    }
     path = cmd_args->args + 1;
     if (!(*path))
     {

@@ -1,87 +1,44 @@
 # include "execution.h"
 
-static void redirect_heredoc(t_heredoc *heredoc)
+static bool check_redirection(t_redir redir)
 {
-    int rfd;
-
-    if (!heredoc || heredoc->rfd < 0)
-        return ;
-    rfd = heredoc->rfd;
-    if (!heredoc->was_quoted)
-        rfd = expanded_heredoc_file(rfd);
-    if (rfd >= 0)
+    if (redir.type == OP_REDIR_IN)
     {
-        dup2(rfd, STDIN_FILENO);
-        close_and_remove(rfd);
+        if (open_redirect((char *)redir.file, O_RDONLY, STDIN_FILENO))
+            return (false);
     }
+    else if (redir.type == OP_REDIR_OUT)
+    {
+        if (open_redirect((char *)redir.file,
+                    O_WRONLY | O_CREAT | O_TRUNC, STDOUT_FILENO))
+            return (false);
+    }
+    else if (redir.type == OP_APPEND)
+    {
+        if (open_redirect((char *)redir.file,
+                    O_WRONLY | O_CREAT | O_APPEND, STDOUT_FILENO))
+            return (false);
+    }
+    else if (redir.type == OP_HEREDOC)
+    {
+        redirect_heredoc((t_heredoc *)redir.file);
+    }
+    return (true);
 }
 
-static bool open_redirect(char *file, int flags, int target_fd)
-{
-    int fd;
-    
-    fd = create_open(file, flags, 0644);
-    if (fd < 0)
-        return (return_failure(file));
-    dup2(fd, target_fd);
-    close_and_remove(fd);
-    return (false);
-}
 static bool pickup_redirection(t_redir *redir, int n_redirs)
 {
-    for (int i = 0; i < n_redirs; i++)
-    {
-        if (redir[i].type == OP_REDIR_IN)
-        {printf("[DEBUG] Opening redirection '%s' of type %d\n", (char *)redir[i].file, redir[i].type);
-            if (open_redirect((char *)redir[i].file, O_RDONLY, STDIN_FILENO))
-                return false;
-        }
-        else if (redir[i].type == OP_REDIR_OUT)
-        {printf("[DEBUG] Opening redirection '%s' of type %d\n", (char *)redir[i].file, redir[i].type);
-            if (open_redirect((char *)redir[i].file, O_WRONLY | O_CREAT | O_TRUNC, STDOUT_FILENO))
-                return false;
-        }
-        else if (redir[i].type == OP_APPEND)
-        {printf("[DEBUG] Opening redirection '%s' of type %d\n", (char *)redir[i].file, redir[i].type);
-            if (open_redirect((char *)redir[i].file, O_WRONLY | O_CREAT | O_APPEND, STDOUT_FILENO))
-                return false;
-        }
-        else if (redir[i].type == OP_HEREDOC)
-        {printf("[DEBUG] Opening redirection '%s' of type %d\n", (char *)redir[i].file, redir[i].type);
-            redirect_heredoc((t_heredoc *)redir[i].file);
-        }
-        else    printf("[DEBUG] Opening redirection '%s' of type %d\n", (char *)redir[i].file, redir[i].type);
-    }
-    return true;
-}
-// static bool pickup_redirection(t_redir *redir, int n_redirs)
-// {
-//     bool    failure;
-//     int     i;
+    size_t i = 0;
 
-//     i = 0;
-//     failure = false;
-//     while(i < n_redirs)
-//     {
-//         if (redir[i].type == OP_REDIR_IN)
-//             failure = open_redirect((char *)redir[i].file,
-//                         O_RDONLY, STDIN_FILENO);
-//         else if (redir[i].type == OP_REDIR_OUT)
-//             failure = open_redirect((char *)redir[i].file,
-//                         O_WRONLY | O_CREAT | O_TRUNC, 
-//                         STDOUT_FILENO);
-//         else if (redir[i].type == OP_APPEND)
-//             failure = open_redirect((char *)redir[i].file,
-//                         O_WRONLY | O_CREAT | O_APPEND,
-//                         STDOUT_FILENO);
-//         else if (redir[i].type == OP_HEREDOC)
-//             redirect_heredoc((t_heredoc *)redir[i].file);
-//         if(failure)
-//             return (false);
-//         i++;
-//     }
-//     return (true);
-// }
+    i = 0;
+    while (i < (size_t)n_redirs)
+    {
+        if (!check_redirection(redir[i]))
+            return (false);
+        i++;
+    }
+    return (true);
+}
 
 bool get_redirs(t_tree *branch, t_redir **redirs, int *n_redirs)
 {
