@@ -26,10 +26,10 @@
 # include "getenv.h"
 # include "utils.h"
 
-#define SHELL		"nsh"
-#define INITIAL_CAPACITY 64
-#define ARENA_SIZE	4096
-#define WHITE_SPACE	" \t\n"
+#define SHELL				"nsh"
+#define INITIAL_CAPACITY	64
+#define ARENA_SIZE			1024
+#define WHITE_SPACE			" \t\n"
 
 typedef struct s_list
 {

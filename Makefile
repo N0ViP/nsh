@@ -68,7 +68,8 @@ EXPAND_SRC = \
     expansion/double_quotes_checker.c \
     expansion/add_in_wildcard_hashmap.c \
     expansion/expand_single_quote_word.c \
-    expansion/expand_double_quotes_word.c
+    expansion/expand_double_quotes_word.c \
+    expansion/wildcard_offset.c
 
 GETENV_SRC = \
     getenv/getenv.c \

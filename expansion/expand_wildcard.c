@@ -13,4 +13,6 @@ void	expand_wildcard(t_info *info, t_list_info *arg_list)
 	// here we'll add wildcard
 	node = creat_node(word);
 	list_add_back(arg_list, node);
+	info->hashmap = NULL;
+	wildcard_offset(RESET_OFFSET);
 }

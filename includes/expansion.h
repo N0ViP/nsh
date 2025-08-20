@@ -12,8 +12,14 @@ typedef struct s_expander_vars
 	size_t		wildcard;
 }	t_info;
 
+# define CURR_OFFSET	0
+# define NEXT_OFFSET	1
+# define PREV_OFFSET	2
+# define RESET_OFFSET	3
+
 
 t_list_info *expander(char *str);
+size_t		wildcard_offset(int flag);
 bool		check_if_dollar(char *str);
 bool		get_wildcard_flag(t_info *info);
 bool		regular_word_checker(char *str);
