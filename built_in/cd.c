@@ -1,6 +1,6 @@
 #include "built-in.h"
 
-static void print_cd_error(char *path, char *error)
+void print_cd_error(char *path, char *error)
 {
     write(STDERR_FILENO, SHELL, ft_strlen(SHELL));
     write(STDERR_FILENO, ": cd: ", 6);
@@ -16,100 +16,11 @@ static void print_cd_error(char *path, char *error)
 	}
 }
 
-static void update_oldpwd(void)
+int built_in_cd(t_cmd *cmd_args)
 {
-    char *pwd;
+    char   **path;
 
-    pwd = get_var_value("PWD");
-    if (pwd)
-    {
-        set_var_value("OLDPWD", pwd);
-    }
-}
-
-static bool update_pwd(void)
-{
-    char *cwd;
-
-    cwd = update_cwd();//what if it fail
-    if (cwd)
-	{
-		set_var_value("PWD", cwd);
-		return (true);
-    }
-	return (false);
-}
-
-static bool go_home(void)
-{
-	char *home;
-
-	home = get_var_value("OLDPWD");
-	if (!home)
-	{
-		print_cd_error(NULL, "HOME not set");
-        return (false);
-	}
-	if (chdir(home) == -1)
-	{
-		print_cd_error(home, strerror(errno));
-		return (false);
-	}
-	update_oldpwd();
-	if (!update_pwd())//should it print error or update with path
-	{
-		print_cd_error("getcwd", strerror(errno));//whats the error
-		return (false);
-	}
-	return (true);
-}
-
-static bool go_old_pwd(void)
-{
-	char *oldpwd;
-
-	oldpwd = get_var_value("OLDPWD");
-	if (!oldpwd)
-	{
-		print_cd_error(NULL, "OLDPWD not set");
-        return (false);
-	}
-	if (chdir(oldpwd) == -1)
-	{
-		print_cd_error(oldpwd, strerror(errno));
-		return (false);
-	}
-	update_oldpwd();
-	if (!update_pwd())//should it print error or update with path
-	{
-		print_cd_error("getcwd", strerror(errno));//whats the error
-		return (false);
-	}
-	write(STDERR_FILENO, oldpwd, ft_strlen(oldpwd));
-	write(STDERR_FILENO, "\n", 1);
-	return (true);
-}
-
-static bool go_to_path(char *path)
-{
-    
-    if (chdir(path) == -1)
-    {
-        print_cd_error(path, strerror(errno));
-        return (false);
-    }
-	update_oldpwd();
-    if (!update_pwd())//should it print error or update with path
-    {
-        print_cd_error("getcwd", strerror(errno));//
-        return (false);
-    }
-	return (true);
-}
-
-int built_in_cd(char **path)
-{
-    path++;
+    path = cmd_args->args + 1;
     if (!(*path))
     {
 		if (!go_home())

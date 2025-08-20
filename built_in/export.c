@@ -61,19 +61,19 @@ static int	print_env(t_list *env_list)
 	return (0);
 }
 
-int	built_in_export(char **args)
+int	built_in_export(t_cmd *cmd_args)
 {
-	t_list_info	*env;
-	size_t		i;
-	int			exit_status;
+	int				exit_status;
+    char   			**args;
+	t_list_info		*env;
+	size_t			i;
 
 	i = 1;
 	exit_status = 0;
 	env = *env_list();
+    args = cmd_args->args;	
 	if (!args[1])
-	{
 		return (print_env(env->list));
-	}
 	while (args[i])
 	{
 		if (check_name(args[i]))

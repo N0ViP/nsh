@@ -55,3 +55,15 @@ bool create_pipe(int pipefd[2])
     save_to_shell_fds(pipefd[1]);
     return (true);
 }
+
+int duplicate_fd(int fd)
+{
+    int saved;
+
+    saved = dup(fd);
+    if (saved > 0)
+    {
+        save_to_shell_fds(saved);
+    }
+    return (saved);
+}

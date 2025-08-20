@@ -52,7 +52,9 @@ typedef struct s_token
 
 bool	init(void);
 void 	shell_signals(void);
+void 	child_signals(void);
 void	new_shell(char *cmd);
+void 	waiting_signals(void);
 bool	read_command(char **cmd);
 void 	exit_shell(int exit_status);
 

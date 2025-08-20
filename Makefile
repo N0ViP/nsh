@@ -49,7 +49,12 @@ BUILT_SRC = \
     built_in/echo.c \
     built_in/exit.c \
     built_in/unset.c \
-    built_in/export.c
+    built_in/export.c \
+    built_in/cd_helper.c \
+    built_in/update_cwd.c \
+    built_in/exit_helper.c \
+    built_in/run_built_in.c \
+    built_in/built_in_check.c
 
 EXPAND_SRC = \
     expansion/expand.c \
@@ -135,7 +140,6 @@ EXEC_SRC = \
     execution/path_resolution.c \
     execution/search_in_paths.c \
     execution/right_left_pipe.c \
-    execution/built_ins_check.c \
     execution/expand_cmd_args.c \
     execution/expand_filenames.c
 

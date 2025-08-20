@@ -7,7 +7,8 @@ static void redir_then_recurse(t_tree *branch)
 
     if (!expand_filenames(branch))
         exit_shell(EXIT_FAILURE);
-    redirection_setup(branch);
+    if (!redirection_setup(branch))
+        exit_shell(_exit_status(EXTRACT, 0));
     child = branch->data.subshell.child;
     status = execution_mode(child, NO_FORK_MODE);
     exit_shell(status);

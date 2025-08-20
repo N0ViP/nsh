@@ -27,13 +27,14 @@ typedef enum
 
 t_state     stat_error(void);
 void        exit_failure(char *msg);
+bool        return_failure(char *msg);
 void		execute_tree(t_tree *root);
 char	    *path_resolution(char *cmd);
 char        *check_and_curr_dir(char *cmd);
 int		    execute_or_and(t_tree *branch);
 t_state     path_validity(const char *path);
 bool        built_ins_check(t_tree *branch);
-void	    redirection_setup(t_tree *branch);
+bool	    redirection_setup(t_tree *branch);
 int 	    _exit_status(bool flag, int value);
 int		    execution_mode(t_tree *root, t_mode mode);
 void        report_error(const char *cmd, t_state error);

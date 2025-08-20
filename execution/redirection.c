@@ -16,40 +16,45 @@ static void redirect_heredoc(t_heredoc *heredoc)
     }
 }
 
-static void open_redirect(char *file, int flags, int target_fd)
+static bool open_redirect(char *file, int flags, int target_fd)
 {
     int fd;
     
     fd = create_open(file, flags, 0644);
     if (fd < 0)
-        exit_failure(file);
-    if (dup2(fd, target_fd) < 0)
-        exit_failure("dup2");
+        return (return_failure(file));
+    dup2(fd, target_fd);
     close_and_remove(fd);
+    return (false);
 }
 
-static void pickup_redirection(t_redir *redir, int n_redirs)
+static bool pickup_redirection(t_redir *redir, int n_redirs)
 {
-    int i;
+    bool    failure;
+    int     i;
 
     i = 0;
+    failure = false;
     while(i < n_redirs)
     {
         if (redir[i].type == OP_REDIR_IN)
-            open_redirect((char *)redir[i].file,
+            failure = open_redirect((char *)redir[i].file,
                         O_RDONLY, STDIN_FILENO);
         else if (redir[i].type == OP_REDIR_OUT)
-            open_redirect((char *)redir[i].file,
+            failure = open_redirect((char *)redir[i].file,
                         O_WRONLY | O_CREAT | O_TRUNC, 
                         STDOUT_FILENO);
         else if (redir[i].type == OP_APPEND)
-            open_redirect((char *)redir[i].file,
+            failure = open_redirect((char *)redir[i].file,
                         O_WRONLY | O_CREAT | O_APPEND,
                         STDOUT_FILENO);
         else if (redir[i].type == OP_HEREDOC)
             redirect_heredoc((t_heredoc *)redir[i].file);
+        if(failure)
+            return (false);
         i++;
     }
+    return (true);
 }
 
 bool get_redirs(t_tree *branch, t_redir **redirs, int *n_redirs)
@@ -69,13 +74,15 @@ bool get_redirs(t_tree *branch, t_redir **redirs, int *n_redirs)
     return (*n_redirs > 0);
 }
 
-void redirection_setup(t_tree *branch)
+bool redirection_setup(t_tree *branch)
 {
     t_redir *redirs;
     int     n_redirs;
 
     if (get_redirs(branch, &redirs, &n_redirs))
     {
-        pickup_redirection(redirs, n_redirs);
+        if (!pickup_redirection(redirs, n_redirs))
+            return (_exit_status(UPDATE, 1), false);
     }
+    return (true);
 }

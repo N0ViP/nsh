@@ -6,7 +6,8 @@ static void execute(t_tree *branch)
     char   **env;
     char   **argv;
     
-    redirection_setup(branch);
+    if (!redirection_setup(branch))
+        exit_shell(_exit_status(EXTRACT, 0));
     argv = branch->data.cmd.args;
     path = path_resolution(argv[0]);
     env = lst_to_arr(*env_list());

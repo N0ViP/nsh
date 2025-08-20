@@ -1,27 +1,10 @@
 #include "built-in.h"
 
-char **shell_cwd(void)
-{
-	static char	*cwd = NULL;
-	return (&cwd);
-}
-
-char *update_cwd(void)
-{
-	char *new_cwd;
-	char **old_cwd;
-
-    old_cwd = shell_cwd();
-	new_cwd = getcwd(NULL, 0);
-	add_allocation_to_section(REMAINS, new_cwd);
-    *old_cwd = new_cwd;
-    return (*old_cwd);
-}
-
-int	built_in_pwd(void)
+int	built_in_pwd(t_cmd *cmd_args)
 {
 	char    *cwd;
 
+	(void)cmd_args;
 	cwd = *shell_cwd();
 	if (!cwd)
 		return (EXIT_FAILURE);

@@ -24,6 +24,7 @@ typedef struct s_section
 void                    init_fds(void);
 int                     **shell_fds(void);
 t_section               **get_sections(void);
+int                     duplicate_fd(int fd);
 void                    *smalloc(size_t size);
 void                    close_everything(void);
 t_sid                   *current_section(void);

@@ -8,6 +8,9 @@
         "chrono": "c",
         "unordered_map": "c",
         "heredoc.h": "c",
-        "mem_track.h": "c"
+        "mem_track.h": "c",
+        "built-in.h": "c",
+        "execution.h": "c",
+        "ios": "c"
     }
 }

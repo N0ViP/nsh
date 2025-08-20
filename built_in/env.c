@@ -22,11 +22,12 @@ static int	print_env(t_list *env_list)
 	return (0);
 }
 
-int	built_in_env(void)
+int	built_in_env(t_cmd *cmd_args)
 {
 	t_list_info	*env;
 	int			exit_status;
 
+	(void)cmd_args;
 	env = *env_list();
 	exit_status = print_env(env->list);
 	return (exit_status);

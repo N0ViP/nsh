@@ -1,18 +1,20 @@
 #include "built-in.h"
 
-int	built_in_echo(char **arr)
+int	built_in_echo(t_cmd *cmd_args)
 {
 	char	*args;
+    char   	**argv;
 	bool	new_line;
 
-	arr++;
+    argv = cmd_args->args;
 	new_line = true;
-	if (*arr && !ft_strcmp(*arr, "-n"))
+	argv++;
+	if (*argv && !ft_strcmp(*argv, "-n"))
 	{
-		arr++;
+		argv++;
 		new_line = false;
 	}
-	args = ft_strjoin(arr, " ");
+	args = ft_strjoin(argv, " ");
 	if (new_line)
 	{
 		args = join_two_strings(args, "\n", "");

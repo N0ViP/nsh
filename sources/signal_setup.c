@@ -14,3 +14,15 @@ void shell_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, shell_sigint);
 }
+
+void child_signals(void)
+{
+    signal(SIGINT, SIG_DFL);
+    signal(SIGQUIT, SIG_DFL);
+}
+
+void waiting_signals(void)
+{
+    signal(SIGINT, SIG_IGN);
+    signal(SIGQUIT, SIG_IGN);
+}

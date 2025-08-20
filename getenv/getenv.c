@@ -8,7 +8,7 @@ t_list_info	**env_list(void)
 
 void env_setup(void)
 {
-	t_list_info		**env;
+	t_list_info	**env;
 
 	env = env_list();
 	*env = init_env();
