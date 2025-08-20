@@ -17,9 +17,8 @@ void execute_tree(t_tree *root)
 {
     int exit_status;
 
-    if(!look_for_heredocs(root))//herdoc fds leaks
+    if(!look_for_heredocs(root))
         return ;
     exit_status = execution_mode(root, DEFAULT_MODE);
     _exit_status(UPDATE, exit_status);
-    //destroy_section(PARSING);
 }

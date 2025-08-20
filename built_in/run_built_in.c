@@ -27,7 +27,7 @@ static void restore_stdio(int saved[3])
         i++;
     }
 }
-// export A=B C=D && env | grep -E 'A=|C='
+
 bool run_buit_in(int (*buit_in)(t_cmd *), t_tree *branch)
 {
     t_cmd   *cmd_args;
@@ -36,8 +36,7 @@ bool run_buit_in(int (*buit_in)(t_cmd *), t_tree *branch)
     cmd_args = &branch->data.cmd;
     if (!save_stdio(saved))
         return (true);
-    if (!redirection_setup(branch))
-        return (restore_stdio(saved), true);
+    dup_redirections(branch);
     _exit_status(UPDATE, buit_in(cmd_args));
     restore_stdio(saved);
     return(true);

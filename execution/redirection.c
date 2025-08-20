@@ -1,43 +1,17 @@
 # include "execution.h"
 
-static bool check_redirection(t_redir redir)
+static int pick_up_flags(t_redir redir)
 {
+    int     flags;
+
+    flags = -1;
     if (redir.type == OP_REDIR_IN)
-    {
-        if (open_redirect((char *)redir.file, O_RDONLY, STDIN_FILENO))
-            return (false);
-    }
+        flags = O_RDONLY;
     else if (redir.type == OP_REDIR_OUT)
-    {
-        if (open_redirect((char *)redir.file,
-                    O_WRONLY | O_CREAT | O_TRUNC, STDOUT_FILENO))
-            return (false);
-    }
+        flags = O_WRONLY | O_CREAT | O_TRUNC;
     else if (redir.type == OP_APPEND)
-    {
-        if (open_redirect((char *)redir.file,
-                    O_WRONLY | O_CREAT | O_APPEND, STDOUT_FILENO))
-            return (false);
-    }
-    else if (redir.type == OP_HEREDOC)
-    {
-        redirect_heredoc((t_heredoc *)redir.file);
-    }
-    return (true);
-}
-
-static bool pickup_redirection(t_redir *redir, int n_redirs)
-{
-    size_t i = 0;
-
-    i = 0;
-    while (i < (size_t)n_redirs)
-    {
-        if (!check_redirection(redir[i]))
-            return (false);
-        i++;
-    }
-    return (true);
+        flags = O_WRONLY | O_CREAT | O_APPEND;
+    return (flags);
 }
 
 bool get_redirs(t_tree *branch, t_redir **redirs, int *n_redirs)
@@ -57,15 +31,22 @@ bool get_redirs(t_tree *branch, t_redir **redirs, int *n_redirs)
     return (*n_redirs > 0);
 }
 
-bool redirection_setup(t_tree *branch)
+bool open_redirections(t_redir *redirs, int n_redirs)
 {
-    t_redir *redirs;
-    int     n_redirs;
+    size_t  i;
+    int     fd;
 
-    if (get_redirs(branch, &redirs, &n_redirs))
+    i = -1;
+    while (++i < (size_t)n_redirs)
     {
-        if (!pickup_redirection(redirs, n_redirs))
-            return (_exit_status(UPDATE, 1), false);
+        if (redirs[i].type == OP_HEREDOC)
+            continue;
+        fd = create_open((char *)redirs[i].file,
+                            pick_up_flags(redirs[i]), 0644);
+        if (fd < 0)
+            return (return_failure((char *)redirs[i].file));
+        redirs[i].file = allocate_memory(sizeof(int));
+        *(int *)(redirs[i].file) = fd;
     }
     return (true);
 }

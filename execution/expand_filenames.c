@@ -32,11 +32,14 @@ static bool expand_and_check(t_redir *redirs, int n_redirs)
 bool expand_filenames(t_tree *branch)
 {
     t_redir *redirs;
+	bool	failure;
     int     n_redirs;
 
     if (get_redirs(branch, &redirs, &n_redirs))
     {
-        return (expand_and_check(redirs, n_redirs));
+		failure = expand_and_check(redirs, n_redirs);
+		if (!failure || !open_redirections(redirs, n_redirs))
+        	return (_exit_status(UPDATE, 1), false);//
     }
 	return (true);
 }
