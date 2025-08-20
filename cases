@@ -1,0 +1,7 @@
+cd f j
+> t echo hello >v>o
+ctr c \n
+nsh$ > ""$XXXXXXXX""  nsh: ""$XXXXXXXX"": ambiguous redirectnsh$ 
+ahoummad@c1r7p4:~/nsh$  > ""$a   bash: ""$a: ambiguous redirect
+
+

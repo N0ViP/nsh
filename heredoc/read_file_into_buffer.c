@@ -15,9 +15,7 @@ static void increase_capacity(char **b, ssize_t r_b, size_t *l, size_t *c)
     if (length == capacity)
     {
         *capacity *= 2;
-        *buffer = ft_realloc(*buffer,
-                            *length * sizeof(char *),
-                            (*capacity + 1)  * sizeof(char *));
+        *buffer = ft_realloc(*buffer, *length, *capacity + 1);
     }
     return ;
 }
@@ -27,6 +25,7 @@ bool read_file_into_buffer(int old_rfd, char **buffer, size_t *length)
     ssize_t read_bytes;
     size_t  capacity;
 
+    *length = 0;
     capacity = ARENA_SIZE;
     *buffer = allocate_memory(capacity + 1);
     while (true)
