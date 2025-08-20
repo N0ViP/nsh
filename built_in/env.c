@@ -10,7 +10,7 @@ static int	print_env(t_list *env_list)
 		equal = ft_strchr(env_list->content, '=');
 		if (equal)
 		{
-			reval = printf("declare -x %s\n", (char *)env_list->content);
+			reval = printf("%s\n", (char *)env_list->content);
 		}
 		if (reval == -1)
 		{
