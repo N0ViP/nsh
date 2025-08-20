@@ -5,12 +5,6 @@
 
 extern int  heredoc_exit;
 
-typedef struct
-{
-    int     rfd;
-    bool    was_quoted;
-} t_heredoc;
-
 char        *get_tty_name(void);
 void        heredoc_signals(void);
 char	    *num_to_str(unsigned long v);

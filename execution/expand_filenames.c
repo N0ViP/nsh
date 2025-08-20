@@ -6,7 +6,7 @@ static bool ambiguous_redirect(char *arg)
     write(STDERR_FILENO, SHELL, ft_strlen(SHELL));
     write(STDERR_FILENO, ": ", 2);
     write(STDERR_FILENO, arg, ft_strlen(arg));
-	write(STDERR_FILENO, ": ambiguous redirect\n", 20);
+	write(STDERR_FILENO, ": ambiguous redirect\n", 21);
 	return (false);
 }
 
@@ -23,13 +23,12 @@ static bool expand_and_check(t_redir *redirs, int n_redirs)
 			arg_list = expander((char *)redirs[i].file);
 			if (arg_list->size != 1)
 				return (ambiguous_redirect((char *)redirs[i].file));
-			redirs->file = arg_list->list->content;
+			redirs[i].file = arg_list->list->content;
 		}
 		i++;
 	}
 	return (true);
 }
-
 bool expand_filenames(t_tree *branch)
 {
     t_redir *redirs;

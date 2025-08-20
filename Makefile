@@ -141,6 +141,7 @@ EXEC_SRC = \
     execution/search_in_paths.c \
     execution/right_left_pipe.c \
     execution/expand_cmd_args.c \
+    execution/redirect_to_file.c \
     execution/expand_filenames.c
 
 SOURCE = $(MAIN_SRC) \
