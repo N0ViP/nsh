@@ -4,8 +4,10 @@ bool init(void)
 {
 	static bool	init = false;
 
+	g_signaled = 0;
 	if (init == false)
 	{
+		init_hashmap();
 		update_cwd();
 		env_setup();
 		init_fds();

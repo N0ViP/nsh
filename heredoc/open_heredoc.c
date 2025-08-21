@@ -49,5 +49,5 @@ int open_heredoc(char *delimiter)
     close_and_remove(wfd);
     if (interrupted)
         return (-1);
-    return (rfd);
+    return (_exit_status(UPDATE, 0), rfd);
 }

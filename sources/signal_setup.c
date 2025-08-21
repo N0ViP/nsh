@@ -21,8 +21,21 @@ void child_mode_signals(void)
     signal(SIGQUIT, SIG_DFL);
 }
 
+static void parent_handler(int signal)
+{
+    g_signaled = signal;
+    if (signal == SIGINT)
+    {
+        (void)write(STDOUT_FILENO, "\n", 1);
+    }
+    else if (signal == SIGQUIT)
+    {
+        (void)write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
+    }
+}
+
 void parent_mode_signals(void)
 {
-    signal(SIGINT, SIG_IGN);
-    signal(SIGQUIT, SIG_IGN);
+    signal(SIGINT, parent_handler);
+    signal(SIGQUIT, parent_handler);
 }

@@ -1,5 +1,14 @@
 # include "execution.h"
 
+int child_status(int status)
+{
+    if (WIFEXITED(status))
+        return (WEXITSTATUS(status));
+    if (WIFSIGNALED(status))
+        return (128 + WTERMSIG(status));
+    return (EXIT_FAILURE);
+}
+
 int fork_before(void (*keep_exec)(t_tree *), t_tree *branch)
 {
     int status;
@@ -15,12 +24,6 @@ int fork_before(void (*keep_exec)(t_tree *), t_tree *branch)
         keep_exec(branch);
     }
     waitpid(pid, &status, 0);
-    // if (WIFSIGNALED(status))
-    //     if (WTERMSIG(status) == SIGINT ||
-    //         WTERMSIG(status) == SIGQUIT)
-    //         write(STDOUT_FILENO, "\n", 1);//set the g better
-    if (!WIFEXITED(status))
-        return (EXIT_FAILURE);
-    return (WEXITSTATUS(status));
+    return (child_status(status));
 }
 

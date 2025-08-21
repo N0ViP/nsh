@@ -32,12 +32,12 @@ static void	add_in_args_list(t_list_info *args, char *dname)
 
 static bool match_here(const char *p, const char *w, bool *hashmap)
 {
-    int offset;
+    // int offset;
 
     if (*p == '\0')
         return (*w == '\0');
 
-    offset = wildcard_offset(CURR_OFFSET);
+    // offset = wildcard_offset(CURR_OFFSET);
 
     // Collapse consecutive '*' into a single wildcard match
     if (*p == '*')

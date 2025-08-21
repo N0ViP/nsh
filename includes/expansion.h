@@ -17,6 +17,7 @@ typedef struct s_expander_vars
 # define PREV_OFFSET	2
 # define RESET_OFFSET	3
 
+void 		init_hashmap(void);
 t_list_info *expander(char *str);
 size_t		wildcard_offset(int flag);
 bool		check_if_dollar(char *str);

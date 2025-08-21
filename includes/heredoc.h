@@ -3,8 +3,6 @@
 
 #include "nsh.h"
 
-extern int  heredoc_exit;
-
 char        *get_tty_name(void);
 void        heredoc_mode_signals(void);
 char	    *num_to_str(unsigned long v);

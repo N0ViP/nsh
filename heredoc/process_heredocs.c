@@ -23,11 +23,10 @@ int process_heredocs(t_tree *branch)
     int     i;
 
     i = -1;
-    heredoc_exit = 0;
     if (!get_redirs(branch, &redirs, &n_redirs))
-        return (heredoc_exit);
-    while(++i < n_redirs && !heredoc_exit)
+        return (EXIT_SUCCESS);
+    while(++i < n_redirs && !g_signaled)
         if (redirs[i].type == OP_HEREDOC)
             redirs[i].file = get_heredoc_infos(redirs[i].file);//return null!!
-    return (heredoc_exit);
+    return (_exit_status(EXTRACT, 0));
 }

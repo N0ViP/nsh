@@ -9,6 +9,7 @@ MAIN_SRC = \
     sources/new_shell.c \
     sources/exit_shell.c \
     sources/signal_setup.c \
+    sources/more_signals.c \
     sources/printer_to_rm.c
 
 HEREDOC_SRC = \
@@ -17,7 +18,6 @@ HEREDOC_SRC = \
     heredoc/process_line.c \
     heredoc/compose_name.c \
     heredoc/expand_heredoc.c \
-    heredoc/heredoc_signals.c \
     heredoc/look_for_quotes.c \
     heredoc/process_heredocs.c \
     heredoc/write_to_heredoc.c \

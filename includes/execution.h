@@ -3,10 +3,8 @@
 
 # include "nsh.h"
 
-# define UPDATE 0
-# define EXTRACT 1
-
-extern int heredoc_exit;
+# define UPDATE     0
+# define EXTRACT    1
 
 typedef enum
 {
@@ -32,6 +30,7 @@ typedef struct
 
 t_state     stat_error(void);
 void        exit_failure(char *msg);
+int         child_status(int status);
 bool        return_failure(char *msg);
 void		execute_tree(t_tree *root);
 char	    *path_resolution(char *cmd);

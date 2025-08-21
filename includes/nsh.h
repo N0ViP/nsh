@@ -26,6 +26,8 @@
 # include "getenv.h"
 # include "utils.h"
 
+extern int  g_signaled;
+
 #define SHELL				"nsh"
 #define INITIAL_CAPACITY	64
 #define WHITE_SPACE			" \t\n"

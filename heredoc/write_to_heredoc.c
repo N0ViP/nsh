@@ -4,12 +4,12 @@ bool write_to_heredoc(int wfd, char *delimiter)
 {
     char    *line;
 
-    while (heredoc_exit == 0)
+    while (g_signaled == 0)
     {
-        line = readline("> ");// history
+        line = readline("> ");
         if (process_line(wfd, line, delimiter))
             break;
         free(line);
     }
-    return (heredoc_exit == 130);
+    return (g_signaled == SIGINT);
 }
