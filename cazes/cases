@@ -1,24 +1,12 @@
 
-ctr c \n
  
 ahoummad@c1r7p4:~/nsh$  > ""$a   bash: ""$a: ambiguous redirect
 
-static fork
-
-| | | ctr c
-
-O_closeexec
-
-set globale on ^c then check exit code in && || to see if execute the rest  dont forget you set it for herdoc too
-
-set static fork for exit in ( ) case
-
-i was wannig to use fork flag in fcts of execs and in waiting signales but no need 
+O_closeexec woudnt it cause a prob?
+ 
 
 heredoc expand
 
-ahoummad@c1r7p5:~/nsh$ << D
-> 
 bash: warning: here-document at line 1 delimited by end-of-file (wanted `D')
 
 cmd errors

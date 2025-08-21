@@ -21,6 +21,7 @@ int fork_before(void (*keep_exec)(t_tree *), t_tree *branch)
     if (pid == 0)
     {
         child_mode_signals();
+        iam_a_child(UPDATE);
         keep_exec(branch);
     }
     waitpid(pid, &status, 0);

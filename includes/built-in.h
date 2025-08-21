@@ -9,6 +9,7 @@ bool    go_old_pwd(void);
 char    *update_cwd(void);
 char    **shell_cwd(void);
 void    update_oldpwd(void);
+bool    iam_a_child(int flag);
 bool    go_to_path(char *path);
 int     built_in_cd(t_cmd *cmd_args);
 int		built_in_env(t_cmd *cmd_args);

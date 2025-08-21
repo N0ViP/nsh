@@ -52,6 +52,7 @@ BUILT_SRC = \
     built_in/export.c \
     built_in/cd_helper.c \
     built_in/update_cwd.c \
+    built_in/iam_a_child.c \
     built_in/exit_helper.c \
     built_in/run_built_in.c \
     built_in/built_in_check.c

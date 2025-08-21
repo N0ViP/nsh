@@ -4,7 +4,6 @@ static int	process_exit(char **argv, int n_arg)
 {
 	long long exit_code;
 
-    write(STDERR_FILENO, "exit\n", 5);
     if (n_arg > 1)
     {
         exit_code = 0;
@@ -26,12 +25,8 @@ static int	process_exit(char **argv, int n_arg)
 
 int built_in_exit(t_cmd *cmd_args)
 {
-    char   **argv;
-    int    n_arg;
-
-    argv = cmd_args->args;
-    n_arg = cmd_args->n_arg;
-    if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
+    if (iam_a_child(EXTRACT))
         exit_shell(_exit_status(EXTRACT, 0) & 0b11111111);
-    return (process_exit(argv, n_arg));
+    write(STDERR_FILENO, "exit\n", 5);
+    return (process_exit(cmd_args->args, cmd_args->n_arg));
 }

@@ -10,6 +10,7 @@ pid_t fork_left_pipe(int pipefd[2], t_tree *branch)
 	if (pid == 0)
 	{
 		child_mode_signals();
+		iam_a_child(UPDATE);
 		close_and_remove(pipefd[0]);
 		dup2(pipefd[1], STDOUT_FILENO);
 		close_and_remove(pipefd[1]);
@@ -28,6 +29,7 @@ pid_t fork_right_pipe(int pipefd[2], t_tree *branch)
 	if (pid == 0)
 	{
 		child_mode_signals();
+		iam_a_child(UPDATE);
 		close_and_remove(pipefd[1]);
 		dup2(pipefd[0], STDIN_FILENO);
 		close_and_remove(pipefd[0]);
