@@ -17,7 +17,6 @@ int         expanded_heredoc_file(int old_rfd);
 char        *join_list_strings(t_list_info *info);
 bool        write_to_heredoc(int wfd, char *delimiter);
 bool        process_line(int wfd, char *line, char *delimiter);
-void        join_string(t_list  *node, char *to_fill, size_t total);
 void        write_line_by_line(int wfd, char *buffer, size_t length);
 bool        read_file_into_buffer(int old_rfd, char **buffer, size_t *length);
 char        *compose_name(char *prefix, char *tty_name, size_t counter, char *sufix);

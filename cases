@@ -8,3 +8,9 @@ static fork
 | | | ctr c
 
 O_closeexec
+
+set globale on ^c then check exit code in && || to see if execute the rest  dont forget you set it for herdoc too
+
+set static fork for exit in ( ) case
+
+i was wannig to use fork flag in fcts of execs and in waiting signales but no need 
