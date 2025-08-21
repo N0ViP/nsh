@@ -9,6 +9,12 @@ size_t	expand_double_quotes_word(t_info *info)
 		return (0);
 	}
 	info->str++;
+	if (*info->str == '"')
+	{
+		utils(info, 0, 0, false);
+		info->str++;
+		return (0);
+	}
 	while (*(info->str) != '"')
 	{
 		i = expand_regular_word(info, double_quotes_checker, false);
