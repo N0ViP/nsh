@@ -14,7 +14,7 @@ bool expand_cmd_args(t_tree *branch)
 	args_list = init_list_info_struct();
 	while (args[i])
 	{
-		arg_list = expander(args[i], true);
+		arg_list = expander(args[i]);
 		join_list(args_list, arg_list);
 		i++;
 	}

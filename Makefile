@@ -19,6 +19,7 @@ HEREDOC_SRC = \
     heredoc/compose_name.c \
     heredoc/expand_heredoc.c \
     heredoc/look_for_quotes.c \
+    heredoc/heredoc_expander.c \
     heredoc/process_heredocs.c \
     heredoc/write_to_heredoc.c \
     heredoc/write_and_expand.c \

@@ -2,11 +2,9 @@
 
 static void write_expanded_line(int wfd, char *line)
 {
-    t_list_info *list;
     char        *expanded;
 
-    list = expander(line, false);
-    expanded = join_list_strings(list);
+    expanded = heredoc_expander(line);
     if (expanded && *expanded)
     {
         write(wfd, expanded, ft_strlen(expanded));

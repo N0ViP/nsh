@@ -100,7 +100,7 @@ static void	expand_value(t_info *info, t_list_info *arg_list, char *val, bool rm
 	process_and_split_value(info, arg_list, val, splited_val);
 }
 
-static char	*get_value(char *key)
+char	*get_value(char *key)
 {
 	char	*value;
 	int		exit_status;
