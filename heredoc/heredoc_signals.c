@@ -15,7 +15,7 @@ static void heredoc_sigint(int signal)
     rl_done = 1;
 }
 
-void heredoc_signals(void)
+void heredoc_mode_signals(void)
 {
     rl_event_hook = nothing;
     signal(SIGQUIT, SIG_IGN);

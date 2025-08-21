@@ -4,7 +4,7 @@ bool go_home(void)
 {
 	char *home;
 
-	home = get_var_value("OLDPWD");
+	home = get_var_value("HOME");
 	if (!home)
 	{
 		print_cd_error(NULL, "HOME not set");

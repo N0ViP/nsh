@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   nsh.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 08:40:39 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/08 06:01:08 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/21 01:09:54 by ahoummad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,11 @@ typedef struct s_token
 }	t_token;
 
 bool	init(void);
-void 	shell_signals(void);
-void 	child_signals(void);
 void	new_shell(char *cmd);
-void 	waiting_signals(void);
+void 	read_mode_signals(void);
 bool	read_command(char **cmd);
+void 	child_mode_signals(void);
+void 	parent_mode_signals(void);
 void 	exit_shell(int exit_status);
 
 //printers to remove
