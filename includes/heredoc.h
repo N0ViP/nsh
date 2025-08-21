@@ -5,7 +5,7 @@
 
 char        *get_tty_name(void);
 void        heredoc_mode_signals(void);
-char        *heredoc_expander(char *str);
+t_list_info *heredoc_expander(char *str);
 char	    *num_to_str(unsigned long v);
 int         open_heredoc(char *delimiter);
 bool        create_file(int *wfd, int *rfd);
