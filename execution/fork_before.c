@@ -11,12 +11,10 @@ int fork_before(void (*keep_exec)(t_tree *), t_tree *branch)
         exit_failure("fork");
     if (pid == 0)
     {
-        child_signals();
+        child_mode_signals();
         keep_exec(branch);
     }
-    waiting_signals();
     waitpid(pid, &status, 0);
-    shell_signals();
     // if (WIFSIGNALED(status))
     //     if (WTERMSIG(status) == SIGINT ||
     //         WTERMSIG(status) == SIGQUIT)

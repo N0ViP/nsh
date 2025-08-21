@@ -6,7 +6,7 @@
 extern int  heredoc_exit;
 
 char        *get_tty_name(void);
-void        heredoc_signals(void);
+void        heredoc_mode_signals(void);
 char	    *num_to_str(unsigned long v);
 int         open_heredoc(char *delimiter);
 bool        create_file(int *wfd, int *rfd);

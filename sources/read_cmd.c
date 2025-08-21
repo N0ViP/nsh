@@ -2,10 +2,12 @@
 
 bool	read_command(char **cmd)
 {
+	read_mode_signals();
 	*cmd = readline("\e[32mnsh$\e[0m ");
+	parent_mode_signals();
 	if (!*cmd)
     {
-		write(STDERR_FILENO, "exit\n", 5);//
+		write(STDERR_FILENO, "exit\n", 5);
 		exit_shell(_exit_status(EXTRACT, 0));
     }
 	else if (!**cmd)

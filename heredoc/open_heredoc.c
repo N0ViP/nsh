@@ -44,10 +44,10 @@ int open_heredoc(char *delimiter)
     if (!create_file(&wfd, &rfd))
         return (-1);
     printf("%d %d\n", wfd, rfd);
-    heredoc_signals();
+    heredoc_mode_signals();
     interrupted = write_to_heredoc(wfd, delimiter);
+    parent_mode_signals();
     close_and_remove(wfd);
-    shell_signals();
     if (interrupted)
         return (-1);
     return (rfd);

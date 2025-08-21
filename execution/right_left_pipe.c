@@ -9,13 +9,12 @@ pid_t fork_left_pipe(int pipefd[2], t_tree *branch)
 		exit_failure("fork");
 	if (pid == 0)
 	{
-		child_signals();
+		child_mode_signals();
 		close_and_remove(pipefd[0]);
 		dup2(pipefd[1], STDOUT_FILENO);
 		close_and_remove(pipefd[1]);
 		exit_shell(execution_mode(branch->data.branch.left, NO_FORK_MODE));
 	}
-	waiting_signals();
 	return (pid);
 }
 
@@ -28,12 +27,11 @@ pid_t fork_right_pipe(int pipefd[2], t_tree *branch)
 		exit_failure("fork");
 	if (pid == 0)
 	{
-		child_signals();
+		child_mode_signals();
 		close_and_remove(pipefd[1]);
 		dup2(pipefd[0], STDIN_FILENO);
 		close_and_remove(pipefd[0]);
 		exit_shell(execution_mode(branch->data.branch.right, NO_FORK_MODE));
 	}
-	waiting_signals();
 	return (pid);
 }
