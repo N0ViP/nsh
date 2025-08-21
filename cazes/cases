@@ -20,3 +20,8 @@ heredoc expand
 ahoummad@c1r7p5:~/nsh$ << D
 > 
 bash: warning: here-document at line 1 delimited by end-of-file (wanted `D')
+
+cmd errors
+
+max heredoc
+
