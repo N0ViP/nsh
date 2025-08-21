@@ -14,3 +14,9 @@ set globale on ^c then check exit code in && || to see if execute the rest  dont
 set static fork for exit in ( ) case
 
 i was wannig to use fork flag in fcts of execs and in waiting signales but no need 
+
+heredoc expand
+
+ahoummad@c1r7p5:~/nsh$ << D
+> 
+bash: warning: here-document at line 1 delimited by end-of-file (wanted `D')

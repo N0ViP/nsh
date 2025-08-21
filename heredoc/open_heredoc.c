@@ -43,7 +43,6 @@ int open_heredoc(char *delimiter)
 
     if (!create_file(&wfd, &rfd))
         return (-1);
-    printf("%d %d\n", wfd, rfd);
     heredoc_mode_signals();
     interrupted = write_to_heredoc(wfd, delimiter);
     parent_mode_signals();
