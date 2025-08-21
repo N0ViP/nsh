@@ -30,22 +30,40 @@ static void	add_in_args_list(t_list_info *args, char *dname)
 	list_add_back(args, node);
 }
 
-static bool	match_here(const char *p, const char *w, bool *hashmap)
+static bool match_here(const char *p, const char *w, bool *hashmap)
 {
-	if (*p == '\0')
-		return (*w == '\0');
-	if (*p == '*' && wildcard_offset(CURR_OFFSET))
-	{
-		wildcard_offset(NEXT_OFFSET);
-		return (match_here(p + 1, w, hashmap)
-			|| (*w && match_here(p, w + 1, hashmap)));
-	}
-	wildcard_offset(NEXT_OFFSET);
-	return (*p == *w && match_here(p + 1, w + 1, hashmap));
+    int offset;
+
+    if (*p == '\0')
+        return (*w == '\0');
+
+    offset = wildcard_offset(CURR_OFFSET);
+
+    // Collapse consecutive '*' into a single wildcard match
+    if (*p == '*')
+    {
+        while (*(p + 1) == '*') // Skip redundant '*'
+            p++;
+
+        wildcard_offset(NEXT_OFFSET);
+
+        // Try to match zero or more characters
+        return (match_here(p + 1, w, hashmap)
+            || (*w && match_here(p, w + 1, hashmap)));
+    }
+
+    wildcard_offset(NEXT_OFFSET);
+
+    // Match current character and continue
+    if (*p == *w)
+        return match_here(p + 1, w + 1, hashmap);
+
+    return false;
 }
 
 static bool	if_match(bool *hashmap, char *pattern, char *word)
 {
+	wildcard_offset(RESET_OFFSET);
 	return (match_here(pattern, word, hashmap));
 }
 
