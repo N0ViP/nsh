@@ -5,7 +5,7 @@ static void write_expanded_line(int wfd, char *line)
     t_list_info *list;
     char        *expanded;
 
-    list = expander(line);
+    list = expander(line, false);
     expanded = join_list_strings(list);
     if (expanded && *expanded)
     {

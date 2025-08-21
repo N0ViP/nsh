@@ -20,7 +20,7 @@ static bool expand_and_check(t_redir *redirs, int n_redirs)
 	{
 		if (redirs[i].type != OP_HEREDOC)
 		{
-			arg_list = expander((char *)redirs[i].file);
+			arg_list = expander((char *)redirs[i].file, true);
 			if (arg_list->size != 1)
 				return (ambiguous_redirect((char *)redirs[i].file));
 			redirs[i].file = arg_list->list->content;

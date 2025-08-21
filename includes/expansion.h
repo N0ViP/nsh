@@ -18,7 +18,6 @@ typedef struct s_expander_vars
 # define RESET_OFFSET	3
 
 void 		init_hashmap(void);
-t_list_info *expander(char *str);
 size_t		wildcard_offset(int flag);
 bool		check_if_dollar(char *str);
 bool		get_wildcard_flag(t_info *info);
@@ -26,6 +25,7 @@ bool		regular_word_checker(char *str);
 bool		expand_cmd_args(t_tree *branch);
 bool 		expand_filenames(t_tree *branch);
 bool		double_quotes_checker(char *str);
+t_list_info *expander(char *str, bool ex_wdc);
 size_t		expand_single_quote_word(t_info *info);
 size_t		expand_double_quotes_word(t_info *info);
 void		process_arg(t_info *info, t_list_info *arg_list);
