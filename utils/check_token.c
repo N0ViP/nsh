@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   check_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 06:38:22 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/07/03 06:38:39 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/22 06:52:46 by ahoummad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-enum e_operator	check_token(char *token)
+enum e_type	check_token(char *token)
 {
-	enum e_operator	type;
+	enum e_type	type;
 
 	if (token[0] == '|' && token[1] == '|')
 		type = OP_OR;

@@ -61,6 +61,8 @@ BUILT_SRC = \
 EXPAND_SRC = \
     expansion/expand.c \
     expansion/process_arg.c \
+    expansion/word_spliting.c \
+    expansion/wildcard_offset.c \
     expansion/check_if_dollar.c \
     expansion/expansion_utils.c \
     expansion/init_info_struct.c \
@@ -71,8 +73,7 @@ EXPAND_SRC = \
     expansion/double_quotes_checker.c \
     expansion/add_in_wildcard_hashmap.c \
     expansion/expand_single_quote_word.c \
-    expansion/expand_double_quotes_word.c \
-    expansion/wildcard_offset.c
+    expansion/expand_double_quotes_word.c
 
 GETENV_SRC = \
     getenv/getenv.c \

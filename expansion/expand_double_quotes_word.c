@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_double_quotes_word.c                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 05:22:02 by ahoummad          #+#    #+#             */
+/*   Updated: 2025/08/22 05:22:03 by ahoummad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "expansion.h"
 
 size_t	expand_double_quotes_word(t_info *info)
 {
-	size_t		i;
+	size_t	i;
 
 	if (info->str[0] != '"')
 	{

@@ -1,16 +1,28 @@
-# include "getenv.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   set_var_value.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 05:24:31 by ahoummad          #+#    #+#             */
+/*   Updated: 2025/08/22 05:24:32 by ahoummad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void set_var_value(char *key, char *value)
+#include "getenv.h"
+
+void	set_var_value(char *key, char *value)
 {
-    size_t k_len;
-    size_t v_len;
-    char   *key_value;
+	size_t	k_len;
+	size_t	v_len;
+	char	*key_value;
 
-    k_len = ft_strlen(key);
-    v_len = ft_strlen(value);
-    key_value = new_allocation(REMAINS, k_len + v_len + 2);
-    ft_memcpy(key_value, key, k_len);
-    key_value[k_len] = '=';
-    ft_memcpy(key_value + k_len + 1, value, v_len + 1);
-    add_in_env(*env_list(), key_value);
+	k_len = ft_strlen(key);
+	v_len = ft_strlen(value);
+	key_value = new_allocation(REMAINS, k_len + v_len + 2);
+	ft_memcpy(key_value, key, k_len);
+	key_value[k_len] = '=';
+	ft_memcpy(key_value + k_len + 1, value, v_len + 1);
+	add_in_env(*env_list(), key_value);
 }

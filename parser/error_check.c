@@ -1,17 +1,29 @@
-# include "nsh.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error_check.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 05:27:43 by ahoummad          #+#    #+#             */
+/*   Updated: 2025/08/22 05:27:44 by ahoummad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "nsh.h"
 
 static bool	check_open_paren(t_list *tokens, t_token *prev)
 {
-	t_token *next;
+	t_token	*next;
 
 	if (!tokens->next)
 		return (parse_error("("), false);
 	next = (t_token *)tokens->next->content;
-	if (prev && prev->type != OP_OPEN_PARENTHESE
-	 && !(prev->type >= OP_OR && prev->type <= OP_PIPE))
+	if (prev && prev->type != OP_OPEN_PARENTHESE && !(prev->type >= OP_OR
+			&& prev->type <= OP_PIPE))
 		return (parse_error("("), false);
 	if ((next->type >= OP_OR && next->type <= OP_PIPE)
-	 || next->type == OP_CLOSED_PARENTHESE)
+		|| next->type == OP_CLOSED_PARENTHESE)
 		return (parse_error(next->value), false);
 	return (true);
 }
@@ -28,7 +40,7 @@ static bool	check_close_paren(t_list *tokens, t_token *prev, int *depth)
 	{
 		next = (t_token *)tokens->next->content;
 		if (!((next->type >= OP_OR && next->type <= OP_REDIR_IN)
-		 || next->type == OP_CLOSED_PARENTHESE))
+				|| next->type == OP_CLOSED_PARENTHESE))
 			return (parse_error(next->value), false);
 	}
 	if (prev->type >= OP_OR && prev->type <= OP_REDIR_IN)
@@ -39,14 +51,13 @@ static bool	check_close_paren(t_list *tokens, t_token *prev, int *depth)
 
 static bool	check_ops_and_redirs(t_list *tokens, t_token *prev)
 {
-	t_token *curr;
+	t_token	*curr;
 
 	curr = (t_token *)tokens->content;
 	if (curr->type >= OP_OR && curr->type <= OP_PIPE)
 	{
-		if (!prev
-		 || !tokens->next
-		 || (prev->type >= OP_OR && prev->type <= OP_REDIR_IN))
+		if (!prev || !tokens->next || (prev->type >= OP_OR
+				&& prev->type <= OP_REDIR_IN))
 			return (parse_error(curr->value), false);
 	}
 	else if (curr->type >= OP_APPEND && curr->type <= OP_REDIR_IN)
@@ -59,7 +70,7 @@ static bool	check_ops_and_redirs(t_list *tokens, t_token *prev)
 
 static bool	process_token(t_list *tokens, t_token *prev, int *depth)
 {
-	t_type curr_type;
+	t_type	curr_type;
 
 	curr_type = ((t_token *)tokens->content)->type;
 	if (curr_type == OP_OPEN_PARENTHESE)

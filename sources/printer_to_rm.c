@@ -1,38 +1,57 @@
-# include "nsh.h"
-# include "string.h"
+#include "nsh.h"
+#include "string.h"
 
-const char *operator_type_name(enum e_operator type) {
-    switch (type) {
-        case WORD:              return "WORD";
-        case OP_OR:             return "OP_OR";
-        case OP_AND:            return "OP_AND";
-        case OP_APPEND:         return "OP_APPEND";
-        case OP_HEREDOC:        return "OP_HEREDOC";
-        case OP_REDIR_OUT:      return "OP_REDIR_OUT";
-        case OP_REDIR_IN:       return "OP_REDIR_IN";
-        case OP_OPEN_PARENTHESE:return "OP_OPEN_PARENTHESE";
-        case OP_CLOSED_PARENTHESE:return "OP_CLOSED_PARENTHESE";
-        case OP_PIPE:           return "OP_PIPE";
-        case SUBSHELL:          return "SUBSHELL";
-        case COMMAND:           return "COMMAND";
-        default:                return "UNKNOWN";
-    }
+const char	*operator_type_name(enum e_type type)
+{
+	switch (type)
+	{
+	case WORD:
+		return ("WORD");
+	case OP_OR:
+		return ("OP_OR");
+	case OP_AND:
+		return ("OP_AND");
+	case OP_APPEND:
+		return ("OP_APPEND");
+	case OP_HEREDOC:
+		return ("OP_HEREDOC");
+	case OP_REDIR_OUT:
+		return ("OP_REDIR_OUT");
+	case OP_REDIR_IN:
+		return ("OP_REDIR_IN");
+	case OP_OPEN_PARENTHESE:
+		return ("OP_OPEN_PARENTHESE");
+	case OP_CLOSED_PARENTHESE:
+		return ("OP_CLOSED_PARENTHESE");
+	case OP_PIPE:
+		return ("OP_PIPE");
+	case SUBSHELL:
+		return ("SUBSHELL");
+	case COMMAND:
+		return ("COMMAND");
+	default:
+		return ("UNKNOWN");
+	}
 }
 
-void print_tokens(t_list *list)
+void	print_tokens(t_list *list)
 {
-	if (!list) return;
-    while (list)
-    {
-        t_token *token = (t_token *)list->content;
-        printf("TOKEN___%s_______%s\n", token->value, operator_type_name(token->type));
-        list = list->next;
-    }
+	t_token	*token;
+
+	if (!list)
+		return ;
+	while (list)
+	{
+		token = (t_token *)list->content;
+		printf("TOKEN___%s_______%s\n", token->value,
+			operator_type_name(token->type));
+		list = list->next;
+	}
 }
 
 // void tree_printer_00(t_tree *root, int indent)
 // {
-//     if (!root) return;
+//     if (!root) return ;
 //     for (int i = 0; i < indent; i++) putchar(' ');
 
 //     switch (root->type) {
@@ -50,36 +69,36 @@ void print_tokens(t_list *list)
 //                 }
 //                 t_redir *r = &root->data.cmd.redirs[i];
 //                 if(!r)
-//                     return;
+//                     return ;
 //                 switch (r->type) {
-//                     case OP_REDIR_IN:     printf(" <%s", r->file); break;
-//                     case OP_REDIR_OUT:    printf(" >%s", r->file); break;
-//                     case OP_APPEND:       printf(" >>%s", r->file); break;
-//                     case OP_HEREDOC:      printf(" >>%s", r->file); break;
-//                     default: printf("Unknown redir type"); break;
+//                     case OP_REDIR_IN:     printf(" <%s", r->file); break ;
+//                     case OP_REDIR_OUT:    printf(" >%s", r->file); break ;
+//                     case OP_APPEND:       printf(" >>%s", r->file); break ;
+//                     case OP_HEREDOC:      printf(" >>%s", r->file); break ;
+//                     default: printf("Unknown redir type"); break ;
 //                 }
 //             }
 //             if(root->data.cmd.n_redirs)
 //                 printf("\n");
-//             break;
+//             break ;
 
 //         case OP_PIPE:
 //             printf("PIPE\n");
 //             tree_printer_00(root->data.branch.left, indent + 3);
 //             tree_printer_00(root->data.branch.right, indent + 3);
-//             break;
+//             break ;
 
 //         case OP_OR:
 //             printf("OR (||)\n");
 //             tree_printer_00(root->data.branch.left, indent + 3);
 //             tree_printer_00(root->data.branch.right, indent + 3);
-//             break;
+//             break ;
 
 //         case OP_AND:
 //             printf("AND (&&)\n");
 //             tree_printer_00(root->data.branch.left, indent + 3);
 //             tree_printer_00(root->data.branch.right, indent + 3);
-//             break;
+//             break ;
 
 //         case SUBSHELL:
 //             printf("SUBSHELL\n");
@@ -93,139 +112,159 @@ void print_tokens(t_list *list)
 //                 }
 //                 t_redir *r = &root->data.subshell.redirs[i];
 //                 if(!r)
-//                     return;
+//                     return ;
 //                 switch (r->type) {
-//                     case OP_REDIR_IN:     printf(" <%s", r->file); break;
-//                     case OP_REDIR_OUT:    printf(" >%s", r->file); break;
-//                     case OP_APPEND:       printf(" >>%s", r->file); break;
-//                     case OP_HEREDOC:      printf(" >>%s", r->file); break;
-//                     default: printf("Unknown redir type"); break;
+//                     case OP_REDIR_IN:     printf(" <%s", r->file); break ;
+//                     case OP_REDIR_OUT:    printf(" >%s", r->file); break ;
+//                     case OP_APPEND:       printf(" >>%s", r->file); break ;
+//                     case OP_HEREDOC:      printf(" >>%s", r->file); break ;
+//                     default: printf("Unknown redir type"); break ;
 //                 }
 //             }
 //             if(root->data.subshell.n_redirs)
 //                 printf("\n");
-//             break;
+//             break ;
 
 //         default:
 //             printf("Unknown node type\n");
-//             break;
+//             break ;
 //     }
 // }
 
-
-void tree_printer_01(t_tree *node, const char *prefix, bool is_left, bool is_first)
+void	tree_printer_01(t_tree *node, const char *prefix, bool is_left,
+		bool is_first)
 {
-    if (!node) 
-        return;
+	char	label[512] = {0};
+	int		n;
+	t_redir	*rd;
+	char	new_pref[512];
+	char	redirs_str[512] = "REDIRS:";
+	char	redir[64];
 
-    char label[512] = {0};
-    int n = 0;
-    t_redir *rd = NULL;
-
-    switch (node->type)
-    {
-        case COMMAND:
-            strcpy(label, "COMMAND:");
-            for (int i = 0; i < node->data.cmd.n_arg; i++)
-            {
-                strcat(label, " ");
-                strcat(label, node->data.cmd.args[i]);
-            }
-            n  = node->data.cmd.n_redirs;
-            rd = node->data.cmd.redirs;
-            break;
-
-        case SUBSHELL:
-            strcpy(label, "SUBSHELL");
-            n  = node->data.subshell.n_redirs;
-            rd = node->data.subshell.redirs;
-            break;
-
-        case OP_PIPE:  strcpy(label, "PIPE");        break;
-        case OP_AND:   strcpy(label, "AND (&&)");    break;
-        case OP_OR:    strcpy(label, "OR (||)");     break;
-        default:       strcpy(label, "UNKNOWN");     break;
-    }
-
-    char new_pref[512];
-    strcpy(new_pref, prefix);
-    if(!is_first)
-        strcat(new_pref, " ");
-    printf("%s%s%s\n", new_pref, is_first ? "" : (is_left ? "├── " : "└── "), label);
-
-    if(!is_first)
-        strcat(new_pref, is_left ? "│   " : "    ");
-    
-    is_first = false;
-
-    if (n > 0 && rd)
-    {
-        char redirs_str[512] = "REDIRS:";
-        for (int i = 0; i < n; i++)
-        {
-            char redir[64];
-            switch (rd[i].type)
-            {
-                case OP_REDIR_IN:  sprintf(redir, " <%s", (char *)rd[i].file);  break;
-                case OP_REDIR_OUT: sprintf(redir, " >%s", (char *)rd[i].file);  break;
-                case OP_APPEND:    sprintf(redir, " >>%s", (char *)rd[i].file); break;
-                case OP_HEREDOC:   sprintf(redir, " <<%s", (char *)rd[i].file); break;
-                default:           sprintf(redir, " ?%s", (char *)rd[i].file);  break;
-            }
-            strcat(redirs_str, redir);
-        }
-        if (node->type == COMMAND)
-            printf("%s    %s\n", new_pref, redirs_str);
-        if (node->type != COMMAND)
-            printf("%s │   %s\n", new_pref, redirs_str);
-    }
-
-    if (node->type == SUBSHELL)
-    {
-        tree_printer_01(node->data.subshell.child, new_pref, false, is_first);
-    }
-    else if (node->type == OP_AND || node->type == OP_OR || node->type == OP_PIPE)
-    {
-        tree_printer_01(node->data.branch.left,  new_pref, true, is_first);
-        tree_printer_01(node->data.branch.right, new_pref, false, is_first);
-    }
+	if (!node)
+		return ;
+	n = 0;
+	rd = NULL;
+	switch (node->type)
+	{
+	case COMMAND:
+		strcpy(label, "COMMAND:");
+		for (int i = 0; i < node->u_data.cmd.n_arg; i++)
+		{
+			strcat(label, " ");
+			strcat(label, node->u_data.cmd.args[i]);
+		}
+		n = node->u_data.cmd.n_redirs;
+		rd = node->u_data.cmd.redirs;
+		break ;
+	case SUBSHELL:
+		strcpy(label, "SUBSHELL");
+		n = node->u_data.subshell.n_redirs;
+		rd = node->u_data.subshell.redirs;
+		break ;
+	case OP_PIPE:
+		strcpy(label, "PIPE");
+		break ;
+	case OP_AND:
+		strcpy(label, "AND (&&)");
+		break ;
+	case OP_OR:
+		strcpy(label, "OR (||)");
+		break ;
+	default:
+		strcpy(label, "UNKNOWN");
+		break ;
+	}
+	strcpy(new_pref, prefix);
+	if (!is_first)
+		strcat(new_pref, " ");
+	printf("%s%s%s\n", new_pref, is_first ? "" : (is_left ? "├── " : "└── "),
+		label);
+	if (!is_first)
+		strcat(new_pref, is_left ? "│   " : "    ");
+	is_first = false;
+	if (n > 0 && rd)
+	{
+		for (int i = 0; i < n; i++)
+		{
+			switch (rd[i].type)
+			{
+			case OP_REDIR_IN:
+				sprintf(redir, " <%s", (char *)rd[i].file);
+				break ;
+			case OP_REDIR_OUT:
+				sprintf(redir, " >%s", (char *)rd[i].file);
+				break ;
+			case OP_APPEND:
+				sprintf(redir, " >>%s", (char *)rd[i].file);
+				break ;
+			case OP_HEREDOC:
+				sprintf(redir, " <<%s", (char *)rd[i].file);
+				break ;
+			default:
+				sprintf(redir, " ?%s", (char *)rd[i].file);
+				break ;
+			}
+			strcat(redirs_str, redir);
+		}
+		if (node->type == COMMAND)
+			printf("%s    %s\n", new_pref, redirs_str);
+		if (node->type != COMMAND)
+			printf("%s │   %s\n", new_pref, redirs_str);
+	}
+	if (node->type == SUBSHELL)
+	{
+		tree_printer_01(node->u_data.subshell.child, new_pref, false, is_first);
+	}
+	else if (node->type == OP_AND || node->type == OP_OR
+		|| node->type == OP_PIPE)
+	{
+		tree_printer_01(node->u_data.branch.left, new_pref, true, is_first);
+		tree_printer_01(node->u_data.branch.right, new_pref, false, is_first);
+	}
 }
 
-void print_all_sections(void)
+void	print_all_sections(void)
 {
-    t_section *current = *get_sections();
-    int section_count = 0;
+	t_section *current = *get_sections();
+	int section_count = 0;
 
-    if (!current) {
-        printf("No sections in list.\n");
-        return;
-    }
+	if (!current)
+	{
+		printf("No sections in list.\n");
+		return ;
+	}
 
-    printf("===== SECTION LIST DUMP =====\n");
-    while (current) {
-        printf("\n--- Section %d ---\n", section_count++);
-        printf("Section ID:   %d\n", current->section_id);
-        printf("Address:      %p\n", (void*)current);
-        printf("Allocations:  %zu/%zu (used/capacity)\n", 
-               current->count, current->capacity);
-        printf("Next:         %p\n", (void*)current->next);
+	printf("===== SECTION LIST DUMP =====\n");
+	while (current)
+	{
+		printf("\n--- Section %d ---\n", section_count++);
+		printf("Section ID:   %d\n", current->section_id);
+		printf("Address:      %p\n", (void *)current);
+		printf("Allocations:  %zu/%zu (used/capacity)\n", current->count,
+			current->capacity);
+		printf("Next:         %p\n", (void *)current->next);
 
-        if (current->count > 0) {
-            printf("\nAllocation Pointers:\n");
-            for (size_t i = 0; i < current->count; i++)
-            {
-                printf("  [%3zu] %p", i, current->allocations[i]);
-                if (current->allocations[i] == NULL) {
-                    printf(" (NULL)");
-                }
-                printf("\n");
-            }
-        } else {
-            printf("\nNo allocations in this section.\n");
-        }
+		if (current->count > 0)
+		{
+			printf("\nAllocation Pointers:\n");
+			for (size_t i = 0; i < current->count; i++)
+			{
+				printf("  [%3zu] %p", i, current->allocations[i]);
+				if (current->allocations[i] == NULL)
+				{
+					printf(" (NULL)");
+				}
+				printf("\n");
+			}
+		}
+		else
+		{
+			printf("\nNo allocations in this section.\n");
+		}
 
-        current = current->next;
-    }
-    printf("\n=============================\n");
-    printf("Total sections: %d\n", section_count);
+		current = current->next;
+	}
+	printf("\n=============================\n");
+	printf("Total sections: %d\n", section_count);
 }

@@ -1,9 +1,21 @@
-#include "built-in.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 05:20:22 by ahoummad          #+#    #+#             */
+/*   Updated: 2025/08/22 06:44:13 by ahoummad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "built_in.h"
 
 static int	print_env(t_list *env_list)
 {
-	char		*equal;
-	int			reval;
+	char	*equal;
+	int		reval;
 
 	while (env_list)
 	{

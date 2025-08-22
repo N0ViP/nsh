@@ -1,45 +1,57 @@
-# include "execution.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirect_to_file.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 05:21:35 by ahoummad          #+#    #+#             */
+/*   Updated: 2025/08/22 05:21:36 by ahoummad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static void redirect_heredoc(t_heredoc *heredoc)
+#include "execution.h"
+
+static void	redirect_heredoc(t_heredoc *heredoc)
 {
-    int rfd;
+	int	rfd;
 
-    if (!heredoc || heredoc->rfd < 0)
-        return ;
-    rfd = heredoc->rfd;
-    if (!heredoc->was_quoted)
-        rfd = expanded_heredoc_file(rfd);
-    if (rfd >= 0)
-    {
-        dup2(rfd, STDIN_FILENO);
-        close_and_remove(rfd);
-    }
+	if (!heredoc || heredoc->rfd < 0)
+		return ;
+	rfd = heredoc->rfd;
+	if (!heredoc->was_quoted)
+		rfd = expanded_heredoc_file(rfd);
+	if (rfd >= 0)
+	{
+		dup2(rfd, STDIN_FILENO);
+		close_and_remove(rfd);
+	}
 }
 
-void dup_redirections(t_tree *branch)
+void	dup_redirections(t_tree *branch)
 {
-    t_redir *redirs;
-    int     n_redirs;
-    int     dup_fd;
-    int     fd;
-    size_t  i;
+	t_redir	*redirs;
+	int		n_redirs;
+	int		dup_fd;
+	int		fd;
+	size_t	i;
 
-    if (get_redirs(branch, &redirs, &n_redirs))
-    {
-        i = -1;
-        while (++i < (size_t)n_redirs)
-        {
-            if (redirs[i].type == OP_HEREDOC)
-            {
-                redirect_heredoc((t_heredoc *)redirs[i].file);
-                continue;
-            }
-            dup_fd = STDOUT_FILENO;
-            fd = *(int *)redirs[i].file;
-            if (redirs[i].type == OP_REDIR_IN)
-                dup_fd = STDIN_FILENO;
-            dup2(fd, dup_fd);
-            close_and_remove(fd);
-        }            
-    }
+	if (get_redirs(branch, &redirs, &n_redirs))
+	{
+		i = -1;
+		while (++i < (size_t)n_redirs)
+		{
+			if (redirs[i].type == OP_HEREDOC)
+			{
+				redirect_heredoc((t_heredoc *)redirs[i].file);
+				continue ;
+			}
+			dup_fd = STDOUT_FILENO;
+			fd = *(int *)redirs[i].file;
+			if (redirs[i].type == OP_REDIR_IN)
+				dup_fd = STDIN_FILENO;
+			dup2(fd, dup_fd);
+			close_and_remove(fd);
+		}
+	}
 }

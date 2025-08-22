@@ -1,6 +1,18 @@
-# include "utils.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_list_info_struct.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 05:35:05 by ahoummad          #+#    #+#             */
+/*   Updated: 2025/08/22 05:35:06 by ahoummad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-t_list_info	*init_list_info_struct()
+#include "utils.h"
+
+t_list_info	*init_list_info_struct(void)
 {
 	t_list_info	*token_info;
 

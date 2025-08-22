@@ -1,14 +1,26 @@
-#include "built-in.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd_helper.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 05:20:13 by ahoummad          #+#    #+#             */
+/*   Updated: 2025/08/22 06:43:58 by ahoummad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-bool go_home(void)
+#include "built_in.h"
+
+bool	go_home(void)
 {
-	char *home;
+	char	*home;
 
 	home = get_var_value("HOME");
 	if (!home)
 	{
 		print_cd_error(NULL, "HOME not set");
-        return (false);
+		return (false);
 	}
 	if (chdir(home) == -1)
 	{
@@ -16,23 +28,23 @@ bool go_home(void)
 		return (false);
 	}
 	update_oldpwd();
-	if (!update_pwd())//should it print error or update with path
+	if (!update_pwd())
 	{
-		print_cd_error("getcwd", strerror(errno));//whats the error
+		print_cd_error("getcwd", strerror(errno));
 		return (false);
 	}
 	return (true);
 }
 
-bool go_old_pwd(void)
+bool	go_old_pwd(void)
 {
-	char *oldpwd;
+	char	*oldpwd;
 
 	oldpwd = get_var_value("OLDPWD");
 	if (!oldpwd)
 	{
 		print_cd_error(NULL, "OLDPWD not set");
-        return (false);
+		return (false);
 	}
 	if (chdir(oldpwd) == -1)
 	{
@@ -40,9 +52,9 @@ bool go_old_pwd(void)
 		return (false);
 	}
 	update_oldpwd();
-	if (!update_pwd())//should it print error or update with path
+	if (!update_pwd())
 	{
-		print_cd_error("getcwd", strerror(errno));//whats the error
+		print_cd_error("getcwd", strerror(errno));
 		return (false);
 	}
 	write(STDERR_FILENO, oldpwd, ft_strlen(oldpwd));
@@ -50,19 +62,18 @@ bool go_old_pwd(void)
 	return (true);
 }
 
-bool go_to_path(char *path)
+bool	go_to_path(char *path)
 {
-    
-    if (chdir(path) == -1)
-    {
-        print_cd_error(path, strerror(errno));
-        return (false);
-    }
+	if (chdir(path) == -1)
+	{
+		print_cd_error(path, strerror(errno));
+		return (false);
+	}
 	update_oldpwd();
-    if (!update_pwd())//should it print error or update with path
-    {
-        print_cd_error("getcwd", strerror(errno));//
-        return (false);
-    }
+	if (!update_pwd())
+	{
+		print_cd_error("getcwd", strerror(errno));
+		return (false);
+	}
 	return (true);
 }

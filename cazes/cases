@@ -1,6 +1,4 @@
 
- 
-ahoummad@c1r7p4:~/nsh$  > ""$a   bash: ""$a: ambiguous redirect
 
 O_closeexec woudnt it cause a prob?
  
@@ -15,3 +13,5 @@ max heredoc
 
 fix readline
 
+// # define UNSET              0
+// # define EXPORT             1

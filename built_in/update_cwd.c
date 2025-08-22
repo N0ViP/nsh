@@ -1,43 +1,60 @@
-#include "built-in.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   update_cwd.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 05:20:48 by ahoummad          #+#    #+#             */
+/*   Updated: 2025/08/22 06:44:31 by ahoummad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-char **shell_cwd(void)
+#include "built_in.h"
+
+char	**shell_cwd(void)
 {
 	static char	*cwd = NULL;
+
 	return (&cwd);
 }
 
-char *update_cwd(void)
+char	*update_cwd(void)
 {
-	char *new_cwd;
-	char **old_cwd;
+	char	*new_cwd;
+	char	**old_cwd;
 
-    old_cwd = shell_cwd();
+	old_cwd = shell_cwd();
 	new_cwd = getcwd(NULL, 0);
-	add_allocation_to_section(REMAINS, new_cwd);
-    *old_cwd = new_cwd;
-    return (*old_cwd);
+	if (!new_cwd)
+		return (NULL);
+	set_current_section(REMAINS);
+	*old_cwd = ft_strdup(new_cwd);
+	set_current_section(GLOBALE);
+	free(new_cwd);
+	return (*old_cwd);
 }
 
-void update_oldpwd(void)
+void	update_oldpwd(void)
 {
-    char *pwd;
+	char	*pwd;
 
-    pwd = get_var_value("PWD");
-    if (pwd)
-    {
-        set_var_value("OLDPWD", pwd);
-    }
+	pwd = get_var_value("PWD");
+	if (pwd)
+	{
+		set_var_value("OLDPWD", pwd);
+	}
 }
 
-bool update_pwd(void)
+bool	update_pwd(void)
 {
-    char *cwd;
+	char	*cwd;
 
-    cwd = update_cwd();
-    if (cwd)
+	cwd = update_cwd();
+	if (cwd)
 	{
 		set_var_value("PWD", cwd);
 		return (true);
-    }
+	}
 	return (false);
 }

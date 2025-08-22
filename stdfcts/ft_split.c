@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 05:34:18 by ahoummad          #+#    #+#             */
+/*   Updated: 2025/08/22 05:34:20 by ahoummad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "stdfcts.h"
 
-#define COUNT_SPACES	true
-#define COUNT_WORD		false
+#define COUNT_SPACES true
+#define COUNT_WORD false
 
 static size_t	count_chars(char *s, char *sep, bool flag)
 {
@@ -17,7 +29,7 @@ static size_t	count_chars(char *s, char *sep, bool flag)
 
 static size_t	count_words(char *s, char *sep)
 {
-	size_t count;
+	size_t	count;
 
 	count = 0;
 	while (*s)
@@ -36,7 +48,7 @@ static void	fill_result(char **res, char *s, char *sep, size_t word_count)
 {
 	size_t	i;
 	size_t	word_len;
-	
+
 	i = 0;
 	while (*s && i < word_count)
 	{
@@ -58,8 +70,8 @@ char	**ft_split(char *s, char *sep)
 	{
 		return (NULL);
 	}
-	word_count = count_words((char *) s, sep);
+	word_count = count_words((char *)s, sep);
 	result = allocate_memory((word_count + 1) * sizeof(char *));
-	fill_result(result, (char *) s, sep, word_count);
+	fill_result(result, (char *)s, sep, word_count);
 	return (result);
 }

@@ -1,4 +1,16 @@
-#include "built-in.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 05:20:33 by ahoummad          #+#    #+#             */
+/*   Updated: 2025/08/22 06:44:22 by ahoummad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "built_in.h"
 
 static void	syntax_error(char *str)
 {
@@ -35,9 +47,9 @@ static bool	check_name(char *str)
 
 static int	print_env(t_list *env_list)
 {
-	char		*start;
-	char		*equal;
-	int			reval;
+	char	*start;
+	char	*equal;
+	int		reval;
 
 	while (env_list)
 	{
@@ -45,17 +57,16 @@ static int	print_env(t_list *env_list)
 		equal = ft_strchr(env_list->content, '=');
 		if (equal)
 		{
-			reval = printf("declare -x %.*s\"%s\"\n", (int)(equal - start + 1), (char *)env_list->content, (char *)env_list->content + (equal - start) + 1);
+			reval = printf("declare -x %.*s\"%s\"\n", (int)(equal - start + 1),
+					(char *)env_list->content, (char *)env_list->content
+					+ (equal - start) + 1);
 		}
 		else
 		{
 			reval = printf("declare -x %s\n", (char *)env_list->content);
 		}
 		if (reval == -1)
-		{
-			perror("nsh: export: write error");
-			return (1);
-		}
+			return (perror("nsh: export: write error"), 1);
 		env_list = env_list->next;
 	}
 	return (0);
@@ -63,15 +74,15 @@ static int	print_env(t_list *env_list)
 
 int	built_in_export(t_cmd *cmd_args)
 {
-	int				exit_status;
-    char   			**args;
-	t_list_info		*env;
-	size_t			i;
+	int			exit_status;
+	char		**args;
+	t_list_info	*env;
+	size_t		i;
 
 	i = 1;
 	exit_status = 0;
 	env = *env_list();
-    args = cmd_args->args;	
+	args = cmd_args->args;
 	if (!args[1])
 		return (print_env(env->list));
 	while (args[i])

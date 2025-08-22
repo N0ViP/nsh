@@ -1,12 +1,25 @@
-# include "getenv.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   getenv.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 05:23:49 by ahoummad          #+#    #+#             */
+/*   Updated: 2025/08/22 05:23:50 by ahoummad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "getenv.h"
 
 t_list_info	**env_list(void)
 {
 	static t_list_info	*env = NULL;
+
 	return (&env);
 }
 
-void env_setup(void)
+void	env_setup(void)
 {
 	t_list_info	**env;
 
@@ -16,9 +29,9 @@ void env_setup(void)
 
 t_list_info	*ft_getenv(int flag, char *var)
 {
-	t_list_info		*env;
-	char			*dup_var;
-	
+	t_list_info	*env;
+	char		*dup_var;
+
 	env = *env_list();
 	if (var)
 	{

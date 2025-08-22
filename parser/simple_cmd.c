@@ -1,53 +1,65 @@
-# include "nsh.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   simple_cmd.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 05:33:13 by ahoummad          #+#    #+#             */
+/*   Updated: 2025/08/22 06:56:29 by ahoummad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static int count_args(t_list *tokens)
+#include "nsh.h"
+
+static int	count_args(t_list *tokens)
 {
-    int count;
+	int	count;
 
-    count = 0;
-    while (tokens) 
-    {
-        count++;
-        tokens = tokens->next;
-    }
-    return (count);
+	count = 0;
+	while (tokens)
+	{
+		count++;
+		tokens = tokens->next;
+	}
+	return (count);
 }
 
-static char **extract_args(t_list *tokens, int n_arg)
+static char	**extract_args(t_list *tokens, int n_arg)
 {
-    t_token *tok;
-    t_list *cur;
-    char **args;
-    int i;
+	t_token	*tok;
+	t_list	*cur;
+	char	**args;
+	int		i;
 
-    if (!n_arg)
-        return (NULL);
-    i = 0;
-    cur = tokens;
-    args = allocate_memory((n_arg + 1) * sizeof(char *));
-    while (cur)
-    {
-        tok = (t_token *)cur->content;
-        args[i++] = ft_strdup(tok->value);
-        cur = cur->next;
-    }
-    args[i] = NULL;
-    return (args);
+	if (!n_arg)
+		return (NULL);
+	i = 0;
+	cur = tokens;
+	args = allocate_memory((n_arg + 1) * sizeof(char *));
+	while (cur)
+	{
+		tok = (t_token *)cur->content;
+		args[i++] = ft_strdup(tok->value);
+		cur = cur->next;
+	}
+	args[i] = NULL;
+	return (args);
 }
 
-t_tree *new_command_branch(t_list *tokens)
+t_tree	*new_command_branch(t_list *tokens)
 {
-    t_tree *node;
-    int n_redirs;
-    int n_arg;
+	t_tree	*node;
+	int		n_redirs;
+	int		n_arg;
 
-    node = allocate_memory(sizeof(t_tree));
-    node->type = COMMAND;
-    n_redirs = count_redirs(tokens);
-    node->data.cmd.n_redirs = n_redirs;
-    node->data.cmd.redirs = extract_redirs(&tokens, n_redirs);
-    n_arg = count_args(tokens);
-    node->data.cmd.n_arg = n_arg;
-    node->data.cmd.args = extract_args(tokens, n_arg);
-    return (node);
+	node = allocate_memory(sizeof(t_tree));
+	node->type = COMMAND;
+	n_redirs = count_redirs(tokens);
+	node->u_data.cmd.n_redirs = n_redirs;
+	node->u_data.cmd.redirs = extract_redirs(&tokens, n_redirs);
+	n_arg = count_args(tokens);
+	node->u_data.cmd.n_arg = n_arg;
+	node->u_data.cmd.args = extract_args(tokens, n_arg);
+	return (node);
 }

@@ -1,16 +1,5 @@
 {
     "files.associations": {
-        "*.embeddedhtml": "html",
-        "nsh.h": "c",
-        "expansion.h": "c",
-        "__bit_reference": "c",
-        "bitset": "c",
-        "chrono": "c",
-        "unordered_map": "c",
-        "heredoc.h": "c",
-        "mem_track.h": "c",
-        "built-in.h": "c",
-        "execution.h": "c",
-        "ios": "c"
+        "cstdlib": "c"
     }
 }

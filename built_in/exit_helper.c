@@ -1,66 +1,78 @@
-#include "built-in.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit_helper.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 05:20:27 by ahoummad          #+#    #+#             */
+/*   Updated: 2025/08/22 06:44:15 by ahoummad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void print_exit_error(char *error, char *arg)
+#include "built_in.h"
+
+void	print_exit_error(char *error, char *arg)
 {
-    write(STDERR_FILENO, SHELL, ft_strlen(SHELL));
-    write(STDERR_FILENO, ": exit: ", 8);
-    if (arg)
-        write(STDERR_FILENO, arg, ft_strlen(arg));
-    write(STDERR_FILENO, error, ft_strlen(error));
+	write(STDERR_FILENO, SHELL, ft_strlen(SHELL));
+	write(STDERR_FILENO, ": exit: ", 8);
+	if (arg)
+		write(STDERR_FILENO, arg, ft_strlen(arg));
+	write(STDERR_FILENO, error, ft_strlen(error));
 }
 
-static bool string_end_check(char *str)
+static bool	string_end_check(char *str)
 {
-    str += skip_spaces(str, 0);
-    return (*str == '\0');
+	str += skip_spaces(str, 0);
+	return (*str == '\0');
 }
 
-static bool convert_to_num(char *str, int sign, long long *exit_code)
+static bool	convert_to_num(char *str, int sign, long long *exit_code)
 {
-    unsigned long long    number;
-    unsigned long long    limit;
-    unsigned long long    digit;
+	unsigned long long	number;
+	unsigned long long	limit;
+	unsigned long long	digit;
 
-    number = 0;
-    limit = (unsigned long long)LLONG_MAX;
-    if (sign < 0)
-        limit++;
-    while (*str)
-    {
-        if (*str < '0' || *str > '9')
-        {
-            if (string_end_check(str))
-                break;
-            return (false);
-        }
-        digit = (*str++ - '0');
-        if (number > (limit - digit) / 10)
-            return (false);
-        number = number * 10 + digit;
-    }
-    if (sign < 0 && number == limit)
-        return (*exit_code = LLONG_MIN, true);
-    *exit_code = (long long)number * sign;
-    return (true);
+	number = 0;
+	limit = (unsigned long long)LLONG_MAX;
+	if (sign < 0)
+		limit++;
+	while (*str)
+	{
+		if (*str < '0' || *str > '9')
+		{
+			if (string_end_check(str))
+				break ;
+			return (false);
+		}
+		digit = (*str++ - '0');
+		if (number > (limit - digit) / 10)
+			return (false);
+		number = number * 10 + digit;
+	}
+	if (sign < 0 && number == limit)
+		return (*exit_code = LLONG_MIN, true);
+	*exit_code = (long long)number * sign;
+	return (true);
 }
 
-bool arg_to_exit_code(char *str, long long *exit_code)
+bool	arg_to_exit_code(char *str, long long *exit_code)
 {
-    int     sign;
-    size_t  i;
+	int		sign;
+	size_t	i;
 
-    i = 0;
-    sign = 1;
-    if (!str || !*str)
-        return (false);
-    i += skip_spaces(str, i);
-    if (str[i] == '-' || str[i] == '+')
-    {
-        if (str[i] == '-')
-            sign = -1;
-        i++;
-    }
-    if (!str[i] || !convert_to_num(&str[i], sign, exit_code))
-        return (false);
-    return (true);
+	i = 0;
+	sign = 1;
+	if (!str || !*str)
+		return (false);
+	i += skip_spaces(str, i);
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			sign = -1;
+		i++;
+	}
+	if (!str[i] || !convert_to_num(&str[i], sign, exit_code))
+		return (false);
+	return (true);
 }

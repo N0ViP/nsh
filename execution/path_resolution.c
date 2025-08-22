@@ -1,8 +1,20 @@
-# include "execution.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   path_resolution.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 05:21:30 by ahoummad          #+#    #+#             */
+/*   Updated: 2025/08/22 05:21:31 by ahoummad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static char *cmd_with_path(char *cmd)
+#include "execution.h"
+
+static char	*cmd_with_path(char *cmd)
 {
-	t_state		state;
+	t_state	state;
 
 	state = path_validity(cmd);
 	if (state == VALID_PATH)
@@ -12,24 +24,24 @@ static char *cmd_with_path(char *cmd)
 	return (report_error(cmd, state), NULL);
 }
 
-static char *find_in_paths(char *cmd, char **paths, t_state *state)
+static char	*find_in_paths(char *cmd, char **paths, t_state *state)
 {
-    char *ret_cmd;
+	char	*ret_cmd;
 
 	ret_cmd = search_in_paths(cmd, paths, state);
-    if (ret_cmd && (*state == VALID_PATH || *state != NOT_FOUND_ERROR))
+	if (ret_cmd && (*state == VALID_PATH || *state != NOT_FOUND_ERROR))
 	{
-        return (ft_strdup(ret_cmd));
+		return (ft_strdup(ret_cmd));
 	}
 	return (ft_strdup(cmd));
 }
 
 char	*path_resolution(char *cmd)
 {
-	t_state		state;
-	char		**paths;
-	char		*path_env;
-	char		*full_path;
+	t_state	state;
+	char	**paths;
+	char	*path_env;
+	char	*full_path;
 
 	if (!(*cmd))
 		report_error("''", NOT_FOUND_ERROR);

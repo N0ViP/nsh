@@ -1,54 +1,66 @@
-# include "nsh.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   extract_redirs.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 05:27:46 by ahoummad          #+#    #+#             */
+/*   Updated: 2025/08/22 07:00:22 by ahoummad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int count_redirs(t_list *tokens)
+#include "nsh.h"
+
+int	count_redirs(t_list *tokens)
 {
-    t_token *tok;
-    t_list *cur;
-    int count;
+	t_token	*tok;
+	t_list	*cur;
+	int		count;
 
-    cur = tokens;
-    count = 0;
-    while (cur)
-    {
-        tok = (t_token *)cur->content;
-        if (tok->type >= OP_APPEND && tok->type <= OP_REDIR_IN)
-            count++;
-        cur = cur->next;
-    }
-    return count;
+	cur = tokens;
+	count = 0;
+	while (cur)
+	{
+		tok = (t_token *)cur->content;
+		if (tok->type >= OP_APPEND && tok->type <= OP_REDIR_IN)
+			count++;
+		cur = cur->next;
+	}
+	return (count);
 }
 
-static void recurse_redirs(t_list **cur, t_redir *redirs, int i)
+static void	recurse_redirs(t_list **cur, t_redir *redirs, int i)
 {
-    t_token *tok;
-    t_token *file_tok;
-    t_list  *file_node;
+	t_token	*tok;
+	t_token	*file_tok;
+	t_list	*file_node;
 
-    if (!*cur)
-        return;
-    tok = (t_token *)(*cur)->content;
-    if (tok->type >= OP_APPEND && tok->type <= OP_REDIR_IN)
-    {
-        file_node = (*cur)->next;
-        if (!file_node)
-            return ;
-        file_tok = (t_token *)file_node->content;
-        redirs[i].type = tok->type;
-        redirs[i++].file = ft_strdup(file_tok->value);
-        *cur = file_node->next;
-    }
-    else
-        cur = &((*cur)->next);
-    return (recurse_redirs(cur, redirs, i));
+	if (!*cur)
+		return ;
+	tok = (t_token *)(*cur)->content;
+	if (tok->type >= OP_APPEND && tok->type <= OP_REDIR_IN)
+	{
+		file_node = (*cur)->next;
+		if (!file_node)
+			return ;
+		file_tok = (t_token *)file_node->content;
+		redirs[i].type = tok->type;
+		redirs[i++].file = ft_strdup(file_tok->value);
+		*cur = file_node->next;
+	}
+	else
+		cur = &((*cur)->next);
+	return (recurse_redirs(cur, redirs, i));
 }
 
-t_redir *extract_redirs(t_list **tokens, int n_redirs)
+t_redir	*extract_redirs(t_list **tokens, int n_redirs)
 {
-    t_redir *redirs;
+	t_redir	*redirs;
 
-    if (!n_redirs)
-        return (NULL);
-    redirs = allocate_memory(sizeof(t_redir) * n_redirs);
-    recurse_redirs(tokens, redirs, 0);
-    return (redirs);
+	if (!n_redirs)
+		return (NULL);
+	redirs = allocate_memory(sizeof(t_redir) * n_redirs);
+	recurse_redirs(tokens, redirs, 0);
+	return (redirs);
 }

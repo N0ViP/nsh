@@ -1,4 +1,16 @@
-# include "nsh.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_tokens.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 05:27:50 by ahoummad          #+#    #+#             */
+/*   Updated: 2025/08/22 07:00:57 by ahoummad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "nsh.h"
 
 static int	op_priority(t_type type)
 {
@@ -24,10 +36,10 @@ static t_list	*find_split_point(t_list *tokens)
 	t_list	*prev;
 	int		depth;
 
-    depth = 0;
-    prev = NULL;
-    token = NULL;
-    split_point = NULL;
+	depth = 0;
+	prev = NULL;
+	token = NULL;
+	split_point = NULL;
 	while (tokens)
 	{
 		token = (t_token *)tokens->content;

@@ -40,24 +40,24 @@ static size_t	get_word_len(char **s)
 	return (j);
 }
 
-static void add_to_list(t_list **tokens, t_list *new_node)
+static void	add_to_list(t_list **tokens, t_list *new_node)
 {
-    t_list *current;
+	t_list	*current;
 
-    if (!*tokens)
+	if (!*tokens)
 	{
-        *tokens = new_node;
+		*tokens = new_node;
 	}
-    else
+	else
 	{
-        current = *tokens;
-        while (current->next)
-            current = current->next;
-        current->next = new_node;
-    }
+		current = *tokens;
+		while (current->next)
+			current = current->next;
+		current->next = new_node;
+	}
 }
 
-static t_list *creat_token(char *ptr, t_type type, int idx)
+static t_list	*creat_token(char *ptr, t_type type, int idx)
 {
 	t_list	*node;
 	t_token	*token;
@@ -85,8 +85,8 @@ static size_t	extract_token_and_type(t_list **tokens, char **ptr)
 			return (write(2, "unclosed quotes\n", 16), 0);
 		}
 	}
-	else if (type == OP_OR || type == OP_AND
-		|| type == OP_APPEND || type == OP_HEREDOC)
+	else if (type == OP_OR || type == OP_AND || type == OP_APPEND
+		|| type == OP_HEREDOC)
 		j = 2;
 	add_to_list(tokens, creat_token(*ptr, type, j));
 	*ptr += j;
@@ -108,7 +108,6 @@ t_list	*tokenize(char *cmd)
 		if (cmd == NULL)
 			return (NULL);
 		cmd += skip_spaces(cmd, 0);
-		
 	}
 	return (tokens);
 }

@@ -1,11 +1,23 @@
-# include "getenv.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_env.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 06:39:34 by ahoummad          #+#    #+#             */
+/*   Updated: 2025/08/22 06:39:35 by ahoummad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "getenv.h"
 
 static t_list	*dup_env_var(char *str)
 {
 	char	*word;
 	t_list	*val;
 
-	word = ft_strdup(str);;
+	word = ft_strdup(str);
 	val = creat_node(word);
 	return (val);
 }

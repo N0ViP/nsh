@@ -6,13 +6,13 @@
 /*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 02:42:03 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/20 16:08:15 by ahoummad         ###   ########.fr       */
+/*   Updated: 2025/08/22 05:22:10 by ahoummad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "expansion.h"
+#include "expansion.h"
 
-t_list_info *expander(char *str)
+t_list_info	*expander(char *str)
 {
 	t_list_info	*arg_list;
 	t_info		info;

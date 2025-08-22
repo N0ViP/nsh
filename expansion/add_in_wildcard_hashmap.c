@@ -1,16 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   add_in_wildcard_hashmap.c                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 05:21:53 by ahoummad          #+#    #+#             */
+/*   Updated: 2025/08/22 05:21:54 by ahoummad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "expansion.h"
 
-static bool **wildcard_hashmap(void)
+static bool	**wildcard_hashmap(void)
 {
-    static bool	*hashmap = NULL;
-    return (&hashmap);
+	static bool	*hashmap = NULL;
+
+	return (&hashmap);
 }
 
-void init_hashmap(void)
+void	init_hashmap(void)
 {
-    bool	**hashmap;
-    hashmap = wildcard_hashmap();
-    *hashmap = new_allocation(REMAINS, INITIAL_CAPACITY * sizeof(bool));
+	bool	**hashmap;
+
+	hashmap = wildcard_hashmap();
+	*hashmap = new_allocation(REMAINS, INITIAL_CAPACITY * sizeof(bool));
 }
 
 bool	*add_in_wildcard_hashmap(size_t wildcard, int flag, bool ex_wdc)

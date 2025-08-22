@@ -1,4 +1,16 @@
-# include "heredoc.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc_expander.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 05:24:40 by ahoummad          #+#    #+#             */
+/*   Updated: 2025/08/22 05:24:41 by ahoummad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "heredoc.h"
 
 static bool	no_dollar_checker(char *str)
 {
@@ -9,7 +21,7 @@ static bool	no_dollar_checker(char *str)
 	return (false);
 }
 
-t_list_info *heredoc_expander(char *str)
+t_list_info	*heredoc_expander(char *str)
 {
 	t_list_info	*arg_list;
 	t_info		info;

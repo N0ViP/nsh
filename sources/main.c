@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yjaafar <yjaafar@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 08:37:28 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/18 04:11:58 by yjaafar          ###   ########.fr       */
+/*   Updated: 2025/08/22 07:01:56 by ahoummad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ int	main(void)
 
 	while (init())
 	{
-		if(read_command(&command))
+		if (read_command(&command))
 		{
 			new_shell(command);
 		}
 	}
-	return(EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }

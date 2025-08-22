@@ -1,41 +1,53 @@
-# include "execution.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipeline.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 05:21:32 by ahoummad          #+#    #+#             */
+/*   Updated: 2025/08/22 06:55:08 by ahoummad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static int fork_both_sides(int pipefd[2], t_tree *branch)
+#include "execution.h"
+
+static int	fork_both_sides(int pipefd[2], t_tree *branch)
 {
-	int   status;
-	pid_t right;
-	pid_t left;
+	int		status;
+	pid_t	right;
+	pid_t	left;
 
-	left  = fork_left_pipe(pipefd, branch);
+	left = fork_left_pipe(pipefd, branch);
 	right = fork_right_pipe(pipefd, branch);
 	close_and_remove(pipefd[0]);
 	close_and_remove(pipefd[1]);
-	waitpid(left,  NULL, 0);
+	waitpid(left, NULL, 0);
 	waitpid(right, &status, 0);
 	return (child_status(status));
 }
 
-static int fork_right_only(int pipefd[2], t_tree *branch)
+static int	fork_right_only(int pipefd[2], t_tree *branch)
 {
-	pid_t right;
-	int   status;
+	pid_t	right;
+	int		status;
 
 	right = fork_right_pipe(pipefd, branch);
 	dup2(pipefd[1], STDOUT_FILENO);
 	close_and_remove(pipefd[0]);
 	close_and_remove(pipefd[1]);
-	execution_mode(branch->data.branch.left, NO_FORK_MODE);
+	execution_mode(branch->u_data.branch.left, NO_FORK_MODE);
 	waitpid(right, &status, 0);
-    return (child_status(status));
+	return (child_status(status));
 }
 
-int execute_pipeline(t_tree *branch, t_mode mode)
+int	execute_pipeline(t_tree *branch, t_mode mode)
 {
-	int   pipefd[2];
+	int	pipefd[2];
 
 	if (!create_pipe(pipefd))
 		exit_failure("pipe");
-    if (mode == DEFAULT_MODE)
-        return (fork_both_sides(pipefd, branch));
-    return (fork_right_only(pipefd, branch));
+	if (mode == DEFAULT_MODE)
+		return (fork_both_sides(pipefd, branch));
+	return (fork_right_only(pipefd, branch));
 }
