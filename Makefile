@@ -63,6 +63,7 @@ EXPAND_SRC = \
     expansion/process_arg.c \
     expansion/check_if_dollar.c \
     expansion/expansion_utils.c \
+    expansion/init_info_struct.c \
     expansion/get_wildcard_flag.c \
     expansion/expand_dollar_word.c \
     expansion/expand_regular_word.c \

@@ -31,6 +31,8 @@ char	*path_resolution(char *cmd)
 	char		*path_env;
 	char		*full_path;
 
+	if (!(*cmd))
+		report_error("''", NOT_FOUND_ERROR);
 	if (ft_strchr(cmd, '/'))
 		return (cmd_with_path(cmd));
 	path_env = get_var_value("PATH");

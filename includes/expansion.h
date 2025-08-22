@@ -30,6 +30,7 @@ bool 		expand_filenames(t_tree *branch);
 bool		double_quotes_checker(char *str);
 size_t		expand_single_quote_word(t_info *info);
 size_t		expand_double_quotes_word(t_info *info);
+void		init_info_struct(t_info *info, char *str);
 void		process_arg(t_info *info, t_list_info *arg_list);
 void		utils(t_info *info, size_t i, size_t j, bool ex_wdc);
 bool		*add_in_wildcard_hashmap(size_t wildcard, int flag, bool ex_wdc);

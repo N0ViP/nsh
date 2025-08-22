@@ -12,8 +12,6 @@ size_t	expand_double_quotes_word(t_info *info)
 	if (*info->str == '"')
 	{
 		utils(info, 0, 0, false);
-		info->str++;
-		return (0);
 	}
 	while (*(info->str) != '"')
 	{

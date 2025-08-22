@@ -18,9 +18,5 @@ size_t	expand_regular_word(t_info *info, bool (*checker)(char *), bool ex_wdc)
 	{
 		utils(info, 0, n, ex_wdc);
 	}
-	// else if (ex_wdc == false)
-	// {
-	// 	utils(info, 0, 1, ex_wdc);
-	// }
 	return (n);
 }

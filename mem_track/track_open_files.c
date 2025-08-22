@@ -25,6 +25,7 @@ int create_open(char *path, int flags, mode_t mode)
 {
     int fd;
 
+    flags |= O_CLOEXEC;
     fd = open(path, flags, mode);
     if (fd > 0)
     {
@@ -37,7 +38,7 @@ int open_readonly(char *path)
 {
     int fd;
 
-    fd = open(path, O_RDONLY);
+    fd = open(path, O_RDONLY | O_CLOEXEC);
     if (fd > 0)
     {
         save_to_shell_fds(fd);

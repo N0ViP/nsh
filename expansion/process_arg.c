@@ -1,8 +1,8 @@
 #include "expansion.h"
 
-static bool	check_wildcard(bool *hashmap, char *word)
+static bool check_wildcard(bool *hashmap, char *word)
 {
-	size_t	i;
+	size_t i;
 
 	i = 0;
 	while (word[i])
@@ -22,65 +22,83 @@ static bool	check_wildcard(bool *hashmap, char *word)
 	return (false);
 }
 
-static void	add_in_args_list(t_list_info *args, char *dname)
+static void add_in_args_list(t_list_info *args, char *dname)
 {
-	t_list	*node;
+	t_list *node;
 
 	node = creat_node(dname);
 	list_add_back(args, node);
 }
 
-static bool match_here(const char *p, const char *w, bool *hashmap)
+bool	wildcard_match(char *pattern, char *word, bool *hashmap)
 {
-    // int offset;
+	char	*star = NULL;
+	char	*backup = NULL;
+	size_t	star_index = 0;
 
-    if (*p == '\0')
-        return (*w == '\0');
-
-    // offset = wildcard_offset(CURR_OFFSET);
-
-    // Collapse consecutive '*' into a single wildcard match
-    if (*p == '*')
-    {
-        while (*(p + 1) == '*') // Skip redundant '*'
-            p++;
-
-        wildcard_offset(NEXT_OFFSET);
-
-        // Try to match zero or more characters
-        return (match_here(p + 1, w, hashmap)
-            || (*w && match_here(p, w + 1, hashmap)));
-    }
-
-    wildcard_offset(NEXT_OFFSET);
-
-    // Match current character and continue
-    if (*p == *w)
-        return match_here(p + 1, w + 1, hashmap);
-
-    return false;
+	while (*word)
+	{
+		if (*pattern == *word)
+		{
+			pattern++;
+			word++;
+			if (*(pattern - 1) == '*')
+				wildcard_offset(NEXT_OFFSET);
+		}
+		else if (*pattern == '*' && hashmap[wildcard_offset(CURR_OFFSET)])
+		{
+			/* save position of expandable * */
+			star = pattern++;
+			star_index = wildcard_offset(CURR_OFFSET);
+			backup = word;
+			wildcard_offset(NEXT_OFFSET);
+		}
+		else if (star)
+		{
+			/* retry by advancing word one more */
+			pattern = star + 1;
+			wildcard_offset(RESET_OFFSET);
+			for (size_t i = 0; i <= star_index; i++)
+				wildcard_offset(NEXT_OFFSET);
+			backup++;
+			word = backup;
+		}
+		else
+			return (false);
+	}
+	/* trailing pattern must be only expandable stars */
+	while (*pattern)
+	{
+		if (*pattern != '*')
+			return (false);
+		if (!hashmap[wildcard_offset(CURR_OFFSET)])
+			return (false);
+		wildcard_offset(NEXT_OFFSET);
+		pattern++;
+	}
+	return (true);
 }
 
-static bool	if_match(bool *hashmap, char *pattern, char *word)
+
+static bool if_match(bool *hashmap, char *pattern, char *word)
 {
 	wildcard_offset(RESET_OFFSET);
-	return (match_here(pattern, word, hashmap));
+	return (wildcard_match(pattern, word, hashmap));
 }
 
-static t_list_info	*expand_wildcard(bool *hashmap, char *word)
+static t_list_info *expand_wildcard(bool *hashmap, char *word)
 {
-	t_list_info		*args;
-	DIR				*dirp;
-	struct dirent	*dirent;
-	char			*dname;
+	t_list_info *args;
+	DIR *dirp;
+	struct dirent *dirent;
+	char *dname;
 
 	args = init_list_info_struct();
 	dirp = opendir(".");
 	dirent = readdir(dirp);
 	while (dirent)
 	{
-		if ((dirent->d_name[0] != '.' || word[0] == '.')
-			&& if_match(hashmap, word, dirent->d_name))
+		if ((dirent->d_name[0] != '.' || word[0] == '.') && if_match(hashmap, word, dirent->d_name))
 		{
 			dname = ft_strdup(dirent->d_name);
 			add_in_args_list(args, dname);
@@ -95,15 +113,15 @@ static t_list_info	*expand_wildcard(bool *hashmap, char *word)
 	return (args);
 }
 
-void	process_arg(t_info *info, t_list_info *arg_list)
+void process_arg(t_info *info, t_list_info *arg_list)
 {
-	char		*word;
-	t_list		*node;
-	t_list_info	*expanded_wildcard;
+	char *word;
+	t_list *node;
+	t_list_info *expanded_wildcard;
 
 	if (!info->ex_word->list)
 	{
-		return ;
+		return;
 	}
 	word = join_list_content(info->ex_word->list, "", info->len);
 	if (check_wildcard(info->hashmap, word))
