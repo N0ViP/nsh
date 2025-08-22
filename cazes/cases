@@ -1,8 +1,9 @@
 
+-I/usr/local/opt/readline/include
+-L/usr/local/opt/readline/lib
 
 O_closeexec woudnt it cause a prob?
  
-
 heredoc expand
 
 bash: warning: here-document at line 1 delimited by end-of-file (wanted `D')

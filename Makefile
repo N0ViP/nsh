@@ -1,7 +1,8 @@
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror -g
+CFLAGS	=	-Wall -Wextra -Werror
 LIB		=	-lreadline
 INCLUDE	=	./includes
+NAME	=	minishell
 
 MAIN_SRC = \
     sources/main.c \
@@ -9,8 +10,7 @@ MAIN_SRC = \
     sources/new_shell.c \
     sources/exit_shell.c \
     sources/signal_setup.c \
-    sources/more_signals.c \
-    sources/printer_to_rm.c
+    sources/more_signals.c
 
 HEREDOC_SRC = \
     heredoc/num_to_str.c \
@@ -161,16 +161,15 @@ SOURCE = $(MAIN_SRC) \
          $(HEREDOC_SRC) \
          $(STDFCTS_SRC)
 
-NAME	=	nsh
 OBJS	=	$(SOURCE:.c=.o)
 
 all: $(NAME)
 
-%.o:%.c	$(INCLUDE)  ##
-	$(CC) $(CFLAGS) -c $< -o $@ -I/usr/local/opt/readline/include -I $(INCLUDE) 
+%.o:%.c	$(INCLUDE)
+	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCLUDE) 
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -L/usr/local/opt/readline/lib $(LIB)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIB)
 
 clean:
 	rm -f $(OBJS)
