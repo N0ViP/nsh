@@ -12,8 +12,8 @@
 
 #include "stdfcts.h"
 
-#define COUNT_SPACES true
-#define COUNT_WORD false
+#define COUNT_SPACES 1
+#define COUNT_WORD 0
 
 static size_t	count_chars(char *s, char *sep, bool flag)
 {

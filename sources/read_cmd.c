@@ -15,7 +15,7 @@
 bool	read_command(char **cmd)
 {
 	read_mode_signals();
-	*cmd = readline("\e[32mnsh$\e[0m ");
+	*cmd = readline("nsh$ ");
 	parent_mode_signals();
 	if (!*cmd)
 	{

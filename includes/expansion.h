@@ -43,10 +43,12 @@ size_t			expand_double_quotes_word(t_info *info);
 void			init_info_struct(t_info *info, char *str);
 void			process_arg(t_info *info, t_list_info *arg_list);
 void			utils(t_info *info, size_t i, size_t j, bool ex_wdc);
+bool			wildcard_match(char *pattern, char *word, bool *hashmap);
 bool			*add_in_wildcard_hashmap(size_t wildcard, int flag,
 					bool ex_wdc);
 size_t			expand_dollar_word(t_info *info, t_list_info *arg_list,
 					bool rm_spaces);
+
 size_t			expand_regular_word(t_info *info, bool (*checker)(char *),
 					bool ex_wdc);
 void			process_and_split_value(t_info *info, t_list_info *arg_list,

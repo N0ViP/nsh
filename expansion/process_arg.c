@@ -42,58 +42,6 @@ static void	add_in_args_list(t_list_info *args, char *dname)
 	list_add_back(args, node);
 }
 
-bool	wildcard_match(char *pattern, char *word, bool *hashmap)
-{
-	char	*star;
-	char	*backup;
-	size_t	star_index;
-
-	star = NULL;
-	backup = NULL;
-	star_index = 0;
-	while (*word)
-	{
-		if (*pattern == *word)
-		{
-			pattern++;
-			word++;
-			if (*(pattern - 1) == '*')
-				wildcard_offset(NEXT_OFFSET);
-		}
-		else if (*pattern == '*' && hashmap[wildcard_offset(CURR_OFFSET)])
-		{
-			/* save position of expandable * */
-			star = pattern++;
-			star_index = wildcard_offset(CURR_OFFSET);
-			backup = word;
-			wildcard_offset(NEXT_OFFSET);
-		}
-		else if (star)
-		{
-			/* retry by advancing word one more */
-			pattern = star + 1;
-			wildcard_offset(RESET_OFFSET);
-			for (size_t i = 0; i <= star_index; i++)
-				wildcard_offset(NEXT_OFFSET);
-			backup++;
-			word = backup;
-		}
-		else
-			return (false);
-	}
-	/* trailing pattern must be only expandable stars */
-	while (*pattern)
-	{
-		if (*pattern != '*')
-			return (false);
-		if (!hashmap[wildcard_offset(CURR_OFFSET)])
-			return (false);
-		wildcard_offset(NEXT_OFFSET);
-		pattern++;
-	}
-	return (true);
-}
-
 static bool	if_match(bool *hashmap, char *pattern, char *word)
 {
 	wildcard_offset(RESET_OFFSET);

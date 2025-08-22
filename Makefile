@@ -1,5 +1,5 @@
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror
+CFLAGS	=	-Wall -Wextra -Werror -g
 LIB		=	-lreadline
 INCLUDE	=	./includes
 NAME	=	minishell
@@ -62,9 +62,10 @@ EXPAND_SRC = \
     expansion/expand.c \
     expansion/process_arg.c \
     expansion/word_spliting.c \
+    expansion/match_wildcard.c \
     expansion/wildcard_offset.c \
-    expansion/check_if_dollar.c \
     expansion/expansion_utils.c \
+    expansion/check_if_dollar.c \
     expansion/init_info_struct.c \
     expansion/get_wildcard_flag.c \
     expansion/expand_dollar_word.c \
