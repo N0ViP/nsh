@@ -6,7 +6,7 @@
 /*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 05:33:30 by ahoummad          #+#    #+#             */
-/*   Updated: 2025/08/22 07:04:16 by ahoummad         ###   ########.fr       */
+/*   Updated: 2025/08/23 02:26:17 by ahoummad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,12 @@ static void	parent_handler(int signal)
 	if (signal == SIGINT)
 	{
 		(void)write(STDOUT_FILENO, "\n", 1);
+		return ;
 	}
-	else if (signal == SIGQUIT)
+	if (signal == SIGQUIT)
 	{
 		(void)write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
+		return ;
 	}
 }
 

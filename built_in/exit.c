@@ -6,7 +6,7 @@
 /*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 05:20:30 by ahoummad          #+#    #+#             */
-/*   Updated: 2025/08/22 06:44:19 by ahoummad         ###   ########.fr       */
+/*   Updated: 2025/08/22 23:35:03 by ahoummad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	process_exit(char **argv, int n_arg)
 		if (!arg_to_exit_code(argv[1], &exit_code))
 		{
 			print_exit_error(" numeric argument required\n", argv[1]);
-			exit_shell(255);
+			exit_shell(2);
 		}
 		if (n_arg > 2)
 		{

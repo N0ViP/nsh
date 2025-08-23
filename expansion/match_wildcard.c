@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   match_wildcard.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 22:42:34 by ahoummad          #+#    #+#             */
+/*   Updated: 2025/08/23 02:59:58 by ahoummad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "expansion.h"
 
 static void	reset_wildcard(size_t star_index)
@@ -13,19 +25,18 @@ static void	reset_wildcard(size_t star_index)
 	}
 }
 
-static bool	handle_star(char **pattern, char *word,
-		char **star, size_t *star_index)
+static bool	handle_star(char **pattern, char *word, t_wild *wild)
 {
-	*star = *pattern;
+	wild->star = *pattern;
 	(*pattern)++;
-	*star_index = wildcard_offset(CURR_OFFSET);
+	wild->star_index = wildcard_offset(CURR_OFFSET);
 	wildcard_offset(NEXT_OFFSET);
 	(void)word;
 	return (true);
 }
 
-static bool	process_word(char **pattern, char **word,
-		char **star, size_t *star_index, char **backup, bool *hashmap)
+static bool	process_word(char **pattern, char **word, bool *hashmap,
+		t_wild *wild)
 {
 	if (**pattern == **word)
 	{
@@ -36,15 +47,15 @@ static bool	process_word(char **pattern, char **word,
 	}
 	if (**pattern == '*' && hashmap[wildcard_offset(CURR_OFFSET)])
 	{
-		handle_star(pattern, *word, star, star_index);
-		*backup = *word;
+		handle_star(pattern, *word, wild);
+		wild->backup = *word;
 		return (true);
 	}
-	if (*star)
+	if (wild->star)
 	{
-		*pattern = *star + 1;
-		reset_wildcard(*star_index);
-		*word = ++(*backup);
+		*pattern = wild->star + 1;
+		reset_wildcard(wild->star_index);
+		*word = ++(wild->backup);
 		return (true);
 	}
 	return (false);
@@ -64,17 +75,14 @@ static bool	check_remaining(char *pattern, bool *hashmap)
 
 bool	wildcard_match(char *pattern, char *word, bool *hashmap)
 {
-	char	*star;
-	char	*backup;
-	size_t	star_index;
+	t_wild	wild;
 
-	star = NULL;
-	backup = NULL;
-	star_index = 0;
+	wild.star = NULL;
+	wild.backup = NULL;
+	wild.star_index = 0;
 	while (*word)
 	{
-		if (!process_word(&pattern, &word, &star,
-				&star_index, &backup, hashmap))
+		if (!process_word(&pattern, &word, hashmap, &wild))
 			return (false);
 	}
 	return (check_remaining(pattern, hashmap));

@@ -6,7 +6,7 @@
 /*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 05:27:29 by ahoummad          #+#    #+#             */
-/*   Updated: 2025/08/22 05:27:30 by ahoummad         ###   ########.fr       */
+/*   Updated: 2025/08/23 01:19:01 by ahoummad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	free_one_pointer(t_sid section_id, void *pointer)
 		{
 			free(pointer);
 			(section->count)--;
-			allocs[cnt] = allocs[section->count];
+			if (cnt != section->count)
+				allocs[cnt] = allocs[section->count];
 			return ;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 05:23:49 by ahoummad          #+#    #+#             */
-/*   Updated: 2025/08/22 05:23:50 by ahoummad         ###   ########.fr       */
+/*   Updated: 2025/08/23 00:51:01 by ahoummad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,16 @@ t_list_info	*ft_getenv(int flag, char *var)
 	char		*dup_var;
 
 	env = *env_list();
-	if (var)
+	if (flag == ADD_IN_ENV)
 	{
 		set_current_section(REMAINS);
 		dup_var = ft_strdup(var);
 		set_current_section(GLOBALE);
-	}
-	if (flag == ADD_IN_ENV)
-	{
 		add_in_env(env, dup_var);
 	}
 	else if (flag == REMOVE_FROM_ENV)
 	{
-		remove_from_env(env, dup_var);
+		remove_from_env(env, var);
 	}
 	return (env);
 }

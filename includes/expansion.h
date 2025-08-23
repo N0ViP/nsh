@@ -6,7 +6,7 @@
 /*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 05:26:32 by ahoummad          #+#    #+#             */
-/*   Updated: 2025/08/22 06:31:52 by ahoummad         ###   ########.fr       */
+/*   Updated: 2025/08/22 22:47:14 by ahoummad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@ typedef struct s_expander_vars
 	size_t		len;
 	size_t		wildcard;
 }				t_info;
+
+typedef struct s_wildcard
+{
+	char	*star;
+	char	*backup;
+	size_t	star_index;
+}				t_wild;
 
 # define CURR_OFFSET	0
 # define NEXT_OFFSET	1

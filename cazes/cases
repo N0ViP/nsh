@@ -16,3 +16,10 @@ fix readline
 
 // # define UNSET              0
 // # define EXPORT             1
+
+ls > file | cat file
+
+nsh$ echo << a
+> Quit (core dumped)
+
+
