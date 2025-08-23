@@ -6,7 +6,7 @@
 /*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 05:20:42 by ahoummad          #+#    #+#             */
-/*   Updated: 2025/08/22 06:54:40 by ahoummad         ###   ########.fr       */
+/*   Updated: 2025/08/23 07:11:03 by ahoummad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	restore_stdio(int saved[3])
 	i = 0;
 	while (i <= 2)
 	{
-		dup2(saved[i], i);
+		dup2(saved[i], i);close_std_fds
 		close_and_remove(saved[i]);
 		i++;
 	}
@@ -42,14 +42,16 @@ static void	restore_stdio(int saved[3])
 
 bool	run_buit_in(int (*buit_in)(t_cmd *), t_tree *branch)
 {
+	int		exit_status;
 	t_cmd	*cmd_args;
 	int		saved[3];
 
 	cmd_args = &branch->u_data.cmd;
 	if (!save_stdio(saved))
-		return (true);
+	return (true);
 	dup_redirections(branch);
-	_exit_status(UPDATE, buit_in(cmd_args));
+	exit_status = buit_in(cmd_args);
+	_exit_status(UPDATE, exit_status);
 	restore_stdio(saved);
 	return (true);
 }

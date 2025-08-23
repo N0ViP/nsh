@@ -1,5 +1,5 @@
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror
+CFLAGS	=	-Wall -Wextra -Werror -g
 LIB		=	-lreadline
 INCLUDE	=	./includes
 NAME	=	minishell
@@ -55,7 +55,6 @@ BUILT_SRC = \
     built_in/update_cwd.c \
     built_in/iam_a_child.c \
     built_in/exit_helper.c \
-    built_in/run_built_in.c \
     built_in/built_in_check.c
 
 EXPAND_SRC = \
@@ -142,6 +141,7 @@ EXEC_SRC = \
     execution/path_errors.c \
     execution/redirection.c \
     execution/exit_status.c \
+    execution/run_built_in.c \
     execution/check_curr_dir.c \
     execution/path_resolution.c \
     execution/search_in_paths.c \

@@ -6,7 +6,7 @@
 /*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 22:42:34 by ahoummad          #+#    #+#             */
-/*   Updated: 2025/08/23 02:59:58 by ahoummad         ###   ########.fr       */
+/*   Updated: 2025/08/23 03:13:08 by ahoummad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,20 @@ static bool	handle_star(char **pattern, char *word, t_wild *wild)
 static bool	process_word(char **pattern, char **word, bool *hashmap,
 		t_wild *wild)
 {
-	if (**pattern == **word)
-	{
-		if (*(*pattern)++ == '*')
-			wildcard_offset(NEXT_OFFSET);
-		(*word)++;
-		return (true);
-	}
 	if (**pattern == '*' && hashmap[wildcard_offset(CURR_OFFSET)])
 	{
 		handle_star(pattern, *word, wild);
 		wild->backup = *word;
 		return (true);
 	}
-	if (wild->star)
+	else if (**pattern == **word)
+	{
+		if (*(*pattern)++ == '*')
+			wildcard_offset(NEXT_OFFSET);
+		(*word)++;
+		return (true);
+	}
+	else if (wild->star)
 	{
 		*pattern = wild->star + 1;
 		reset_wildcard(wild->star_index);
