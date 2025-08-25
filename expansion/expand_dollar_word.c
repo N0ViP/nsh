@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_dollar_word.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yjaafar <yjaafar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/22 05:22:00 by ahoummad          #+#    #+#             */
-/*   Updated: 2025/08/22 06:29:41 by ahoummad         ###   ########.fr       */
+/*   Created: 2025/08/25 08:00:09 by yjaafar           #+#    #+#             */
+/*   Updated: 2025/08/25 08:04:36 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void	expand_value(t_info *info, t_list_info *arg_list, char *val,
 	i = 0;
 	if (!val)
 	{
+		handle_empty_value(info, rm_spaces);
 		return ;
 	}
 	if (!rm_spaces)

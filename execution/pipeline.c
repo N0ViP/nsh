@@ -6,13 +6,19 @@
 /*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 05:21:32 by ahoummad          #+#    #+#             */
-/*   Updated: 2025/08/22 06:55:08 by ahoummad         ###   ########.fr       */
+/*   Updated: 2025/08/23 22:26:53 by ahoummad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-static int	fork_both_sides(int pipefd[2], t_tree *branch)
+static void	close_stdio(void)
+{
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+}
+
+static int	fork_both_sides(int pipefd[2], t_tree *branch, t_mode mode)
 {
 	int		status;
 	pid_t	right;
@@ -22,21 +28,9 @@ static int	fork_both_sides(int pipefd[2], t_tree *branch)
 	right = fork_right_pipe(pipefd, branch);
 	close_and_remove(pipefd[0]);
 	close_and_remove(pipefd[1]);
+	if (mode == FORKED_MODE)
+		close_stdio();
 	waitpid(left, NULL, 0);
-	waitpid(right, &status, 0);
-	return (child_status(status));
-}
-
-static int	fork_right_only(int pipefd[2], t_tree *branch)
-{
-	pid_t	right;
-	int		status;
-
-	right = fork_right_pipe(pipefd, branch);
-	dup2(pipefd[1], STDOUT_FILENO);
-	close_and_remove(pipefd[0]);
-	close_and_remove(pipefd[1]);
-	execution_mode(branch->u_data.branch.left, NO_FORK_MODE);
 	waitpid(right, &status, 0);
 	return (child_status(status));
 }
@@ -47,7 +41,5 @@ int	execute_pipeline(t_tree *branch, t_mode mode)
 
 	if (!create_pipe(pipefd))
 		exit_failure("pipe");
-	if (mode == DEFAULT_MODE)
-		return (fork_both_sides(pipefd, branch));
-	return (fork_right_only(pipefd, branch));
+	return (fork_both_sides(pipefd, branch, mode));
 }

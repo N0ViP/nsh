@@ -6,7 +6,7 @@
 /*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 05:21:46 by ahoummad          #+#    #+#             */
-/*   Updated: 2025/08/22 06:55:35 by ahoummad         ###   ########.fr       */
+/*   Updated: 2025/08/23 06:39:02 by ahoummad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	redir_then_recurse(t_tree *branch)
 		exit_shell(_exit_status(EXTRACT, 0));
 	dup_redirections(branch);
 	child = branch->u_data.subshell.child;
-	status = execution_mode(child, NO_FORK_MODE);
+	status = execution_mode(child, FORKED_MODE);
 	exit_shell(status);
 }
 

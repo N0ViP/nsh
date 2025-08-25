@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yjaafar <yjaafar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 05:26:32 by ahoummad          #+#    #+#             */
-/*   Updated: 2025/08/22 22:47:14 by ahoummad         ###   ########.fr       */
+/*   Updated: 2025/08/25 08:05:59 by yjaafar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ size_t			expand_single_quote_word(t_info *info);
 size_t			expand_double_quotes_word(t_info *info);
 void			init_info_struct(t_info *info, char *str);
 void			process_arg(t_info *info, t_list_info *arg_list);
+void			handle_empty_value(t_info *info, bool rm_spaces);
 void			utils(t_info *info, size_t i, size_t j, bool ex_wdc);
 bool			wildcard_match(char *pattern, char *word, bool *hashmap);
 bool			*add_in_wildcard_hashmap(size_t wildcard, int flag,

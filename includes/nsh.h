@@ -6,7 +6,7 @@
 /*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 08:40:39 by yjaafar           #+#    #+#             */
-/*   Updated: 2025/08/22 06:52:24 by ahoummad         ###   ########.fr       */
+/*   Updated: 2025/08/23 22:24:02 by ahoummad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,5 @@ bool				read_command(char **cmd);
 void				child_mode_signals(void);
 void				parent_mode_signals(void);
 void				exit_shell(int exit_status);
-
-// printers to remove
-void				print_tokens(t_list *list);
-void				tree_printer_00(t_tree *root, int indent);
-void				tree_printer_01(t_tree *node, const char *prefix,
-						bool is_left, bool is_first);
-void				print_all_sections(void);
 
 #endif

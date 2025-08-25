@@ -6,7 +6,7 @@
 /*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 05:26:26 by ahoummad          #+#    #+#             */
-/*   Updated: 2025/08/22 06:45:34 by ahoummad         ###   ########.fr       */
+/*   Updated: 2025/08/23 05:40:11 by ahoummad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,5 @@ int		built_in_export(t_cmd *cmd_args);
 void	print_cd_error(char *path, char *error);
 void	print_exit_error(char *error, char *arg);
 bool	arg_to_exit_code(char *str, long long *exit_code);
-bool	run_buit_in(int (*buit_in)(t_cmd *), t_tree *branch);
 
 #endif

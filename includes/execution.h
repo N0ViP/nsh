@@ -6,7 +6,7 @@
 /*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 05:26:30 by ahoummad          #+#    #+#             */
-/*   Updated: 2025/08/22 06:57:49 by ahoummad         ###   ########.fr       */
+/*   Updated: 2025/08/23 06:39:05 by ahoummad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef enum e_state
 typedef enum e_mode
 {
 	DEFAULT_MODE,
-	NO_FORK_MODE
+	FORKED_MODE
 }			t_mode;
 
 typedef struct s_heredoc
@@ -48,8 +48,8 @@ void		execute_tree(t_tree *root);
 char		*path_resolution(char *cmd);
 char		*check_and_curr_dir(char *cmd);
 int			execute_or_and(t_tree *branch);
-t_state		path_validity(const char *path);
 bool		built_ins_check(t_tree *branch);
+t_state		path_validity(const char *path);
 void		dup_redirections(t_tree *branch);
 int			_exit_status(bool flag, int value);
 int			execution_mode(t_tree *root, t_mode mode);
@@ -60,6 +60,7 @@ int			execute_pipeline(t_tree *branch, t_mode mode);
 pid_t		fork_left_pipe(int pipefd[2], t_tree *branch);
 pid_t		fork_right_pipe(int pipefd[2], t_tree *branch);
 bool		open_redirections(t_redir *redirs, int n_redirs);
+bool		run_buit_in(int (*buit_in)(t_cmd *), t_tree *branch);
 int			fork_before(void (*keep_exec)(t_tree *), t_tree *branch);
 char		*search_in_paths(char *cmd, char **paths, t_state *state);
 bool		get_redirs(t_tree *branch, t_redir **redirs, int *n_redirs);

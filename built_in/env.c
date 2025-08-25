@@ -6,7 +6,7 @@
 /*   By: ahoummad <ahoummad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 05:20:22 by ahoummad          #+#    #+#             */
-/*   Updated: 2025/08/22 06:44:13 by ahoummad         ###   ########.fr       */
+/*   Updated: 2025/08/23 05:25:28 by ahoummad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static int	print_env(t_list *env_list)
 	char	*equal;
 	int		reval;
 
+	reval = 0;
 	while (env_list)
 	{
 		equal = ft_strchr(env_list->content, '=');
