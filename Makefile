@@ -1,5 +1,5 @@
-CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror
+CC		=	gcc
+CFLAGS	=	-Wall -Wextra -Werror -g
 LIB		=	-lreadline
 INCLUDE	=	./includes
 NAME	=	minishell
