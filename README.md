@@ -1,3 +1,6 @@
+![Score](score.png)
+
+
 # nsh (Minishell)
 
 `nsh` is a custom implementation of a Unix shell, developed as part of the 42 School curriculum. It provides a simplified yet functional environment for command execution, featuring parsing, tokenization, expansion, redirections, pipelines, built-in commands, and more. The project is structured into modular components, each responsible for a specific stage of shell behavior.
